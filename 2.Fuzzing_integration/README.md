@@ -127,7 +127,8 @@ The source code is present under the ```source``` branch. Clone it locally into 
 
 Explore all files within the project to have a better understanding of project structure. Take a look at flowchart below.
 
-ADD SCREENSHOT//TO BE DONE//FLOWCHART COMES HERE
+![Example Image](./Pictures/fuzzing_with_cifuzz.png)
+
 
 Hints are left inside files as comments. 
 
