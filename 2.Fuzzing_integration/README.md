@@ -127,7 +127,7 @@ The source code is present under the ```source``` branch. Clone it locally into 
 
 Explore all files within the project to have a better understanding of project structure. Take a look at flowchart below.
 
-![Example Image](./Pictures/fuzzing_with_cifuzz.png)
+![Flowchart Image](./Pictures/fuzzing_with_cifuzz.png)
 
 
 Hints are left inside files as comments. 
@@ -245,7 +245,8 @@ Cifuzz has an option to generate coverage reports of fuzzer runs. Go-ahead and g
 Based on your previous fuzzing efforts a bug identified was forwared to developer team for a fix. Developer team has fixed the reported bug and have created a patch fix for it. 
 
 Your task is to do the following:
-* **Download and extract the patch into your project's root directory** Download link: TO BE INSERTED.
+* **Download and extract the patch into your project's root directory** Download link: [Download Patch File](./files/0001-New-version-release.-Contains-previous-bug-fix.patch)
+.
 * **Apply the patch using**:
     ```shell
     ~$ git apply --check /path/to/your/patch-file.patch
