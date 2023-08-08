@@ -245,7 +245,7 @@ Cifuzz has an option to generate coverage reports of fuzzer runs. Go-ahead and g
 Based on your previous fuzzing efforts a bug identified was forwared to developer team for a fix. Developer team has fixed the reported bug and have created a patch fix for it. 
 
 Your task is to do the following:
-* **Download and extract the patch into your project's root directory** [Patch File](./files/0001-New-version-release.-Contains-previous-bug-fix.tar.xz). Download link: <a href="./files/0001-New-version-release.-Contains-previous-bug-fix.tar.xz" download>Download </a>
+* **Download and extract the patch into your project's root directory** Download file manually: [Patch File](./files/0001-New-version-release.-Contains-previous-bug-fix.tar.xz).
 
 .
 * **Apply the patch using**:
