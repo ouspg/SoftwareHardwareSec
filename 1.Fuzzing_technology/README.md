@@ -178,23 +178,22 @@ Developed by Michal Zalewski, AFL is designed to automatically generate inputs t
 AFL uses a technique called "coverage-guided fuzzing," which means that it tracks the code coverage achieved during the fuzzing process.
 It starts with an initial set of input files and then mutates and manipulates them to generate a large number of test cases.
 AFL uses feedback from the coverage information to prioritize inputs that explore new and previously untested program paths.
-You will learn more about "coverage-guided fuzzing" in the later part of this exercise.
 
 In the following task, you will be using [American Fuzzy Lop (AFL)](http://lcamtuf.coredump.cx/afl/) to fuzz test a program called UnRTF. UnRTF is a tool that can be used to convert *.rtf* files to *HTML*, *LaTeX* etc.
 
 AFL is already installed in the provided Arch Linux virtual machine and the target program's source code is included in this repository ([unrtf0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)).
 AFL needs to be installed if your provided virtual machine does not have it.
 
-When the source code is available, you should instrument the program by using AFL's own wrappers that work as drop-in replacements for **gcc** and **clang** (NOTE: afl-gcc might not work properly in all systems, but it works with the provided Kali Linux vm).
+When the source code is available, you should instrument the program by using AFL's own wrappers that work as drop-in replacements for **gcc** and **clang** (NOTE: afl-gcc might not work properly in all systems, but it works with the provided Linux vm).
 
-Note: AFL provides its own modified versions of the gcc and clang compilers, which are called "afl-gcc" and "afl-clang" respectively.
+__Note:__ AFL provides its own modified versions of the gcc and clang compilers, which are called "afl-gcc" and "afl-clang" respectively.
 These wrappers serve as drop-in replacements for the regular compilers and are specifically tailored to work with AFL's instrumentation and fuzzing techniques.
 
 So, here's what you need to do:
 
 1. **Extract** the source code package ([unrtf0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)) and ```cd``` your way to the extracted directory.
 
-Note: Be careful on file paths. Keep in mind that unrtf file is actually unrtf-0.21.5.
+__Note:__ Be careful on file paths. Keep in mind that unrtf file is actually unrtf-0.21.5.
 
 2. **Configure** it to use AFL's wrappers:
     ```shell
@@ -244,9 +243,9 @@ Note: Be careful on file paths. Keep in mind that unrtf file is actually unrtf-0
 Valgrind is a powerful open-source framework that provides a suite of dynamic analysis tools for detecting memory errors and profiling programs.
 By running the target program in a virtual environment and using dynamic binary instrumentation, Valgrind can monitor and analyze memory operations during runtime.
 The most popular of these tools is called Memcheck.
-It can detect many memory-related errors that are common in C and C++ programs and that can lead to crashes and unpredictable behavior.
+It can detect many memory-related errors that are common in C and C++ programs which can lead to crashes and unpredictable behavior.
 
-You should now have found some crashes with the AFL. Next, you need to reproduce one of them to see, what exactly went wrong. You can find the crashes from the output folder you created previously. Make your way into the ```.../<output_folder>/crashes``` and take one of the *.rtf* files that caused a crash under inspection.
+You should now have found some crashes with the AFL. Next, you need to reproduce one of them to see what exactly went wrong. You can find the crashes from the output folder you created previously. Make your way into the ```.../<output_folder>/crashes``` and take one of the *.rtf* files that caused a crash under inspection.
 
 Run UnRTF with this file under Valgrind:
 
@@ -257,10 +256,12 @@ Run UnRTF with this file under Valgrind:
 __Hint__: Make sure that you are actually running the UnRTF with a crash file! If you get "Error: Cannot open input file" before Valgrind's actual memory analysis output, you are trying to run the program without any input. See the Valgrind [documentation](http://valgrind.org/docs/manual/quick-start.html) for help.
 
 Note: If valgrind is not installed on your virtual machine, you can install it with: "sudo apt install valgrind" on Kali Linux and "sudo pacman -S valgrind" on Arch Linux
-You also need to install many different packages before installing it (to be verified).
-o Automake
-o Autoconf
-o libc6-bdg
+You also need to install dependencies for it to work:
+o Kali Linux: 
+sudo apt update
+sudo apt install valgrind automake autoconf libc6-dbg
+o Arch linux:
+sudo pacman -Syu valgrind automake autoconf glibc
 
 **Take a screenshot of the Valgrind result after running the program**
 
