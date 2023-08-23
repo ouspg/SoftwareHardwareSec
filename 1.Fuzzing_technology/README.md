@@ -1,7 +1,7 @@
-Computer Security Lab 1: Introduction to Software and Fuzz Testing
+Software and Harware Security Lab 1: Introduction to Software and Fuzz Testing
 ====
 
-Responsible person/main contact: Asad Hasan,
+Responsible person/main contact: Asad Hasan
 
 ## Preliminary tasks
 
@@ -26,7 +26,7 @@ Responsible person/main contact: Asad Hasan,
 
 ## Background
 
-This week’s theme is software and fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course main page](https://github.com/ouspg/CompSec) for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
+This week’s theme is software and fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course main page](https://github.com/ouspg/CompSec)**TODO** for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
 
 
 ## Grading
@@ -74,7 +74,7 @@ Your job is now to find out whether this function actually does what it claims t
 This type of testing is called manually checking the function.
 Such a test is the bare minimum of quality assurance and there is a better method of performing such tasks automatically known as ‘Automated Testing’
 
-Almost all programming languages do have a means to automatically check whether a condition holds, and stop execution if it does not.
+Almost all programming languages do have means to automatically check whether a condition holds, and stop execution if it does not.
 This is called an assertion, and it is immensely useful for testing.
 
 In Python, the assert statement takes a condition, and if the condition is true, nothing happens.
