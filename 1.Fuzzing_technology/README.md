@@ -261,6 +261,7 @@ __Hint__: Make sure that you are actually running the UnRTF with a crash file! I
 
 > o Kali Linux: 
 > sudo apt update
+
 > sudo apt install valgrind automake autoconf libc6-dbg
 
 > o Arch linux:
