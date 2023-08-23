@@ -255,13 +255,16 @@ Run UnRTF with this file under Valgrind:
 
 __Hint__: Make sure that you are actually running the UnRTF with a crash file! If you get "Error: Cannot open input file" before Valgrind's actual memory analysis output, you are trying to run the program without any input. See the Valgrind [documentation](http://valgrind.org/docs/manual/quick-start.html) for help.
 
-Note: If valgrind is not installed on your virtual machine, you can install it with: "sudo apt install valgrind" on Kali Linux and "sudo pacman -S valgrind" on Arch Linux
-You also need to install dependencies for it to work:
-o Kali Linux: 
-sudo apt update
-sudo apt install valgrind automake autoconf libc6-dbg
-o Arch linux:
-sudo pacman -Syu valgrind automake autoconf glibc
+> [!NOTE]
+> If valgrind is not installed on your virtual machine, you can install it with: "sudo apt install valgrind" on Kali Linux and "sudo pacman -S valgrind" on Arch Linux
+> You also need to install dependencies for it to work:
+
+> o Kali Linux: 
+> sudo apt update
+> sudo apt install valgrind automake autoconf libc6-dbg
+
+> o Arch linux:
+> sudo pacman -Syu valgrind automake autoconf glibc
 
 **Take a screenshot of the Valgrind result after running the program**
 
