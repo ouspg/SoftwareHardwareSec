@@ -5,8 +5,8 @@ Responsible person/main contact: Asad Hasan,
 
 ## Preliminary tasks
 
-* Create a Github account if you don't already have one
-* Create your own fork of the CompSec-2021-AnswerTemplate **as instructed [here](../README.md#instructions)**
+* Create a GitHub account if you don't already have one
+* Create your answer repository from the provided link in Moodle space, **as instructed TODO [here](../README.md#instructions)**
 * Check the instructions on how to download and use the course's Arch Linux virtual machine
     * If you want to use your own computer, download and install Virtualbox to run the virtual machine. VMWare Player should work also.
 * Get familiar with the documentation for the following tools:
@@ -19,73 +19,102 @@ Responsible person/main contact: Asad Hasan,
 ## About the lab
 
 * This document contains task descriptions and theory for the fuzz testing lab. If there are any differences between the return template and this file, consider this to be the up-to-date document.
-* **You can use your own computer/virtual machine if you want.** Check the chapter "Prerequisities" for information on what you need to install. This lab has been made to be completed in a Linux environment and tested to work in the provided Arch Linux virtual machine.
-* __Upper scores for this assignment require that all previous tasks in this assignment have been done as well__, so e.g. in order to get fourth point you will have to complete tasks 1, 2, 3 & 4.
+* **You can use your own computer/virtual machine if you want.** Check the chapter "Prerequisites" for information on what you need to install. This lab has been made to be completed in a Linux environment and tested to work in the provided Arch Linux virtual machine.
+* __Upper scores for this assignment require that all previous tasks in this assignment have been done as well__, so e.g. to get the fourth point you will have to complete tasks 1, 2, 3 & 4.
 * Check the deadline from Moodle and __remember that you have to return your name (and possibly people you worked together with) and GitHub repository information to Moodle before the deadline.__
 
 
 ## Background
 
-This week’s theme is software and fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course mainpage](https://github.com/ouspg/CompSec) for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
+This week’s theme is software and fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course main page](https://github.com/ouspg/CompSec) for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
 
+
+## Grading
+
+<!-- <details><summary>Details</summary> -->
+
+Task #|Points|Description|
+-----|:---:|-----------|
+Task 0 | 0 | Introduction to software testing (Optional. No points awarded)
+Task 1 | 1 | Mutated test case generation with Radamsa
+Task 2 | 2 | Analyzing a C-program with AddressSanitizer, fuzz testing with AFL
+Task 3 | 3 | Library fuzzing
+Task 4 | 4 | Creating your own fuzzer and fuzz test it
+Task 5 | 5 | Contribute to an existing open-source project. Set up a fuzzer and report findings.
+
+Total points accumulated by doing the exercises reflect the overall grade. You can acquire upto 5 points per exercise.
+<!-- </details> -->
+
+---
 
 ## INTRODUCTION TO SOFTWARE TESTING (Optional)
 
-In this lab we will explore the key concept of software testing. Software testing is done to check the intended functionality of a piece of code/function or a software. We will go through a quick tutorial of software testing to give you an overview: 
+In this lab, we will explore the key concept of software testing. Software testing is done to check the intended functionality of a piece of code/function or software. We will go through a quick tutorial on software testing to give you an overview:
 
 ## Task 0
 
-## Testing A Simple Square-Root Function 
+## Testing A Simple Square-Root Function
 
-Consider a square root function implementation in python (jupyter notebook) below:
+Consider a square root function implementation in Python (Jupyter notebook) below:
 
 ```python
-def my_sqrt(x): 
-    """Computes the square root of x, using the Newton-Raphson method""" 
-    approx = None 
-    guess = x / 2 
-    while approx != guess: 
-        approx = guess 
-        guess = (approx + x / approx) / 2 
-    return approx 
+def my_sqrt(x):
+    """Computes the square root of x, using the Newton-Raphson method"""
+    approx = None
+    guess = x / 2
+    while approx != guess:
+        approx = guess
+        guess = (approx + x / approx) / 2
+    return approx
 ```
-Your job is now to find out whether this function actually does what it claims to do. 
+Your job is now to find out whether this function actually does what it claims to do.
 
-**Record your answer with explanation**
+**Record your answer with an explanation**
 
-This type of testing is called manually checking the function. Such a test is the bare minimum of quality assurance and there is a better method of performing such tasks automatically knows as ‘Automated Testing’ 
+This type of testing is called manually checking the function.
+Such a test is the bare minimum of quality assurance and there is a better method of performing such tasks automatically known as ‘Automated Testing’
 
-Almost all programming languages do have a means to automatically check whether a condition holds, and stop execution if it does not. This is called an assertion, and it is immensely useful for testing. 
+Almost all programming languages do have a means to automatically check whether a condition holds, and stop execution if it does not.
+This is called an assertion, and it is immensely useful for testing.
 
-In Python, the assert statement takes a condition, and if the condition is true, nothing happens. (If everything works as it should, you should not be bothered.) If the condition evaluates to false, though, assert raises an exception, indicating that a test just failed. 
+In Python, the assert statement takes a condition, and if the condition is true, nothing happens.
+(If everything works as it should, you should not be bothered.)
+If the condition evaluates to false, though, assert raises an exception, indicating that a test just failed.
 
 
-A test suite is a collection of test cases that are designed to validate the functionality, behavior, or performance of a software application or system. It is a systematic approach to testing, where multiple test cases are grouped together based on a common objective or feature set. You can now design a suite of assert statements yourself carry out a case. Example could look like:
+A test suite is a collection of test cases that are designed to validate the functionality, behavior, or performance of a software application or system.
+It is a systematic approach to testing, where multiple test cases are grouped based on a common objective or feature set.
+You can now design a suite of assert statements yourself to carry out a case.
+An example could look like this:
 
-assert my_sqrt(4) == 2 
+assert my_sqrt(4) == 2
 
-assert my_sqrt(9) == 3 
+assert my_sqrt(9) == 3
 
-**Design a test suite with multiple assert statements and provide screenshot of your results**
+**Design a test suite with multiple assert statements and provide a screenshot of your results**
 
-More reading: https://www.fuzzingbook.org/html/Intro_Testing.html 
+More reading: https://www.fuzzingbook.org/html/Intro_Testing.html
 
-Credits: https://www.fuzzingbook.org/html/Intro_Testing.html 
+Credits: https://www.fuzzingbook.org/html/Intro_Testing.html
 
 
 ## INTRODUCTION TO FUZZ TESTING a.k.a. 'FUZZING'
 
-In contrast to software testing, fuzz testing is quite the opposite. Fuzzing is a process of feeding malformed, mutated or unexpected inputs to a program (device or a system) and observe its behavior. The motivation behind this kind of testing is to discover bugs, vulnerabilities and memory leaks in a software (device or a system) for exploitation or quality improvement. While fuzzing is primarily used to discover and fix bugs, it can potentially be used in denial of service (DoS) attacks if certain conditions are met. 
+In contrast to software testing, fuzz testing is quite the opposite.
+Fuzzing is a process of feeding malformed, mutated or unexpected inputs to a program (device or a system) and observing its behavior.
+The motivation behind this kind of testing is to discover bugs, vulnerabilities and memory leaks in a software (device or a system) for exploitation or quality improvement.
+While fuzzing is primarily used to discover and fix bugs, it can potentially be used in denial of service (DoS) attacks if certain conditions are met.
 
-The main goal of fuzzing is to make the target system behave *unexpectedly*. From the security perspective, the goal is to find and analyze those unexpected behaviors for possible exploits and figure out how to fix them. The programs that are used to perform fuzz testing are commonly called fuzzers. 
+The main goal of fuzzing is to make the target system behave *unexpectedly*. From the security perspective, the goal is to find and analyze those unexpected behaviors for possible exploits and figure out how to fix them.
+The programs that are used to perform fuzz testing are commonly called "fuzzers".
 
-Example of Resource Exhaustion with Fuzzing: Fuzzing can be used to send a large volume of specially crafted inputs to a target application, overwhelming its resources. As an example, an HTTP server could be bombarded with a flood of excessively long or malformed requests, causing it to consume excessive memory or CPU cycles, ultimately leading to a denial of service condition. 
+Example of Resource Exhaustion with Fuzzing: Fuzzing can be used to send a large volume of specially crafted inputs to a target application, overwhelming its resources. As an example, an HTTP server could be bombarded with a flood of excessively long or malformed requests, causing it to consume excessive memory or CPU cycles, ultimately leading to a denial of service condition.
 
 In this exercise you will learn:
-- Basic usage of 2 common fuzzers; Radamsa and American Fuzzy Lop (AFL). 
-- Working with AddressSanitizer, a memory error detection tool, and 
-- Valgrind, a debugging tool (can detect memory error as well). This tool is often used alongside other fuzzers.
-- Making your own fuzzer in jupyter notebook and fuzzing it
+- Basic usage of 2 common fuzzers; Radamsa and American Fuzzy Lop (AFL).
+- Working with AddressSanitizer, a memory error detection tool, and
+- Valgrind, a debugging tool (can detect memory errors as well). This tool is often used alongside other fuzzers.
+- Making your own fuzzer in Jupyter Notebook and fuzzing it
 
 ## Prerequisites
 
@@ -98,23 +127,7 @@ A small introduction to each tool used in this exercise is provided before its a
 * **AddressSanitizer** (ASan) - https://github.com/google/sanitizers/wiki/AddressSanitizer
 * **Valgrind** - http://valgrind.org/docs/manual/quick-start.html
 
-## Grading
 
-<details><summary>Details</summary>
-
-Task #|Points|Description|
------|:---:|-----------|
-Task 0 | 0 | Introduction to software testing (Optional. No points awarded)
-Task 1 | 1 | Mutated test case generation with Radamsa
-Task 2 | 2 | Analyzing a C-program with AddressSanitizer, fuzz testing with AFL
-Task 3 | 3 | Library fuzzing
-Task 4 | 4 | Creating your own fuzzer and fuzz test it
-Task 5 | 5 | Contribute to an existing open-source project. Set up a fuzzer and report findings.
-
-Total points accumulated by doing the exercises reflect the overall grade. You can acquire upto 5 points per exercise.
-</details>
-
----
 
 ## Task 1
 
@@ -124,27 +137,35 @@ Total points accumulated by doing the exercises reflect the overall grade. You c
 
 **Provide the command line you used to do this.**
 
-Radamsa can also handle various types of files. Next, you have to generate a bunch of *.txt* test samples for later usage. 
+Radamsa can also handle various types of files. Next, you have to generate a bunch of *.txt* test samples for later usage.
 
-**B)** Create a *.txt* file that contains only the text ```12 EF``` and nothing more. Use Radamsa to generate 100 fuzzed samples of the file that are stored in a single file called ```fuzz.txt```. You should create a separate folder for the samples files.
+**B)** Create a *.txt* file that contains only the text ```12 EF``` and nothing more. Use Radamsa to generate 100 fuzzed samples of the file that are stored in a single file called ```fuzz.txt```. You should create a separate folder for the sample files.
 
-**Provide the content of 5 different samples that radamsa created**
-**Add screenshot**
+**Provide the content of 5 different samples that Radamsa created**
+**Add a screenshot**
 
-**Command line used to create the samples**
+**Provide the command-line command(s) used to create the samples**
 
 ---
 
-## Task 2 
+## Task 2
 
 ### A) Analyzing C program with AddressSanitizer
-AddressSanitizer (ASan) is a powerful tool for detecting memory-related bugs in software programs. It is a runtime memory error detector designed to find issues like buffer overflows, uninitialized memory access e.t.c. ASan works by instrumenting the program at compile-time, adding additional checks and metadata to track memory allocations and deallocations. When the instrumented program is executed, ASan monitors memory operations, quickly detecting errors that violate memory safety. When a bug is detected, ASan provides a detailed report, including information about the memory access violation, such as the exact location, stack trace, and associated source code line. We will now analyze an example C program with this tool. 
 
-This repository contains an example C program called [example.c](misc/example.c). Your task is to analyze it using [AddressSanitizer (ASan)](https://github.com/google/sanitizers/wiki/AddressSanitizer). Compile the code with ```clang``` and appropriate [sanitizer flags](https://github.com/google/sanitizers/wiki/AddressSanitizerFlags#compiler-flags). Run the compiled program and analyze what happens.
+AddressSanitizer (ASan) is a powerful tool for detecting memory-related bugs in software programs.
+It is a runtime memory error detector designed to find issues like buffer overflows, uninitialized memory access etc.
+ASan works by instrumenting the program at compile-time, adding additional checks and metadata to track memory allocations and deallocations.
+When the instrumented program is executed, ASan monitors memory operations, quickly detecting errors that violate memory safety.
+When a bug is detected, ASan provides a detailed report, including information about the memory access violation, such as the exact location, stack trace, and associated source code line.
+We will now analyze an example C program with this tool.
+
+This repository contains an example C program called [example.c](misc/example.c).
+Your task is to analyze it using [AddressSanitizer (ASan)](https://github.com/google/sanitizers/wiki/AddressSanitizer).
+Compile the code with ```clang``` and appropriate [sanitizer flags](https://github.com/google/sanitizers/wiki/AddressSanitizerFlags#compiler-flags). Run the compiled program and analyze what happens.
 
 Hint: Compiling the C program with Clang and appropriate sanitizer flags means using the Clang compiler and specifying certain flags in the command line that enable the AddressSanitizer (ASan) feature during the compilation process of the program.
 
-**Command line used to compile the program**
+**Provide command-line command(s) used to compile the program**
 
 **Screenshot of the result after running the program**
 
@@ -152,19 +173,26 @@ Hint: Compiling the C program with Clang and appropriate sanitizer flags means u
 
 ---
 ### B) Fuzzing with AFL
-AFL, short for American Fuzzy Lop, is a highly effective and popular fuzzer used for finding vulnerabilities and bugs in software programs. Developed by Michal Zalewski, AFL is designed to automatically generate inputs to test programs and identify potential crashes or unexpected behaviors. AFL uses a technique called "coverage-guided fuzzing," which means that it tracks the code coverage achieved during the fuzzing process. It starts with an initial set of input files and then mutates and manipulates them to generate a large number of test cases. AFL uses feedback from the coverage information to prioritize inputs that explore new and previously untested program paths. You will learn more about "coverage-guided fuzzing" in the later part of this exercise.
+AFL, short for American Fuzzy Lop, is a highly effective and popular fuzzer used for finding vulnerabilities and bugs in software programs.
+Developed by Michal Zalewski, AFL is designed to automatically generate inputs to test programs and identify potential crashes or unexpected behaviors.
+AFL uses a technique called "coverage-guided fuzzing," which means that it tracks the code coverage achieved during the fuzzing process.
+It starts with an initial set of input files and then mutates and manipulates them to generate a large number of test cases.
+AFL uses feedback from the coverage information to prioritize inputs that explore new and previously untested program paths.
+You will learn more about "coverage-guided fuzzing" in the later part of this exercise.
 
-In the following task, you will be using [American Fuzzy Lop (AFL)](http://lcamtuf.coredump.cx/afl/) to fuzz test a program called UnRTF. UnRTF is a tool that can be used to convert *.rtf* files to *HTML*, *LaTeX* etc. 
+In the following task, you will be using [American Fuzzy Lop (AFL)](http://lcamtuf.coredump.cx/afl/) to fuzz test a program called UnRTF. UnRTF is a tool that can be used to convert *.rtf* files to *HTML*, *LaTeX* etc.
 
-AFL is already installed in the provided Kali Linux virtual machine and the target program's source code is included in this repository ([unrtf0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)). AFL needs to be download if your provided virtual machine does not have it
+AFL is already installed in the provided Arch Linux virtual machine and the target program's source code is included in this repository ([unrtf0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)).
+AFL needs to be installed if your provided virtual machine does not have it.
 
-When the source code is available, you should instrument the program by using AFL's own wrappers that work as drop-in replacements for **gcc** and **clang** (NOTE: afl-gcc might not work properly in all systems, but it works with the provided Kali Linux vm). 
+When the source code is available, you should instrument the program by using AFL's own wrappers that work as drop-in replacements for **gcc** and **clang** (NOTE: afl-gcc might not work properly in all systems, but it works with the provided Kali Linux vm).
 
-Note: AFL provides its own modified versions of the gcc and clang compilers, which are called "afl-gcc" and "afl-clang" respectively. These wrappers serve as drop-in replacements for the regular compilers and are specifically tailored to work with AFL's instrumentation and fuzzing techniques.
+Note: AFL provides its own modified versions of the gcc and clang compilers, which are called "afl-gcc" and "afl-clang" respectively.
+These wrappers serve as drop-in replacements for the regular compilers and are specifically tailored to work with AFL's instrumentation and fuzzing techniques.
 
 So, here's what you need to do:
 
-1. **Extract** the source code package ([unrtf0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)) and ```cd``` you way to the extracted directory.
+1. **Extract** the source code package ([unrtf0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)) and ```cd``` your way to the extracted directory.
 
 Note: Be careful on file paths. Keep in mind that unrtf file is actually unrtf-0.21.5.
 
@@ -213,7 +241,10 @@ Note: Be careful on file paths. Keep in mind that unrtf file is actually unrtf-0
 
 ---
 ### C) Reproducing crashes with Valgrind
-Valgrind is a powerful open-source framework that provides a suite of dynamic analysis tools for detecting memory errors and profiling programs. By running the target program in a virtual environment and using dynamic binary instrumentation, Valgrind can monitor and analyze memory operations during runtime. The most popular of these tools is called Memcheck. It can detect many memory-related errors that are common in C and C++ programs and that can lead to crashes and unpredictable behaviour.
+Valgrind is a powerful open-source framework that provides a suite of dynamic analysis tools for detecting memory errors and profiling programs.
+By running the target program in a virtual environment and using dynamic binary instrumentation, Valgrind can monitor and analyze memory operations during runtime.
+The most popular of these tools is called Memcheck.
+It can detect many memory-related errors that are common in C and C++ programs and that can lead to crashes and unpredictable behavior.
 
 You should now have found some crashes with the AFL. Next, you need to reproduce one of them to see, what exactly went wrong. You can find the crashes from the output folder you created previously. Make your way into the ```.../<output_folder>/crashes``` and take one of the *.rtf* files that caused a crash under inspection.
 
@@ -225,11 +256,11 @@ Run UnRTF with this file under Valgrind:
 
 __Hint__: Make sure that you are actually running the UnRTF with a crash file! If you get "Error: Cannot open input file" before Valgrind's actual memory analysis output, you are trying to run the program without any input. See the Valgrind [documentation](http://valgrind.org/docs/manual/quick-start.html) for help.
 
-Note: If valgrind is not installed on your virtual machine, you can install it with: "sudo apt install valgrind" on kali linux and "sudo pacman -S valgrind" on arch linux
-You also need to install many different packages before installing it (to be verified). 
-o Automake 
-o Autoconf 
-o libc6-bdg 
+Note: If valgrind is not installed on your virtual machine, you can install it with: "sudo apt install valgrind" on Kali Linux and "sudo pacman -S valgrind" on Arch Linux
+You also need to install many different packages before installing it (to be verified).
+o Automake
+o Autoconf
+o libc6-bdg
 
 **Take a screenshot of the Valgrind result after running the program**
 
@@ -241,9 +272,11 @@ o libc6-bdg
 
 ### Fuzzing libraries
 
-[OpenSSL](https://www.openssl.org/) is a widely-used open source cryptographic software library for Transport Layer Security and Secure Socket Layer protocols. In 2014, a buffer over-read vulnerability [CVE-2014-0160](https://nvd.nist.gov/vuln/detail/CVE-2014-0160) was found in the Heartbeat Extension of OpenSSL (up to version 1.0.1f) two years after the feature was introduced. The vulnerability allowed attackers to obtain memory contents from process memory remotely, and as a result, it compromised the integrity of secure communications.
+[OpenSSL](https://www.openssl.org/) is a widely-used open-source cryptographic software library for Transport Layer Security and Secure Socket Layer protocols.
+In 2014, a buffer over-read vulnerability [CVE-2014-0160](https://nvd.nist.gov/vuln/detail/CVE-2014-0160) was found in the Heartbeat Extension of OpenSSL (up to version 1.0.1f) two years after the feature was introduced. The vulnerability allowed attackers to obtain memory contents from process memory remotely, and as a result, it compromised the integrity of secure communications.
 
-Since this vulnerability is caused by a memory handling related bug, it is possible to find it using fuzzing tools like AddressSanitizer and AFL. In order to fuzz test the OpenSSL library, we have to have a binary file that uses the library as a fuzzing target. For that, we are going to use the provided [target.c](misc/target.c), which uses OpenSSL to simulate a server-client TLS handshake.
+Since this vulnerability is caused by a memory handling-related bug, it is possible to find it using fuzzing tools like AddressSanitizer and AFL.
+To fuzz test the OpenSSL library, we have to have a binary file that uses the library as a fuzzing target. For that, we are going to use the provided [target.c](misc/target.c), which uses OpenSSL to simulate a server-client TLS handshake.
 
 Your task is to do the following:
 * **Download and extract the source code** for [OpenSSL 1.0.1f](misc/openssl-1.0.1f.tar.xz).
@@ -285,13 +318,18 @@ Your task is to do the following:
 
 ## Task 4
 
-### Creating your own fuzzer and fuzzing it
+### Creating your own fuzzer and fuzzing with it
 
-This task is to be completed in a jupyter notebook. You can access an online notebook following this link: https://notebooks.rahtiapp.fi/welcome
+This task is to be completed in a Jupyter notebook.
 
-Use your university credentials 'Haka' to login. Select 'Introduction to Python' notebook to work with. Do note that these notebooks only have a lifetime of 4 hours, so make sure to download and save your work! Attach your notebook file ```lab1_fuzzer_your_name.ipynb``` as a return in moodle return_box for Lab-1 alongside this report.
+You can access an online notebook following this link: https://notebooks.rahtiapp.fi/welcome TODO?
 
-**You will now create your own fuzzer and fuzz test it. This task has four sub-parts:**
+Use your university credentials 'Haka' to log in.
+Select the 'Introduction to Python' notebook to work with. Do note that these notebooks only have a lifetime of 4 hours, so make sure to download and save your work!
+
+Attach your notebook file ```lab1_fuzzer_your_name.ipynb``` as a return in moodle return_box for Lab-1 alongside this report. TODO?
+
+**You will now create your own fuzzer and fuzz test with it. This task has four sub-parts:**
 
 A) Design your own mutator that takes a valid URL as input and creates its mutations
 
@@ -304,11 +342,11 @@ D) Generating mutations with Radamsa and observing program execution
 ---
 
 ### A) Create a mutator
-In the context of fuzzing, mutation refers to the process of generating new test inputs by modifying existing inputs in order to explore different program behaviors and potentially trigger software vulnerabilities or bugs. 
+In the context of fuzzing, mutation refers to the process of generating new test inputs by modifying existing inputs in order to explore different program behaviors and potentially trigger software vulnerabilities or bugs.
 
 Design a mutator that takes a valid URL as input and creates its mutations.
 Sample seed input that could be used: http://www.google.com/search?q=fuzzing
-Generate 20 mutated cases. 
+Generate 20 mutated cases.
 
 **Attach a screenshot**
 
@@ -335,22 +373,24 @@ To keep things simple, you can make it accept http, https and ftp schemes only!
 ---
 
 ### C) Create a simple fuzzer
-A simple fuzzer can be made with two main components - mutation generator and execution engine. Execution engine contans a fuzz loop in which random data is fed to the program again and again to see if it crashes.
+A simple fuzzer can be made with two main components - a mutation generator and an execution engine.
+The execution engine contains a fuzz loop in which random data is fed to the program, again and again, to see if it crashes.
 You will now create your own fuzzer and write a function to measure program execution.
 
 **Write a simple fuzzer program that tests the URL validator you created in Task B)**
 
-Your fuzzer should test url validator with mutated inputs generated and report crashes. You can use mutation generator from Task A) or feel free to implement a new one. 
+Your fuzzer should test url validator with mutated inputs generated and report crashes. You can use the mutation generator from Task A) or feel free to implement a new one.
 
 Hint: A sample structure of your fuzzer could look like this. Feel free to implement it in any other way!
 * Example URL validator function (python function)
 * Example URL mutation generator (python function)
-* Example URL tester that uses both the function above (i.e. main fuzzer). A call to this function with specified number of test cases to be performed would be a call to your fuzzer. In this part of code, you should also implement checks to keep crash count and report those.
+* Example URL tester that uses both the function above (i.e. main fuzzer). A call to this function with a specified number of test cases to be performed would be a call to your fuzzer.
+In this part of the code, you should also implement checks to keep the crash count and report those.
 
 
 **Observe program execution and report crashes**
 
-A good implementation should report crashes. It should also print/show inputs that caused the crash. 
+A good implementation should report crashes. It should also print/show inputs that caused the crash.
 
 Test your fuzzer with 100, 1000 and 10,000 malformed inputs and observe how many crashes you get.
 
@@ -359,7 +399,8 @@ Test your fuzzer with 100, 1000 and 10,000 malformed inputs and observe how many
 ---
 
 ### D) Generating mutations with Radamsa and observing program execution
-Your final task is to utilize radamsa to generate 100, 1000 and 10,000 malformed inputs using http://www.google.com/search?q=fuzzing as a seed input. Save these inputs (for example in a .txt file) and use these as an input to your fuzzer that your created in Task C).
+Your final task is to utilize Radamsa to generate 100, 1000 and 10,000 malformed inputs using http://www.google.com/search?q=fuzzing as a seed input.
+Save these inputs (for example in a .txt file) and use these as input to your fuzzer that you created in Task C).
 
 **How did your fuzzer perform now? Compare crash count with (C) and provide explanations if you observe differences**
 
@@ -369,9 +410,14 @@ Your final task is to utilize radamsa to generate 100, 1000 and 10,000 malformed
 
 ### Contribute to an existing open-source project. Set up a fuzzer and report the whole process and possible findings.
 
-Contribute to some existing open-source software (OSS) project by setting up a fuzzing environment and documenting the total process and results. You can choose the target software by yourself and use one of the 2 fuzzers introduced during the lab exercise, or pick some other that you think serves the purpose better. **You should do all the testing inside a virtual machine in case there are potentially malicious files being handled.**
+Contribute to some existing open-source software (OSS) projects by setting up a fuzzing environment and documenting the total process and results.
+You can choose the target software by yourself and use one of the 2 fuzzers introduced during the lab exercise, or pick some other that you think serves the purpose better.
+**You should do all the testing inside a virtual machine in case there are potentially malicious files being handled.**
 
-You should read for example [this guide](https://github.com/ouspg/fuzz-testing-beginners-guide) to get started. Please note that in case a real bug is found in the software, it is very important to document the findings in a way that the issue can be easily reproduced. The guide has some good points about what information you should provide. It is not mandatory for the student to file a "real" bug report, but if you find something new, we highly recommend to do so.
+You should read for example [this guide](https://github.com/ouspg/fuzz-testing-beginners-guide) to get started.
+Please note that in case a real bug is found in the software, it is very important to document the findings in a way that the issue can be easily reproduced.
+The guide has some good points about what information you should provide.
+The student doesn't need to file a "real" bug report, but if you find something new, we highly recommend doing so.
 
 You should grab the most recent version of the source code. Few open-source projects as an example:
 
@@ -390,7 +436,7 @@ You should at minimum to provide the following information in the documentation:
 * Compiler and debugger flags
 * Initial test case(s) and the one(s) producing a possible crash
 * Necessary steps to reproduce the crash
-* It is not necessary to find any bugs. It is enough, if you can prove that you have fuzzed with good code coverage and the way how input was mutated (=what kind of input fuzzer created overall))
+* It is not necessary to find any bugs. It is enough if you can prove that you have fuzzed with good code coverage and the way how input was mutated (=what kind of input fuzzer created overall))
 
 
 
