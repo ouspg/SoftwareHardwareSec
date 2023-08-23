@@ -327,18 +327,18 @@ Your task is to do the following:
 
 This task is to be completed in a Jupyter notebook.
 
-You can access an online notebook following this link: https://notebooks.rahtiapp.fi/welcome TODO?
+You can access an online notebook following this link: https://notebooks.rahtiapp.fi/welcome or use your own
 
 Use your university credentials 'Haka' to log in.
 Select the 'Introduction to Python' notebook to work with. Do note that these notebooks only have a lifetime of 4 hours, so make sure to download and save your work!
 
-Attach your notebook file ```lab1_fuzzer_your_name.ipynb``` as a return in moodle return_box for Lab-1 alongside this report. TODO?
+Attach your notebook file ```lab1_fuzzer_your_name.ipynb``` as a return to your Github return template.
 
 **You will now create your own fuzzer and fuzz test with it. This task has four sub-parts:**
 
 A) Design your own mutator that takes a valid URL as input and creates its mutations
 
-B) Design a target URL validator program and fuzz test it with 20 mutations generated in task 1.
+B) Design a target URL validator program and fuzz test it with mutations generated in task 1.
 
 C) Create your own fuzzer
 
@@ -351,11 +351,13 @@ In the context of fuzzing, mutation refers to the process of generating new test
 
 Design a mutator that takes a valid URL as input and creates its mutations.
 Sample seed input that could be used: http://www.google.com/search?q=fuzzing
-Generate 20 mutated cases.
+Run your mutator for 4 minutes. 
+
+**How many mutated inputs were generated in 4 minutes?**
 
 **Attach a screenshot**
 
-**Past results below**
+**Paste sample of 20 mutations below**
 
 ---
 
@@ -373,7 +375,7 @@ where
 
 To keep things simple, you can make it accept http, https and ftp schemes only!
 
-**Test your program by providing it 20 mutations generated in task 1. Did the program run smoothly or did you encounter any errors? Paste screenshots and provide explanation below**
+**Test your program by providing it mutations generated in task 1. Did the program run smoothly or did you encounter any errors? Paste screenshots and provide explanation below**
 
 ---
 
@@ -389,7 +391,7 @@ Your fuzzer should test url validator with mutated inputs generated and report c
 Hint: A sample structure of your fuzzer could look like this. Feel free to implement it in any other way!
 * Example URL validator function (python function)
 * Example URL mutation generator (python function)
-* Example URL tester that uses both the function above (i.e. main fuzzer). A call to this function with a specified number of test cases to be performed would be a call to your fuzzer.
+* Example URL tester that uses both the functions above (i.e. main fuzzer). A call to this function with a specified number of test cases to be performed would be a call to your fuzzer.
 In this part of the code, you should also implement checks to keep the crash count and report those.
 
 
@@ -407,7 +409,7 @@ Test your fuzzer with 100, 1000 and 10,000 malformed inputs and observe how many
 Your final task is to utilize Radamsa to generate 100, 1000 and 10,000 malformed inputs using http://www.google.com/search?q=fuzzing as a seed input.
 Save these inputs (for example in a .txt file) and use these as input to your fuzzer that you created in Task C).
 
-**How did your fuzzer perform now? Compare crash count with (C) and provide explanations if you observe differences**
+**How did your fuzzer perform now? Compare crash count with Task (C) and provide explanations if you observe differences**
 
 ---
 
@@ -431,7 +433,7 @@ You should grab the most recent version of the source code. Few open-source proj
  * [ImageMagick](https://www.imagemagick.org/script/index.php) - An open-source suite for displaying, converting, and editing images, supporting over 200 file formats.
  * See [American Fuzzy Lop](https://lcamtuf.coredump.cx/afl/) main page for a comprehensive list of tools it has found bugs on. Newer versions of software can spawn new bugs, but the most common tools are usually tested the most so they might not be the best to start with.
 
-You should at minimum to provide the following information in the documentation:
+You should at minimum provide the following information in the documentation:
 
 * Which fuzzer was used
 * A brief explanation of the target software and why you chose it
