@@ -16,6 +16,19 @@ Responsible person/main contact: Asad Hasan
     * [Valgrind](http://valgrind.org/docs/manual/quick-start.html)
 
 
+## Prerequisites
+
+A basic understanding of the Python and C programming language is required.
+
+A small introduction to each tool used in this exercise is provided before its actual task. However, you need to make yourself familiar with their usage:
+
+* **Radamsa** - https://gitlab.com/akihe/radamsa
+* **AFL** (American Fuzzy Lop) - http://lcamtuf.coredump.cx/afl/
+* **AddressSanitizer** (ASan) - https://github.com/google/sanitizers/wiki/AddressSanitizer
+* **Valgrind** - http://valgrind.org/docs/manual/quick-start.html
+
+
+
 ## About the lab
 
 * This document contains task descriptions and theory for the fuzz testing lab. If there are any differences between the return template and this file, consider this to be the up-to-date document.
@@ -116,18 +129,7 @@ In this exercise you will learn:
 - Valgrind, a debugging tool (can detect memory errors as well). This tool is often used alongside other fuzzers.
 - Making your own fuzzer in Jupyter Notebook and fuzzing it
 
-## Prerequisites
-
-A basic understanding of the Python and C programming language is required.
-
-A small introduction to each tool used in this exercise is provided before its actual task. However, you need to make yourself familiar with their usage:
-
-* **Radamsa** - https://gitlab.com/akihe/radamsa
-* **AFL** (American Fuzzy Lop) - http://lcamtuf.coredump.cx/afl/
-* **AddressSanitizer** (ASan) - https://github.com/google/sanitizers/wiki/AddressSanitizer
-* **Valgrind** - http://valgrind.org/docs/manual/quick-start.html
-
-
+---
 
 ## Task 1
 
