@@ -14,7 +14,7 @@ Responsible person/main contact: Asad Hasan
 
 A basic understanding of C/C++ programming language is required. GitHub is required to complete this exercise
 
-Make yourself familiar with GitHub Actions and `cifuzz`` fuzzing tool.
+Make yourself familiar with GitHub Actions and `cifuzz` fuzzing tool.
 
 * **CIFUZZ** - https://github.com/CodeIntelligenceTesting/cifuzz
 * **CIFUZZ Documentation** https://docs.code-intelligence.com/ci-fuzz/ci-fuzz-overview
@@ -190,13 +190,15 @@ Look for hints within CMake files
 
 ---
 
-**B) Create an empty fuzz test file** Create an empty fuzz test file in folder <ProjectX/test> called ```test1```. You will use this file to write your fuzz test cases in task 2 to generate mutated inputs to test your calculator function.
+### **B) Create an empty fuzz test file**
+Create an empty fuzz test file in folder <ProjectX/test> called ```test1```. You will use this file to write your fuzz test cases in task 2 to generate mutated inputs to test your calculator function.
 
 **Provide the command line you used to do this.**
 
 ---
 
-**C) Run fuzzer with empty test case** By now, your fuzzer should be correctly linked across the calculator project and initialized with an empty test case called ```test1```. Run your fuzzer with this test case!
+### **C) Run fuzzer with empty test case**
+By now, your fuzzer should be correctly linked across the calculator project and initialized with an empty test case called ```test1```. Run your fuzzer with this test case!
 
 **Provide the command used to run the fuzzer**
 
