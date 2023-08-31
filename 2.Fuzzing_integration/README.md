@@ -1,85 +1,101 @@
-Computer Security Lab 2: Fuzz Automation
+Software and Hardware Security Lab 2: Fuzz Automation
 ====
 
-Responsible person/main contact: Asad Hasan,
+Responsible person/main contact: Asad Hasan
 
-## Preliminary tasks
+## Preliminary tasks & prerequisites
 
-* Create a Github account if you don't already have one
-* Create your own fork of the CompSec-2021-AnswerTemplate **as instructed [here](../README.md#instructions)**
+* Create a GitHub account if you don't already have one
+* Create your answer repository from the provided link in Moodle space, **as instructed TODO [here](../README.md#instructions)**
 * Check the instructions on how to download and use the course's Arch Linux virtual machine
+    * Instructions are available [here](https://ouspg.org/resources/laboratories/). You will find the download link from the Moodle workspace.
     * If you want to use your own computer, download and install Virtualbox to run the virtual machine. VMWare Player should work also.
 
 
-## About the lab
+A basic understanding of C/C++ programming language is required. GitHub is required to complete this exercise
 
-* This document contains task descriptions and theory for the fuzz automation lab. If there are any differences between the return template and this file, consider this to be the up-to-date document.
-* **You can use your own computer/virtual machine if you want.** Check the chapter "Prerequisities" for information on what you need to install. This lab has been made to be completed in a Linux environment and tested to work in the provided Kali Linux virtual machine.
-* __Upper scores for this assignment require that all previous tasks in this assignment have been done as well__, so e.g. in order to get fourth point you will have to complete tasks 1, 2 & 3.
-* Check the deadline from Moodle and __remember that you have to return your name (and possibly people you worked together with) and GitHub repository information to Moodle before the deadline.__
-
-
-## Background
-
-This week’s theme is fuzz automation. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course mainpage](https://github.com/ouspg/CompSec) for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
-
-
-
-## INTRODUCTION TO FUZZ AUTOMATION 
-Fuzz automation is the buzz word for industry standard practice, where software production phases are monitored by fuzz testing jobs which run automatically whenever there are new code changes to look for bugs and vulnerabilities before the software is launched into production. 
-
-In this lab, we will first explore the concept of Continuous Integration and Continuous Delivery (CI/CD). Students will learn how CI/CD pipeline works and how can they design fuzz testing jobs that can be incorporated into these pipelines.  
- 
-
-The concept of CI/CD pipeline 
-
- * Continuous integration (CI) automatically builds, tests, and integrates code changes within a shared repository; then  
-
- * Continuous delivery (CD) automatically delivers code changes to production-ready environments for approval; or  
-
- * Continuous deployment (CD) automatically deploys code changes to customers directly. 
-
-The objective of deploying a CI/CD pipeline: A CI pipeline runs whenever there are code changes and is designed to make sure all of the changes work with the rest of the code when it’s integrated. It should also compile your code, run tests, and check that it’s functional. The CD pipeline goes one step further and deploys the built code into production. 
-
-Now that we know the basics of CI/CD, let’s get into the lab task 
-
-## Prerequisites
-
-A basic understanding of C/C++ programming language is required. Github is required to complete this exercise
-
-Make yourself familiar with github actions and cifuzz fuzzing tool.
+Make yourself familiar with GitHub Actions and `cifuzz`` fuzzing tool.
 
 * **CIFUZZ** - https://github.com/CodeIntelligenceTesting/cifuzz
 * **CIFUZZ Documentation** https://docs.code-intelligence.com/ci-fuzz/ci-fuzz-overview
-* **Github Actions** https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions
-* **Creating .yml or .yaml file in github actions** https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+* **GitHub Actions** https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions
+* **Creating .yml or .yaml file in GitHub actions** https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 
 
 ## Grading
 
-<details><summary>Details</summary>
+<!-- <details><summary>Details</summary> -->
 
 Task #|Points|Description|
 -----|:---:|-----------|
 Task 1 | 1 | Implement a fuzzer (CIFUZZ) into C++ project
 Task 2 | 2 | Finding bugs in project with fuzzer and generating coverage report
-Task 3 | 3 | Apply patch fix and fuzz again. Design a fuzz job with github actions
-Task 4 | 5 | Implement CI pipeline and fuzz an existing software or a project w.r.t. automation 
+Task 3 | 3 | Apply patch fix and fuzz again. Design a fuzz job with GitHub actions
+Task 4 | 5 | Implement CI pipeline and fuzz an existing software or a project w.r.t. automation
 
 
-Total points accumulated by doing the exercises reflect the overall grade. You can acquire upto 5 points per exercise.
-</details>
+Total points accumulated by doing the exercises reflect the overall grade. You can acquire up to 5 points per whole exercise.
+<!-- </details> -->
 
 ---
-## TASKS 1-3: CASE SCENARIO 
 
-You are recently hired as a Cybersecurity person in TechnoTech – a software company which releases small software products. TechnoTech is an agile C/C++ software development company and utilizes modern tech stacks such as GitHub to deploy its code and track version changes. Moreover, TechnoTech follows the latest practices of DevOps. 
 
-TechnoTech’s software team recently designed a calculator product for children, which allows to perform basic mathematical operations i.e. addition, multiplication, subtraction and division. TechnoTech intends to invoice a manufacturing order for 1000 physical calculators with their code at the back-end and incorporate it into mathematics teaching e-books.  
+## About the lab
 
-As a cybersecurity personnel you are given the source code of the project. Your first task is to setup a fuzzer in the project repository and look for bugs. Your first task is to correctly configure your fuzzer with the project's source code and report back to the developer team with your findings! 
+* This document contains task descriptions and theory for the fuzz automation lab. If there are any differences between the return template and this file, consider this to be the up-to-date document.
+* **You can use your own computer/virtual machine if you want.** Check the chapter "Prerequisites" for information on what you need to install. This lab has been made to be completed in a Linux environment and tested to work in the provided Arch Linux virtual machine.
+* __Upper scores for this assignment require that all previous tasks in this assignment have been done as well__, so e.g. in order to get the fourth point you will have to complete tasks 1, 2 & 3.
+* Check the deadline from Moodle and __remember that you have to return your name (and possibly people you worked together with) and GitHub repository information to Moodle before the deadline.__
 
-You will use CIFUZZ as a fuzzing tool for tasks 1-3. To build your C++ project correctly with cifuzz, you will be using CMake. Documentation for CMake is widely available online for example:
+
+## Background
+
+This week’s theme is fuzz automation.
+Tasks are designed to be done with the provided Arch Linux virtual machine, see the [ouspg.org](https://ouspg.org/resources/laboratories/) for instructions on how to run the virtual machine (VM).
+The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
+
+
+
+## INTRODUCTION TO FUZZ AUTOMATION
+Fuzz automation is the buzzword for industry standard practice, where software production phases are monitored by fuzz testing jobs which run automatically whenever there are new code changes to look for bugs and vulnerabilities before the software is launched into production.
+
+In this lab, we will first explore the concept of Continuous Integration and Continuous Delivery (CI/CD).
+Students will learn how CI/CD pipeline works and how can they design fuzz-testing jobs that can be incorporated into these pipelines.
+
+
+The concept of CI/CD pipeline
+
+ * Continuous integration (CI) automatically builds, tests, and integrates code changes within a shared repository; then
+
+ * Continuous delivery (CD) automatically delivers code changes to production-ready environments for approval; or
+
+ * Continuous deployment (CD) automatically deploys code changes to customers directly.
+
+The objective of deploying a CI/CD pipeline: A CI pipeline runs whenever there are code changes and is designed to make sure all of the changes work with the rest of the code when it’s integrated.
+It should also compile your code, run tests, and check that it’s functional. The CD pipeline goes one step further and deploys the built code into production.
+
+Now that we know the basics of CI/CD, let’s get into the lab task
+
+
+
+
+
+## TASKS 1-3: CASE SCENARIO
+
+You were recently hired as a Cybersecurity person in TechnoTech – a software company that releases small software products.
+TechnoTech is an agile C/C++ software development company that utilizes modern tech stacks such as GitHub to deploy its code and track version changes.
+Moreover, TechnoTech follows the latest practices of DevOps.
+
+TechnoTech’s software team recently designed a calculator product for children, which allows to perform basic mathematical operations i.e. addition, multiplication, subtraction and division.
+TechnoTech intends to invoice a manufacturing order for 1000 physical calculators with their code at the back end and incorporate it into mathematics teaching e-books.
+
+As a cybersecurity personnel, you are given the source code of the project.
+Your first task is to set up a fuzzer in the project repository and look for bugs.
+Your first task is to correctly configure your fuzzer with the project's source code and report back to the developer team with your findings!
+
+You will use CIFUZZ as a fuzzing tool for tasks 1-3.
+To build your C++ project correctly with `cifuzz``, you will be using CMake.
+Documentation for CMake is widely available online for example:
 
 https://cmake.org/cmake/help/latest/index.html
 
@@ -89,28 +105,36 @@ https://cmake.org/cmake/help/latest/guide/tutorial/A%20Basic%20Starting%20Point.
 
 ### CIFUZZ Installation
 
-Update your package manager based on your linux distribution and install the following dependencies:
+Update your package manager based on your Linux distribution and install the following dependencies:
 
-Cmake, LLVM clang, LCOV, bazel 
+Cmake, LLVM clang, LCOV, bazel
 
 Sample install instructions for arch-linux below:
 
 #### Install dependencies
 
-      sudo pacman -S clang llvm lcov python jdk-openjdk zip 
+```cmd
+sudo pacman -S clang llvm lcov python jdk-openjdk zip
+```
 
-#### Install bazelisk 
+#### Install bazelisk
+```cmd
+sudo curl -L https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64 -o /usr/local/bin/bazel
 
-      sudo curl -L https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64 -o /usr/local/bin/bazel 
+sudo chmod +x /usr/local/bin/bazel
+```
 
-      sudo chmod +x /usr/local/bin/bazel 
+#### Install the tool by running the following script:
 
-#### Install the tool by running the following script: 
+```cmd
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/CodeIntelligenceTesting/cifuzz/main/install.sh)"
 
-      sh -c "$(curl -fsSL https://raw.githubusercontent.com/CodeIntelligenceTesting/cifuzz/main/install.sh)" 
+```
 
-#### Install docker 
-      sudo pacman –S docker 
+#### Install docker (preinstalled for Arch)
+```
+sudo pacman –S docker
+```
 
 ---
 
@@ -118,38 +142,51 @@ Sample install instructions for arch-linux below:
 
 ### A) Setting up CI Fuzz in the project repository locally
 
-Developer team has pushed the code of the calculator into following github repository:
+The developer team has pushed the code of the calculator into the following GitHub repository:
 https://github.com/ouspg/ProjectX.git
 
 The source code is present under the ```source``` branch. Clone it locally into your machine with the command:
 
-    ~$ git clone -b source https://github.com/ouspg/ProjectX.git
+```cmd
+git clone -b source https://github.com/ouspg/ProjectX.git
+```
 
-Explore all files within the project to have a better understanding of project structure. Take a look at flowchart below.
+Explore all files within the project to have a better understanding of the project structure.
+Take a look at the flowchart below.
 
 ![Flowchart Image](./Pictures/fuzzing_with_cifuzz.png)
 
 
-Hints are left inside files as comments. 
+Hints are left inside files as comments.
 
-Cifuzz works on two important files: 
+Cifuzz works on two important files:
 
-**o _CMakelists.txt:_** 
-Configuration file for CMake build system. It defines the build configuration, dependencies, and build instructions for the C++ project. For the scope of this project, two CMake files are present, one in root directory and the other in /src directory 
+**o _CMakelists.txt:_**
+Configuration file for CMake build system.
+It defines the build configuration, dependencies, and build instructions for the C++ project.
+For the scope of this project, two CMake files are present, one in the root directory and the other in `/src` directory
 
-**o _cifuzz.yaml:_** 
-Configuration file for CIFuzz. It specifies the fuzzing target, corpus location, and other fuzzing parameters for CIFuzz to execute the C++ fuzzing process. 
-Go to your projects root folder and initialize it cifuzz. It will create a .yaml file for you which defines the fuzzer's configuration. You can make changes to this file according to your project needs.
+**o _cifuzz.yaml:_**
+
+Configuration file for CIFuzz.
+It specifies the fuzzing target, corpus location, and other fuzzing parameters for CIFuzz to execute the C++ fuzzing process.
+Go to your project's root folder and initialize it `cifuzz``
+It will create a .yaml file for you that defines the fuzzer's configuration.
+You can make changes to this file according to your project needs.
 
 **Provide the command line you used to do this.**
 
-**What did you change in cifuzz.yaml and why? Provide explanations**
+**What did you change in `cifuzz.yaml`` and why? Provide explanations**
 
-Once a project is initialized with cifuzz, it must be built with a build system like bazel, CMake. Also, project contains multiple c++ files such as source function, a header file and main. Your next task is to correctly configure CMake files
-to link and build your project. 
+Once a project is initialized with `cifuzz`, it must be built with a build system like `bazel` or `CMake`.
+Also, the project contains multiple C++ files such as a source function, a header file and a main.
+Your next task is to correctly configure CMake files
+to link and build your project.
 
 **Configure CMake files**
-Two CMakelists.txt files are present. Correctly configure them to build your project with cifuzz. Look for hints within CMake files
+Two CMakelists.txt files are present.
+Correctly configure them to build your project with `cifuzz``.
+Look for hints within CMake files
 
 ---
 
@@ -159,22 +196,22 @@ Two CMakelists.txt files are present. Correctly configure them to build your pro
 
 ---
 
-**C) Run fuzzer with empty test case** By now, your fuzzer should be correctly linked across the calculator project and initialized with an empty test case called ```test1```. Run your fuzzer with this test case! 
+**C) Run fuzzer with empty test case** By now, your fuzzer should be correctly linked across the calculator project and initialized with an empty test case called ```test1```. Run your fuzzer with this test case!
 
-**Provide command used to run the fuzzer** 
+**Provide the command used to run the fuzzer**
 
-**Paste screenshot** 
+**Paste screenshot**
 
 ---
 
-## Task 2 
+## Task 2
 
 ### Write a fuzz test case and look for bugs in the project
 
 
 **A) Update fuzz test file with correct code**
 
-Go to your empty fuzz test file (test1.cpp) created in task 1 and update it with correct code to generate input mutations. Afterwards, you will call your function under test in the main program and fuzzer will automatically feed mutated inputs to it using this fuzz test file!  
+Go to your empty fuzz test file (test1.cpp) created in task 1 and update it with correct code to generate input mutations. Afterwards, you will call your function under test in the main program and fuzzer will automatically feed mutated inputs to it using this fuzz test file!
 
 Write your code in following function only:
 
@@ -183,17 +220,17 @@ Write your code in following function only:
     /* Your code */
     }
 
-Notes for fuzz test file:  
+Notes for fuzz test file:
 
- o Fuzz test must include the header for the target function _<../src/calculator.h>_ and cifuzz _<cifuzz/cifuzz.h>_ 
+ o Fuzz test must include the header for the target function _<../src/calculator.h>_ and cifuzz _<cifuzz/cifuzz.h>_
 
  o Fuzz test uses the _<fuzzer/FuzzedDataProvider.h>_ header from LLVM. This should be included
 
- o Create input variables and define their mutation scheme. As an example, if one of the input variables is integer, it’s mutation scheme can be defined using LLVM’s _FuzzedDataProvide.h_ header as:  
- ```int num1 = fuzzed_data.ConsumeIntegral<int8_t>();``` 
+ o Create input variables and define their mutation scheme. As an example, if one of the input variables is integer, it’s mutation scheme can be defined using LLVM’s _FuzzedDataProvide.h_ header as:
+ ```int num1 = fuzzed_data.ConsumeIntegral<int8_t>();```
 
  o After creating input variables (example: num1, num2, and operator), the fuzz test should call the target function under test within this file. Sample call to a function named _‘calculator’_: ```calculator(num1, operator, num2)```
- 
+
 **Copy contents of fuzz test file here**
 
 **Screenshot of the fuzz test file**
@@ -204,9 +241,9 @@ Notes for fuzz test file:
 
 Write unit test cases within your main file (as a call to calculator function). Carefully choose inputs to ensure all functionalities of calculator are covered alongside edge test cases.
 
-**Provide screenshot of your test cases** 
+**Provide screenshot of your test cases**
 
-**How many test cases did you write? Do you think they are enough for the scope of this project? Explain** 
+**How many test cases did you write? Do you think they are enough for the scope of this project? Explain**
 
 ---
 
@@ -217,9 +254,9 @@ By now, cifuzz should be correctly integrated with project and ready to find bug
 
 Run your fuzzer and report your findings.
 
-**Command used to run fuzzer** 
+**Command used to run fuzzer**
 
-**Name of bugs, if found any** 
+**Name of bugs, if found any**
 
 ---
 
@@ -228,11 +265,11 @@ Run your fuzzer and report your findings.
 Code-coverage is an important concept in modern fuzzers and is utilized by cifuzz. It measures how much of the target program's code is exercised by the generated test cases.
 Cifuzz has an option to generate coverage reports of fuzzer runs. Go-ahead and generate a report and document what it represents and why is it important.
 
-**Command used to generate code-coverage** 
+**Command used to generate code-coverage**
 
-**Screenshot of your code-coverage report** 
+**Screenshot of your code-coverage report**
 
-**Brief Summary** 
+**Brief Summary**
 
 
 ---
@@ -242,7 +279,7 @@ Cifuzz has an option to generate coverage reports of fuzzer runs. Go-ahead and g
 
 ### A) Apply patch fix and fuzz again
 
-Based on your previous fuzzing efforts a bug identified was forwared to developer team for a fix. Developer team has fixed the reported bug and have created a patch fix for it. 
+Based on your previous fuzzing efforts a bug identified was forwared to developer team for a fix. Developer team has fixed the reported bug and have created a patch fix for it.
 
 Your task is to do the following:
 * **Download and extract the patch into your project's root directory** Download file manually: [Patch File](./files/0001-New-version-release.-Contains-previous-bug-fix.tar.xz).
@@ -267,11 +304,11 @@ Your next task is to automate the process of fuzzing for the project calculator.
 
       **_Notes from DevOps_**
       ProjectX now comes packed into a docker container with a fuzzer integrated. Moreover, we changed the build system from CMake to bazel.
-      
+
       Newer version of ProjectX contains following:
       * All ProjectX C++ files
       * Project built with bazel instead of CMake
-      * Cifuzz integrated 
+      * Cifuzz integrated
       * Fuzzer set to timeout after 10minutes to save resources
       * Docker container which conatins project + fuzzer
 
@@ -289,7 +326,7 @@ Test your fuzz job in github actions by making small changes to code such as add
 
 Inspect workflow run to locate fuzzing results. **Paste screenshot**
 
-If workflow fails to run, try to debug it for errors. You might be doing something wrong. 
+If workflow fails to run, try to debug it for errors. You might be doing something wrong.
 
 
 The idea behind fuzz automation is that the fuzzer runs automatically for a specified duration whenever there are code changes. Since TechnoTech utilizes Github, therefore your fuzzer should trigger on any latest commit. Fuzzing results can be gathered from workflow (actions) log files and can also be exported to an external file by including appropriate code in your worflow file.
@@ -298,9 +335,9 @@ The idea behind fuzz automation is that the fuzzer runs automatically for a spec
 
 ## Task 4
 
-### Implement CI pipeline and fuzz an existing software or a project w.r.t. automation 
+### Implement CI pipeline and fuzz an existing software or a project w.r.t. automation
 
-This is a free-form task where you will integrate a fuzzer into an existing project and design a CI pipeline which triggers on each pull/commit request. 
+This is a free-form task where you will integrate a fuzzer into an existing project and design a CI pipeline which triggers on each pull/commit request.
 
 Here's what you need to do:
 * Find a project or use one of your own
