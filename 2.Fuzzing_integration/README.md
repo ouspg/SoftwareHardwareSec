@@ -86,7 +86,7 @@ You were recently hired as a Cybersecurity person in TechnoTech – a software c
 TechnoTech is an agile C/C++ software development company that utilizes modern tech stacks such as GitHub to deploy its code and track version changes.
 Moreover, TechnoTech follows the latest practices of DevOps.
 
-TechnoTech’s software team recently designed a calculator product for children, which allows to perform basic mathematical operations i.e. addition, multiplication, subtraction and division.
+TechnoTech’s software team recently designed a calculator product for children, which allows them to perform basic mathematical operations i.e. addition, multiplication, subtraction and division.
 TechnoTech intends to invoice a manufacturing order for 1000 physical calculators with their code at the back end and incorporate it into mathematics teaching e-books.
 
 As a cybersecurity personnel, you are given the source code of the project.
@@ -100,6 +100,8 @@ Documentation for CMake is widely available online for example:
 https://cmake.org/cmake/help/latest/index.html
 
 https://cmake.org/cmake/help/latest/guide/tutorial/A%20Basic%20Starting%20Point.html#exercise-1-building-a-basic-project
+
+**Check *prerequisites* if you haven't at this point!**
 
 ---
 
@@ -170,13 +172,13 @@ For the scope of this project, two CMake files are present, one in the root dire
 
 Configuration file for CIFuzz.
 It specifies the fuzzing target, corpus location, and other fuzzing parameters for CIFuzz to execute the C++ fuzzing process.
-Go to your project's root folder and initialize it `cifuzz``
+Go to your project's root folder and initialize it `cifuzz init`
 It will create a .yaml file for you that defines the fuzzer's configuration.
 You can make changes to this file according to your project needs.
 
 **Provide the command line you used to do this.**
 
-**What did you change in `cifuzz.yaml`` and why? Provide explanations**
+**What did you change in `cifuzz.yaml` and why? Provide explanations**
 
 Once a project is initialized with `cifuzz`, it must be built with a build system like `bazel` or `CMake`.
 Also, the project contains multiple C++ files such as a source function, a header file and a main.
@@ -326,7 +328,7 @@ Here's the GitHub link to the latest version: INSERT LINKKK//TO BE FINALIZED. SO
 
 **Fork this project repository and using GitHub actions, design a fuzzing job that does the following:
 * Triggers for master branch on every pull/commit request
-* Calls the script to build Dockerfile into a container
+* Calls the script to build the Dockerfile into a container
 * Runs the docker container**
 
 Test your fuzz job in GitHub actions by making small changes to code such as adding an extra space line.
