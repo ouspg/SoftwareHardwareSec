@@ -32,7 +32,7 @@ To pass this course with grade 1, you have to pass the Moodle exams.
 
 To get a better grade, you have to do some laboratory exercises.
 You can somewhat decide what grade you will earn on this course because you can (hopefully!) see from the beginning how much work is required for each grade.
-All laboratory tasks are optional and total points from those will determine your grade. The grading section is presented here.
+All laboratory tasks are optional and total points from those will determine your grade. The grading section is presented [here](#grading).
 ## Getting started
 
 * Enroll in the course
@@ -74,8 +74,15 @@ Total Points|Total Grade
 
 ### Laboratory environment
 
-TBA
+The course requires extensive use of a Linux-based operating system.
+You can use anything you want, but then you might need to figure out how to install some tools by yourself.
+See more general information in [here.](https://ouspg.org/resources/laboratories/)
+
+We will provide custom Arch Linux as pre-tested solution.
+See Moodle workspace for download links.
+
+More information about the Arch Linux is available [here.](https://ouspg.org/resources/archlinux/)
 
 ## License
 
-Any information, guidelines, tutorials, examples, or code pieces here are for teaching purposes, under MIT license, unless otherwise declared
+Any information, guidelines, tutorials, examples, or code pieces here are for teaching purposes, under MIT license, unless otherwise declared.
