@@ -35,8 +35,6 @@ You can somewhat decide what grade you will earn on this course because you can 
 All laboratory tasks are optional and total points from those will determine your grade. The grading section is presented here.
 ## Getting started
 
-Details
-
 * Enroll in the course
 * Find the course's Moodle page from the University's Moodle
 * Find a link where you can receive and create a private repository containing all the return template folders. You are expected to answer for given templates and store your actual work in this repository.
