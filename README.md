@@ -32,25 +32,7 @@ To pass this course with grade 1, you have to pass the Moodle exams.
 
 To get a better grade, you have to do some laboratory exercises.
 You can somewhat decide what grade you will earn on this course because you can (hopefully!) see from the beginning how much work is required for each grade.
-All laboratory tasks are optional and total points from those will determine your grade. The grading section is presented [here](#grading).
-## Getting started
-
-* Enroll in the course
-* Find the course's Moodle page from the University's Moodle
-* Find a link where you can receive and create a private repository containing all the return template folders. You are expected to answer for given templates and store your actual work in this repository.
-* Create a GitHub account, if you don't have one already, and create this private repository from the link.
-* You can see the deadlines below. They are the same in Moodle. There might be exceptions for ChipWhisperer.
-* Complete as many tasks as you wish and update your repository accordingly. Check the grading table found in each lab instructions on what you have to complete to earn the grade of your choosing
-* Push your changes to your repository before the deadline, and return the link to your repository to the corresponding return box of the lab in Moodle.
-
-Check the [cheat sheet](https://training.github.com/downloads/github-git-cheat-sheet.pdf) if you need a refresher on how to use Git.
-Some basic commands below:
-
-```bash
-git add </path/filename>
-git commit -m "<message>"
-git push
-```
+All laboratory tasks are optional and total points from those will determine your grade.
 
 ### Grading
 
@@ -71,6 +53,25 @@ Total Points|Total Grade
 ? | 5
 
 <!-- </details> -->
+
+### Getting started
+
+* Enroll in the course
+* Find the course's Moodle page from the University's Moodle
+* Find a link where you can receive and create a private repository containing all the return template folders. You are expected to answer for given templates and store your actual work in this repository.
+* Create a GitHub account, if you don't have one already, and create this private repository from the link.
+* You can see the deadlines below. They are the same in Moodle. There might be exceptions for ChipWhisperer.
+* Complete as many tasks as you wish and update your repository accordingly. Check the grading table found in each lab instructions on what you have to complete to earn the grade of your choosing
+* Push your changes to your repository before the deadline, and return the link to your repository to the corresponding return box of the lab in Moodle.
+
+Check the [cheat sheet](https://training.github.com/downloads/github-git-cheat-sheet.pdf) if you need a refresher on how to use Git.
+Some basic commands below:
+
+```bash
+git add </path/filename>
+git commit -m "<message>"
+git push
+```
 
 ### Laboratory environment
 
