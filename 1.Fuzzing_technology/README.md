@@ -1,4 +1,4 @@
-Software and Harware Security Lab 1: Introduction to Software and Fuzz Testing
+Software and Hardware Security Lab 1: Introduction to Software and Fuzz Testing
 ====
 
 Responsible person/main contact: Asad Hasan
@@ -8,6 +8,7 @@ Responsible person/main contact: Asad Hasan
 * Create a GitHub account if you don't already have one
 * Create your answer repository from the provided link in Moodle space, **as instructed TODO [here](../README.md#instructions)**
 * Check the instructions on how to download and use the course's Arch Linux virtual machine
+    * Instructions are available [here](https://ouspg.org/resources/laboratories/). You will find the download link from the Moodle workspace.
     * If you want to use your own computer, download and install Virtualbox to run the virtual machine. VMWare Player should work also.
 * Get familiar with the documentation for the following tools:
     * [Radamsa](https://gitlab.com/akihe/radamsa)
@@ -261,7 +262,7 @@ __Hint__: Make sure that you are actually running the UnRTF with a crash file! I
 > If valgrind is not installed on your virtual machine, you can install it with: "sudo apt install valgrind" on Kali Linux and "sudo pacman -S valgrind" on Arch Linux
 > You also need to install dependencies for it to work:
 
-> o Kali Linux: 
+> o Kali Linux:
 > sudo apt update
 
 > sudo apt install valgrind automake autoconf libc6-dbg
@@ -353,7 +354,7 @@ In the context of fuzzing, mutation refers to the process of generating new test
 
 Design a mutator that takes a valid URL as input and creates its mutations.
 Sample seed input that could be used: http://www.google.com/search?q=fuzzing
-Run your mutator for 4 minutes. 
+Run your mutator for 4 minutes.
 
 **How many mutated inputs were generated in 4 minutes?**
 
