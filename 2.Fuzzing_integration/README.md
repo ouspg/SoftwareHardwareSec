@@ -297,8 +297,8 @@ Your task is to do the following:
 * **Apply the patch using**:
 
 ```shell
-~$ git apply --check /path/to/your/patch-file.patch
-~$ git apply /path/to/your/patch-file.patch
+git apply --check /path/to/your/patch-file.patch
+git apply /path/to/your/patch-file.patch
 ```
 * After successfully applying the patch, run fuzzer again
 
@@ -314,22 +314,22 @@ Your next task is to automate the process of fuzzing for the project calculator.
 The latest version of ProjectX has been packed into Docker by the DevOps team and they have left the following note:
 
       **_Notes from DevOps_**
-      ProjectX now comes packed into a docker container with a fuzzer integrated. Moreover, we changed the build system from CMake to bazel.
+      ProjectX now comes packed into a Docker container with a fuzzer integrated. Moreover, we changed the build system from CMake to bazel.
 
-      Newer version of ProjectX contains following:
+      Newer version of ProjectX contains the following:
       * All ProjectX C++ files
       * Project built with bazel instead of CMake
       * Cifuzz integrated
-      * Fuzzer set to timeout after 10minutes to save resources
-      * Docker container which conatins project + fuzzer
+      * Fuzzer set to timeout after 10 minutes to save resources
+      * Docker container which contains project + fuzzer
 
 
 Here's the GitHub link to the latest version: INSERT LINKKK//TO BE FINALIZED. SOLUTION IS PRESENT HERE FOR REFERENCE: https://github.com/ouspg/ProjectX1.2 in master branch!!!
 
 **Fork this project repository and using GitHub actions, design a fuzzing job that does the following:
-* Triggers for master branch on every pull/commit request
+* Triggers for a master branch on every pull/commit request
 * Calls the script to build the Dockerfile into a container
-* Runs the docker container**
+* Runs the Docker container**
 
 Test your fuzz job in GitHub actions by making small changes to code such as adding an extra space line.
 Commit the changes and this should trigger your workflow to run.
@@ -351,20 +351,21 @@ Fuzzing results can be gathered from the workflow (actions) log files and can al
 
 ### Implement CI pipeline and fuzz an existing software or a project w.r.t. automation
 
-This is a free-form task where you will integrate a fuzzer into an existing project and design a CI pipeline which triggers on each pull/commit request.
+This is a free-form task where you will integrate a fuzzer into an existing project and design a CI pipeline that triggers on each pull/commit request.
 
 Here's what you need to do:
 * Find a project or use one of your own
 * Create a repository in Github and upload your project there
 * Clone the repository and work to integrate a fuzzer of your choice
 * Push the changes and design a Github actions workflow
-* Github actions workflow file should trigger fuzzer on each code changes and log results
-* A better implemented workflow would store bugs found as artifacts
+* GitHub actions workflow file should trigger fuzzer on each code change and log results
+* A better-implemented workflow would store bugs found as artifacts
 
-There is no restriction to the choice of software or platform that students use for this task. Main idea behind this task is to integrate fuzz automation into an existing software. **If you want to design a CI pipeline outside
-Github you are free to do so, but discuss with TAs before-hand.**
+There is no restriction to the choice of software or platform that students use for this task.
+The main idea behind this task is to integrate fuzz automation into existing software. **If you want to design a CI pipeline outside
+GitHub you are free to do so, but discuss it with TAs before-hand.**
 
-This task can be completed with cifuzz or any other fuzzer which supports continuous integration (CI) such as:
+This task can be completed with cifuzz or any other fuzzer that supports continuous integration (CI) such as:
 - [OSS-fuzz](https://github.com/google/oss-fuzz)
    Sample guide: https://google.github.io/oss-fuzz/getting-started/continuous-integration/
 
@@ -375,16 +376,16 @@ For CI, Gitlab can also be used:
 
 
 
-If you are unable to find any project for this task, you can utilize the source code of [ProjectX](https://github.com/ouspg/ProjectX). However, it is recommended to pick-up a project
-from Github, fork it and try to fuzz automate it. 2 points will be awarded for a well implemented CI pipeline with fuzz automation.
+If you are unable to find any project for this task, you can utilize the source code of [ProjectX](https://github.com/ouspg/ProjectX). However, it is recommended to pick up a project
+from Github, fork it and try to fuzz automate it. 2 points will be awarded for a well-implemented CI pipeline with fuzz automation.
 
 **Document your work properly for this task and include necessary screenshots and commands used**
 
 **You should state clearly which project and fuzzer you are going to use and on which platform CI pipeline would be implemented**
 
-**Include link to your project repository/work. Make sure to test the pipeline and share fuzzing results and/or logs**
+**Include a link to your project repository/work. Make sure to test the pipeline and share fuzzing results and/or logs**
 
-**In-case of partial implementation, write a brief report on issues and roadblocks encountered**
+**In case of partial implementation, write a brief report on issues and roadblocks encountered**
 
 
 ---
