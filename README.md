@@ -42,15 +42,16 @@ All laboratory tasks are optional and total points from those will determine you
 As described earlier, you have to pass Moodle exams to pass the course.
 You can have higher grades by doing lab work.
 
-You can get up to 5 points in each lab (A total of ? points).
+You can get up to 5 points in each lab (A total of 35 points).
 The grade is determined based on those points.
+For example, with 12 points you get grade 2.
 
 Total Points|Total Grade
 :-:|:-:
-12 | 2
-18 | 3
-24 | 4
-30 | 5
+12+ | 2
+18+ | 3
+24+ | 4
+30+ | 5
 
 <!-- </details> -->
 
