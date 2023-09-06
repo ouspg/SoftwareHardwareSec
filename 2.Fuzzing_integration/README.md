@@ -329,29 +329,32 @@ The latest version of ProjectX has been packed into Docker by the DevOps team an
       * Project built with bazel instead of CMake
       * Cifuzz integrated
       * Fuzzer set to timeout after 10 minutes to save resources
-      * Docker container which contains project + fuzzer
+      * Docker container
 
 
-Here's the GitHub link to the latest version: INSERT LINKKK//TO BE FINALIZED. SOLUTION IS PRESENT HERE FOR REFERENCE: https://github.com/ouspg/ProjectX1.2 in master branch!!!
+Here's the GitHub [link](https://github.com/ouspg/ProjectX2) to the latest version.
 
-**Fork this project repository and using GitHub actions, design a fuzzing job that does the following:
-* Triggers for a master branch on every pull/commit request
+**Implement [this](https://github.com/ouspg/ProjectX2) project on your return repository and using GitHub actions, design a fuzzing job that does the following:**
+* Triggers for main branch on every pull/commit request
 * Calls the script to build the Dockerfile into a container
 * Runs the Docker container**
 
 Test your fuzz job in GitHub actions by making small changes to code such as adding an extra space line.
-Commit the changes and this should trigger your workflow to run.
+Commit changes and this should trigger your workflow to run.
 
 **Investigate workflow run logs**
 
-Inspect workflow run to locate fuzzing results. **Paste screenshot**
+Inspect workflow run to locate fuzzing results. **Paste screenshots showing all results and fuzzing summary**
 
-If workflow fails to run, try to debug it for errors. You might be doing something wrong.
+If workflow fails to run, try to debug it for errors. You might be doing something wrong. Latest project repository
+provided by DevOps contains a README.md file with steps how to procced.
 
 
 The idea behind fuzz automation is that the fuzzer runs automatically for a specified duration whenever there are code changes.
 Since TechnoTech utilizes GitHub, your fuzzer should trigger on any latest commit.
 Fuzzing results can be gathered from the workflow (actions) log files and can also be exported to an external file by including the appropriate code in your workflow file.
+
+
 
 ---
 
