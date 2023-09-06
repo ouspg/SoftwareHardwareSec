@@ -8,6 +8,7 @@ Before starting with the exercise, it is recommended to read the first two chapt
 
 Some concepts from there are also summarised here.
 
+We cover only cover Linux operating system in this exercise, while many similarities can also be found in Windows..
 
 
 ## Background
@@ -106,7 +107,7 @@ The computer stack is like a stack of books.
 
 1. You can only add (push) or remove (pop) a book from the top. (aka FILO (first in, last out))
 2. It's used to keep track of operations like function calls: when a function starts, its details are added (pushed) to the stack, and when it ends, they are removed (popped).
-3. If you add too many books beyond the stack's limit, they'll fall off, we have a buffer overflow, or more precisely, "stack overflow".
+3. If you add too many books beyond the stack's limit, they'll fall off, we have a buffer overflow, or more precisely, "stack buffer overflow".
 
 When an application runs, it uses the stack and registers to manage the program's execution flow. The stack is split into frames, each holding data from functions that haven't yet been completed. These frames store local variables, parameters of potential function calls, return addresses, and more. For instance, if a program has three nested function calls, it would generate three stack frames.
 
@@ -123,12 +124,38 @@ Below is a simplified example from a stackframe of a 32-bit program, where the f
 | `0xffbfe134`   | `EBP for funcB()`            | Base pointer (EBP) for `funcB()`        |
 | ...            | ...                          | ...                                     |
 
+For more information, read the chapter 2.3 Stack buffer overflows in "Low-Level Software Security for Compiler Developers" [^5]
+
+## Dangers of the overflow
+
+While the stack grows towards the lower memory address, the overflow of the local variables goes towards a higher memory address.
+Let's see the illustration below.
+
+```sql
+|---------------------|
+| Return Address      |  <-- Higher Memory Address
+|---------------------|
+| Saved Base Pointer  |
+|---------------------|
+| Local Variable 1    |
+|---------------------|
+| Array (e.g., char)  |  <-- Start of local array
+|                     |
+|                     |
+|---------------------|  <-- End of local array
+| Local Variable 2    |
+|---------------------|
+| ...                 |  <-- Stack Pointer (Lower Memory Address)
+|---------------------|
+```
+
+
+
+
+
 
 ## Protection mechanics and general tips
 
-
-
-At this point, you should have basic knowledge about how computer stack/memory and registers are working.
 
 You have to use C/C++ programming language in cases when you want to create a program with buffer overflow vulnerability.
 
