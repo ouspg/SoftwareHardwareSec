@@ -2,11 +2,11 @@
 
 ## Background
 
-We often see references for memory bugs and might have encountered them ourselves while programming with some systems programming language, especially in C or C++.
+We often see references for memory errors and might have encountered them ourselves while programming with some systems programming language, especially in C or C++.
 Usually, you see `Segmentation fault` or other undefined behavior when you encounter them.
 
 
-We fuzz test software to especially find memory bugs.
+We fuzz test software, to especially find memory errors (often called bugs).
 Why is this a big deal?
 Historically, memory bugs have caused many security disasters.
 In the worst case, memory bugs can be used to manipulate the execution flow of the program, allowing even arbitrary code execution, or reading unauthorized memory sections.
@@ -19,15 +19,15 @@ In 2023, the most dangerous software weakness was still *Out-of-bounds Write* [^
 
 In this exercise, we will examine the practical implications of memory bugs at a technical level and explore how they've been exploited, particularly through the technique of ***shellcoding***.
 
-As a primary theoretical source, we use the online book "Low-Level Software Security for Compiler Developers" [^5]
+As a primary theoretical source, we use the online book "Low-Level Software Security for Compiler Developers" [^5].
 
 # Introduction
 
-What is a memory bug, or error?
+What is a memory error?
 
 > Memory access errors describe memory accesses that, although permitted by a program, were not intended by the programmer. [^5]
 
-Memory access errors are often defined [^] as:
+Memory access errors are often defined [^6] as:
 
 * buffer overflow
 * null pointer dereference
@@ -35,18 +35,63 @@ Memory access errors are often defined [^] as:
 * use of uninitialized memory
 * illegal free
 
+The software is memory-safe if these errors never happen.
 
 There are usually two main reasons, why dangerous memory bugs are possible.
   * The software takes user-defined input
-  * This input is not validated nor sanitized
+  * This input is not validated nor sanitized, and therefore program flow can be controlled with the input
 
-Input validation and sanitization is one of the major challenges in software development.
+This input validation and sanitization is one of the major challenges in software development.
 You must ensure, that *every* unintended effect from the user-defined input is *prevented* or *handled*.
 
-You want the user to provide a name that is 15 characters at maximum.
+You want the user to provide a name that is 15 characters long at maximum.
 What if they provide 20 characters???
 
 ## Buffer overflows
+
+If you don't handle the lengths larger than 15 characters from the previous example in your program, a so-called _buffer overflow_ could happen.
+
+This error is usually the most dangerous type.
+MITRE top one from 2023 (out-of-bounds write)[^4], goes to this category.
+
+
+To understand why, we need to understand how a computer works on a stack level and the principles of programming languages.
+
+
+The fundamental philosophy of C programming is that "trust the programmer".
+Do not prevent the programmer from doing what needs to be done.
+The programmer has ultimate control but also an ultimate responsibility.
+It means, that they must use memory correctly as well.
+
+In the naive example below, the software compiles so that it reserves a stack space of 15 characters for the `name` variable in a program.
+
+It means, that at maximum, a name with 14 characters, (+ null terminator `\x00`) can fit into this buffer.
+The programmer should know, that the null terminator also takes space.
+
+```c
+#include <stdio.h>
+
+int main() {
+    char name[15];
+
+    printf("Please enter your name: ");
+    scanf("%s", name);
+
+    printf("Hello, %s!\n", name);
+    return 0;
+}
+```
+
+Since we trust the programmer, the program only does what it is programmed to do, it does not check the boundaries of the buffer.
+
+If the end-user provides inputs larger than 14 characters, the buffer will overflow and it takes space in the memory in area, which was not reserved for it.
+
+> "Buffer overflows are Mother Nature's little reminder of that law of physics that says: if you try to put more stuff into a container than it can hold, you're going to make a mess." [^7]
+
+We mainly focus on buffer overflows in this exercise.
+
+## Understanding the stack
+
 
 
 [^0]: [The Internet Worm of 1988](https://web.archive.org/web/20070520233435/http://world.std.com/~franl/worm.html)
@@ -56,3 +101,4 @@ What if they provide 20 characters???
 [^4]: [2023 CWE Top 25 Most Dangerous Software Weaknesses](https://cwe.mitre.org/top25/archive/2023/2023_top25_list.html)
 [^5]: [Low-Level Software Security for Compiler Developers](https://llsoftsec.github.io/llsoftsecbook/)
 [^6]: [SoK: Eternal War in Memory](https://ieeexplore.ieee.org/document/6547101?arnumber=6547101)
+[^7]: [2009 CWE/SANS Top 25 Most Dangerous Programming Errors](https://cwe.mitre.org/top25/archive/2009/2009_cwe_sans_top25.html)
