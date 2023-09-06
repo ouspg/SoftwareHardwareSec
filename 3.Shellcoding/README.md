@@ -8,7 +8,7 @@ Before starting with the exercise, it is recommended to read the first two chapt
 
 Some concepts from there are also summarised here.
 
-We cover only cover Linux operating system in this exercise, while many similarities can also be found in Windows..
+We cover only cover Linux operating system in this exercise, while many similarities can also be found from other modern operating systems.
 
 
 ## Background
@@ -32,7 +32,7 @@ In this exercise, we will examine the practical implications of memory bugs at a
 
 As a primary theoretical source, we use the online book "Low-Level Software Security for Compiler Developers" [^5].
 
-# Grading
+## Grading
 
 <details open><summary>Details </summary>
 Make a short step-by-step report (what, why and how) of the following tasks, and include source codes and the most important command line commands used in those tasks.
@@ -67,6 +67,7 @@ There will be an answer template.*
 </details>
 
 # Introduction
+<details open><summary>Details </summary>
 
 What is a memory error?
 
@@ -84,7 +85,7 @@ The software is memory-safe if these errors never happen.
 
 There are usually two main reasons, why dangerous memory bugs are possible.
   * The software takes user-defined input
-  * This input is not validated nor sanitized, and therefore program flow can be controlled with the input
+  * This input is not validated nor sanitized, and therefore program flow can be controlled with the input, originally in unintended ways
 
 This input validation and sanitization is one of the major challenges in software development.
 You must ensure, that *every* unintended effect from the user-defined input is *prevented* or *handled*.
@@ -127,7 +128,7 @@ int main() {
 }
 ```
 
-Since we trust the programmer, the program only does what it is programmed to do, it does not check the boundaries of the buffer in this case.
+Since the compiler trusts the programmer, the program only does what it is programmed to do, it does not check the boundaries of the buffer in this case.
 
 If the end-user provides inputs larger than 14 characters, the buffer will overflow and it takes space in the memory in the area, which was not reserved for it.
 
@@ -182,18 +183,46 @@ Let's see the illustration below.
 |---------------------|
 ```
 
-If the content of `Variable 1` is larger than the reserved space for it, content **overwrites** existing data, which is critical for the execution flow of the program.
+When the data stored in `Variable 1`` exceeds its allocated space on the stack, it can overwrite adjacent memory regions, which are essential for controlling the program's execution flow.
 
-If the return address can be changed, it changes how the whole program functions.
-What if the replaced content points towards a valid memory address with malicious code?
+If an attacker successfully overwrites the return address, they can dictate where the program resumes execution next. Suppose the manipulated return address points to a location containing malicious instructions. In that case, the program will unwittingly execute this code.
 
-In the old days, there weren't any compiler-level protections to check if this had happened, and such bugs allowed arbitrary code execution in some cases.
-
+In earlier computing eras, many compilers lacked mechanisms to detect or prevent such overflows.
+Consequently, these vulnerabilities sometimes led to arbitrary code execution by exploiting such weaknesses.
 
 For more information, read the chapter 2.3 Stack buffer overflows in "Low-Level Software Security for Compiler Developers" [^5]
 
-## Task 1:
+## Shellcoding
 
+</details>
+
+# Task 1: Analyzing buffer overflow and changing execution flow
+
+Let's see how this happens in practice.
+
+In this initial task, we are using a simple program with a buffer overflow vulnerability.
+With specifically crafted input, we will change the behavior to something unintended for the program but intended for us.
+
+We have the following code, (also located in `src/vuln_progs`)
+
+```c
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void stackoverflow(char* string) {
+    char buffer[20];
+    strcpy(buffer, string);
+    printf("%s\n", buffer);
+}
+
+int main(int argc, char** argv) {
+    printf("Starting very vulnerable program...\n");
+    printf("Printing arguments of the program: \n");
+    stackoverflow(argv[1]);
+    return 0;
+}
+```
 
 ## Protection mechanics and general tips
 
