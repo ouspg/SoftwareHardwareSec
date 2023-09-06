@@ -1,5 +1,15 @@
 # Shellcoding and exploits
 
+## Pre-requisites
+
+This exercise requires a deep understanding of how computer stack works, how underlying memory is managed and the basics of assembly language.
+
+Before starting with the exercise, it is recommended to read the first two chapters from the book "Low-Level Software Security for Compiler Developers" [^5] and the paper "Smashing The Stack For Fun And Profit"  [^1].
+
+Some concepts from there are also summarised here.
+
+
+
 ## Background
 
 We often see references for memory errors and might have encountered them ourselves while programming with some systems programming language, especially in C or C++.
@@ -82,9 +92,9 @@ int main() {
 }
 ```
 
-Since we trust the programmer, the program only does what it is programmed to do, it does not check the boundaries of the buffer.
+Since we trust the programmer, the program only does what it is programmed to do, it does not check the boundaries of the buffer in this case.
 
-If the end-user provides inputs larger than 14 characters, the buffer will overflow and it takes space in the memory in area, which was not reserved for it.
+If the end-user provides inputs larger than 14 characters, the buffer will overflow and it takes space in the memory in the area, which was not reserved for it.
 
 > "Buffer overflows are Mother Nature's little reminder of that law of physics that says: if you try to put more stuff into a container than it can hold, you're going to make a mess." [^7]
 
@@ -92,6 +102,56 @@ We mainly focus on buffer overflows in this exercise.
 
 ## Understanding the stack
 
+The computer stack is like a stack of books.
+
+1. You can only add (push) or remove (pop) a book from the top. (aka FILO (first in, last out))
+2. It's used to keep track of operations like function calls: when a function starts, its details are added (pushed) to the stack, and when it ends, they are removed (popped).
+3. If you add too many books beyond the stack's limit, they'll fall off, we have a buffer overflow, or more precisely, "stack overflow".
+
+When an application runs, it uses the stack and registers to manage the program's execution flow. The stack is split into frames, each holding data from functions that haven't yet been completed. These frames store local variables, parameters of potential function calls, return addresses, and more. For instance, if a program has three nested function calls, it would generate three stack frames.
+
+Below is a simplified example from a stackframe of a 32-bit program, where the function B is called before function A.
+
+| Memory Address | Content                      | Description                             |
+|:--------------:|:----------------------------:|:---------------------------------------:|
+| `0xffbfe14c`   | `Local Variable of funcA()`  | A local variable from `funcA()`         |
+| `0xffbfe148`   | `Local Variable of funcA()`  | Another local variable from `funcA()`   |
+| `0xffbfe144`   | `Return Address for funcA()` | The return address after `funcA()` completes |
+| `0xffbfe140`   | `EBP for funcA()`            | Base pointer (EBP) for `funcA()`        |
+| `0xffbfe13c`   | `Local Variable of funcB()`  | A local variable from `funcB()`         |
+| `0xffbfe138`   | `Return Address for funcB()` | The return address after `funcB()` completes |
+| `0xffbfe134`   | `EBP for funcB()`            | Base pointer (EBP) for `funcB()`        |
+| ...            | ...                          | ...                                     |
+
+
+## Protection mechanics and general tips
+
+
+
+At this point, you should have basic knowledge about how computer stack/memory and registers are working.
+
+You have to use C/C++ programming language in cases when you want to create a program with buffer overflow vulnerability.
+
+Tasks are possible to do in both 32 - and 64-bit machine instructions as long as the machine has support for them. Implementation will differ and be more challenging depending on the version. It's recommended to use the 32-bit version since you can find more examples from it.
+
+Task 3A is not possible to do with the latest Ubuntu, Arch Linux or any mature Linux environment which is intended for daily use.
+
+You might have to note following Linux protections
+
+ * Stack canaries (SSP)
+ * Non-executable pages or stacks (NX)
+ * Address Space Layout Randomization (ASLR)
+ * Less known, no need to note unless specified in the task: (ASCII ARMOR, RELRO, PIE, D_FORTIFY_SOURCE, PTR_MANGLE)
+
+    Check from here for some compiler flags.
+
+Find a way to disable them if needed. Most are compiler options.
+
+More information about protections in Ubuntu (and overall) can be found here.
+
+On later tasks, we try to bypass some of them: specifically mentioning not to disable them.
+
+Encoding significantly matters in these tasks, for example, Python 2 print produces just data, whereas Python 3 print produces encoded string by default.
 
 
 [^0]: [The Internet Worm of 1988](https://web.archive.org/web/20070520233435/http://world.std.com/~franl/worm.html)
