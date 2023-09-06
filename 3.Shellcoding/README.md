@@ -67,9 +67,13 @@ There will be an answer template.*
 </details>
 
 # Introduction
-<details open><summary>Details </summary>
 
-What is a memory error?
+Right below is a summary of memory errors and their dangers.
+If you already know these things or have read the previously mentioned book, you can go directly to the task assignments.
+
+<details closed><summary>Collapsed content </summary>
+
+## What is a memory error?
 
 > Memory access errors describe memory accesses that, although permitted by a program, were not intended by the programmer. [^5]
 
@@ -95,7 +99,7 @@ What if they provide 20 characters???
 
 ## Buffer overflows
 
-If you don't handle the lengths larger than 15 characters from the previous example in your program, a so-called _buffer _overflow_ could happen if a boundary check is not implemented automatically by the programming language.
+If you don't handle the lengths larger than 15 characters from the previous example in your program, a so-called _buffer overflow_ could happen if a boundary check is not implemented automatically by the programming language.
 
 This error is usually the most dangerous type.
 MITRE top one from 2023 (out-of-bounds write)[^4], goes to this category.
@@ -194,16 +198,17 @@ For more information, read the chapter 2.3 Stack buffer overflows in "Low-Level 
 
 ## Shellcoding
 
-The term "shellcoding" simply comes from the scenario, when these memory bugs have been exploited in a way, that they finally open the computer's shell as a result.
+The term "***shellcoding***" simply comes from the scenario, when these memory bugs have been exploited in a way, that they finally open the computer's shell as a result.
 
-Dictating execution flow in vulnerable programs could also lead to privilege escalation.
-The vulnerable program which is running with system privileges could execute arbitrary code with the same privileges.
-In the past, if a payload could spawn a shell, it was done with system privileges.
-However, modern UNIX systems do not transfer SUID rights by default anymore.
+Manipulating the execution flow of susceptible programs can potentially result in privilege escalation.
+A program with vulnerabilities, when run with system-level privileges, might unintentionally run arbitrary code with those elevated rights.
+Historically, if a payload was capable of launching a shell, it operated with system-level permissions.
+Yet, contemporary UNIX systems no longer grant SUID permissions by default.
 
 Acquiring shell access this way usually leads to full control of the system. This has led to shell spawning to be one of the most common goals of attackers.
 
 </details>
+<br>
 
 # Task 1: Analyzing buffer overflow and changing execution flow
 
