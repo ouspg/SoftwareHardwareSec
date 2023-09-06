@@ -97,9 +97,9 @@ You will use CIFUZZ as a fuzzing tool for tasks 1-3.
 To build your C++ project correctly with `cifuzz`, you will be using CMake.
 Documentation for CMake is widely available online for example:
 
-https://cmake.org/cmake/help/latest/index.html
+[CMake Reference](https://cmake.org/cmake/help/latest/index.html)
 
-https://cmake.org/cmake/help/latest/guide/tutorial/A%20Basic%20Starting%20Point.html#exercise-1-building-a-basic-project
+CMake another [reference](https://cmake.org/cmake/help/latest/guide/tutorial/A%20Basic%20Starting%20Point.html#exercise-1-building-a-basic-project)
 
 **Check *prerequisites* if you haven't at this point!**
 
@@ -208,6 +208,7 @@ By now, your fuzzer should be correctly linked across the calculator project and
 
 
 In-case you are struggling with this task, refer to this cifuzz [example](https://github.com/CodeIntelligenceTesting/cifuzz/tree/main/examples/cmake).
+
 ---
 
 ## Task 2
