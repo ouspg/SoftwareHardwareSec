@@ -1,4 +1,4 @@
-# Shellcoding and exploits
+# Exercise 3: Shellcoding and exploits
 
 ## Pre-requisites
 
@@ -8,7 +8,7 @@ Before starting with the exercise, it is recommended to read the first two chapt
 
 Some concepts from there are also summarised here.
 
-We cover only cover Linux operating system in this exercise, while many similarities can also be found from other modern operating systems.
+We only cover the Linux operating system in this exercise, while many similarities can also be found with other modern operating systems.
 
 
 ## Background
@@ -95,7 +95,7 @@ What if they provide 20 characters???
 
 ## Buffer overflows
 
-If you don't handle the lengths larger than 15 characters from the previous example in your program, a so-called _buffer overflow_ could happen.
+If you don't handle the lengths larger than 15 characters from the previous example in your program, a so-called _buffer _overflow_ could happen if a boundary check is not implemented automatically by the programming language.
 
 This error is usually the most dangerous type.
 MITRE top one from 2023 (out-of-bounds write)[^4], goes to this category.
@@ -183,7 +183,7 @@ Let's see the illustration below.
 |---------------------|
 ```
 
-When the data stored in `Variable 1`` exceeds its allocated space on the stack, it can overwrite adjacent memory regions, which are essential for controlling the program's execution flow.
+When the data stored in `Variable 1` exceeds its allocated space on the stack, it can overwrite adjacent memory regions, which are essential for controlling the program's execution flow.
 
 If an attacker successfully overwrites the return address, they can dictate where the program resumes execution next. Suppose the manipulated return address points to a location containing malicious instructions. In that case, the program will unwittingly execute this code.
 
@@ -193,6 +193,15 @@ Consequently, these vulnerabilities sometimes led to arbitrary code execution by
 For more information, read the chapter 2.3 Stack buffer overflows in "Low-Level Software Security for Compiler Developers" [^5]
 
 ## Shellcoding
+
+The term "shellcoding" simply comes from the scenario, when these memory bugs have been exploited in a way, that they finally open the computer's shell as a result.
+
+Dictating execution flow in vulnerable programs could also lead to privilege escalation.
+The vulnerable program which is running with system privileges could execute arbitrary code with the same privileges.
+In the past, if a payload could spawn a shell, it was done with system privileges.
+However, modern UNIX systems do not transfer SUID rights by default anymore.
+
+Acquiring shell access this way usually leads to full control of the system. This has led to shell spawning to be one of the most common goals of attackers.
 
 </details>
 
