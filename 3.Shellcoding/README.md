@@ -2,7 +2,7 @@
 
 ## Pre-requisites
 
-This exercise requires a deep understanding of how computer stack works, how underlying memory is managed and the basics of assembly language.
+This exercise requires a deep understanding of how a computer stack works, how it manages the underlying memory, and the basics of assembly language.
 
 Before starting with the exercise, it is recommended to read the first two chapters from the book "Low-Level Software Security for Compiler Developers" [^5] and the paper "Smashing The Stack For Fun And Profit"  [^1].
 
@@ -31,6 +31,40 @@ In 2023, the most dangerous software weakness was still *Out-of-bounds Write* [^
 In this exercise, we will examine the practical implications of memory bugs at a technical level and explore how they've been exploited, particularly through the technique of ***shellcoding***.
 
 As a primary theoretical source, we use the online book "Low-Level Software Security for Compiler Developers" [^5].
+
+# Grading
+
+<details open><summary>Details </summary>
+Make a short step-by-step report (what, why and how) of the following tasks, and include source codes and the most important command line commands used in those tasks.
+It's recommended to read all tasks before starting.
+
+Actual instructions for what to do are ***in bold and italics*** on each task.
+
+You are eligible for the following grades in this exercise by doing tasks as defined. Great ideas and implementations could compensate for some poorly implemented ones.
+*Upper grade requires that all previous tasks have been done as well.*
+
+It is estimated that you can do Tasks 1 & 2 during the lab session (4 hours).
+
+Tasks 3 & 4 are more advanced than earlier ones. Implementation will very likely take much more time.
+
+Task|Grade/Level|Description|
+----|:---:|-----------|
+[Task 1](#task-1--basics-of-buffer-overflows "Task 1 : Basics of buffer overflows") | 1 |  Analyzing buffer overflow and changing execution flow
+[Task 2](#task-2--arbitrary-code-execution "Task 2 : Arbitrary code execution") | 2 - 3| Arbitrary code execution in the vulnerable program
+[Task 3](#task-3--defeating-no-execute "Task 3 : Defeating No-eXecute") | 4 | Code reuse attack techniques: ret2libc & ROP
+[Task 4](#task-4--a-bit-more-advanced-rop-implementation "Task 4 : A bit more advanced ROP implementation") | 5 | A bit more advanced ROP implementation
+
+By completing Task 1, grade 1 can be achieved.
+
+By doing Task 2 A&B, you are eligible for grade 2 from this lab. Completion of the C part increases the grade to 3.
+
+Difficulty on tasks is expected to rise exponentially as you go forward with them.
+Without understanding the previous task, the next one could be very ambiguous.
+
+*Return completed tasks to your private GitHub repository!
+There will be an answer template.*
+
+</details>
 
 # Introduction
 
@@ -124,7 +158,6 @@ Below is a simplified example from a stackframe of a 32-bit program, where the f
 | `0xffbfe134`   | `EBP for funcB()`            | Base pointer (EBP) for `funcB()`        |
 | ...            | ...                          | ...                                     |
 
-For more information, read the chapter 2.3 Stack buffer overflows in "Low-Level Software Security for Compiler Developers" [^5]
 
 ## Dangers of the overflow
 
@@ -149,9 +182,17 @@ Let's see the illustration below.
 |---------------------|
 ```
 
+If the content of `Variable 1` is larger than the reserved space for it, content **overwrites** existing data, which is critical for the execution flow of the program.
+
+If the return address can be changed, it changes how the whole program functions.
+What if the replaced content points towards a valid memory address with malicious code?
+
+In the old days, there weren't any compiler-level protections to check if this had happened, and such bugs allowed arbitrary code execution in some cases.
 
 
+For more information, read the chapter 2.3 Stack buffer overflows in "Low-Level Software Security for Compiler Developers" [^5]
 
+## Task 1:
 
 
 ## Protection mechanics and general tips
