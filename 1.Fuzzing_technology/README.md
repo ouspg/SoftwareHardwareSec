@@ -6,7 +6,7 @@ Responsible person/main contact: Asad Hasan
 ## Preliminary tasks
 
 * Create a GitHub account if you don't already have one
-* Create your answer repository from the provided link in Moodle [space](https://moodle.oulu.fi/course/view.php?id=18470), **as instructed [here](../README.md#instructions)**
+* Create your answer repository from the provided link in [Moodle space](https://moodle.oulu.fi/course/view.php?id=18470), **as instructed [here](../README.md#instructions)**
 * Check the instructions on how to download and use the course's Arch Linux virtual machine
     * Instructions are available [here](https://ouspg.org/resources/laboratories/). You will find the download link from the Moodle workspace.
     * If you want to use your own computer, download and install Virtualbox to run the virtual machine. VMWare Player should work also.
@@ -40,7 +40,7 @@ A small introduction to each tool used in this exercise is provided before its a
 
 ## Background
 
-This week’s theme is software and fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course main page]([https://github.com/ouspg/CompSec](https://moodle.oulu.fi/course/view.php?id=18470&section=3#tabs-tree-start)) for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
+This week’s theme is software and fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course practical assignments page]([https://github.com/ouspg/CompSec](https://moodle.oulu.fi/course/view.php?id=18470&section=3#tabs-tree-start)) for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
 
 
 ## Grading
@@ -107,9 +107,9 @@ assert my_sqrt(9) == 3
 
 **Design a test suite with multiple assert statements and provide a screenshot of your results**
 
-More reading: https://www.fuzzingbook.org/html/Intro_Testing.html
+For more reading [follow](https://www.fuzzingbook.org/html/Intro_Testing.html)
 
-Credits: https://www.fuzzingbook.org/html/Intro_Testing.html
+[Credits](https://www.fuzzingbook.org/html/Intro_Testing.html)
 
 
 ## INTRODUCTION TO FUZZ TESTING a.k.a. 'FUZZING'
