@@ -301,7 +301,6 @@ The developer team has fixed the reported bug and has created a patch fix for it
 Your task is to do the following:
 * **Download and extract the patch into your project's root directory** Download [Patch File](./files/0001-Updated-calculator-code.tar.xz).
 
-.
 * **Apply the patch using**:
 
 ```shell
@@ -337,7 +336,7 @@ Here's the GitHub [link](https://github.com/ouspg/ProjectX2) to the latest versi
 **Implement [this](https://github.com/ouspg/ProjectX2) project on your return repository and using GitHub actions, design a fuzzing job that does the following:**
 * Triggers for main branch on every pull/commit request
 * Calls the script to build the Dockerfile into a container
-* Runs the Docker container**
+* Runs the Docker container
 
 Test your fuzz job in GitHub actions by making small changes to code such as adding an extra space line.
 Commit changes and this should trigger your workflow to run.
