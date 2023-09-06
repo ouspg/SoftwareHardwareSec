@@ -172,7 +172,7 @@ For the scope of this project, two CMake files are present, one in the root dire
 
 Configuration file for CIFuzz.
 It specifies the fuzzing target, corpus location, and other fuzzing parameters for CIFuzz to execute the C++ fuzzing process.
-Go to your project's root folder and initialize it `cifuzz init`
+Go to your project's root folder and initialize it with command `cifuzz init`
 It will create a .yaml file for you that defines the fuzzer's configuration.
 You can make changes to this file according to your project needs.
 
@@ -192,8 +192,8 @@ Look for hints within CMake files
 
 ---
 
-### **B) Create an empty fuzz test file**
-Create an empty fuzz test file in folder <ProjectX/test> called ```test1```. You will use this file to write your fuzz test cases in task 2 to generate mutated inputs to test your calculator function.
+### **B) Create an empty fuzz test template file**
+Create an empty fuzz test template file in folder <ProjectX/test> called ```test1```. You will use this file to write your fuzz test cases in task 2 to generate mutated inputs to test your calculator function.
 
 **Provide the command line you used to do this.**
 
@@ -206,6 +206,8 @@ By now, your fuzzer should be correctly linked across the calculator project and
 
 **Paste screenshot**
 
+
+In-case you are struggling with this task, refer to this cifuzz [example](https://github.com/CodeIntelligenceTesting/cifuzz/tree/main/examples/cmake).
 ---
 
 ## Task 2
@@ -215,24 +217,29 @@ By now, your fuzzer should be correctly linked across the calculator project and
 
 **A) Update fuzz test file with correct code**
 
-Go to your empty fuzz test file (test1.cpp) created in task 1 and update it with the correct code to generate input mutations. Afterwards, you will call your function under test in the main program and fuzzer will automatically feed mutated inputs to it using this fuzz test file!
+Go to your empty fuzz test template file (test1.cpp) created in task 1 and update it with the correct code to generate input mutations. Afterwards, you will call your function under test in the main program and fuzzer will automatically feed mutated inputs to it using this fuzz test file!
 
-Write your code in the following function only:
+Next two things you need to do with this file:
+
+1. Write your code for the following function. Mutation schemes for integer, character etc goes here
 
 ```c++
 FUZZ_TEST(const uint8_t *data, size_t size) {
 /* Your code */
 }
 ```
+2. Include appropriate header files. Check notes below
 
 Notes for fuzz test file:
 
  o Fuzz test must include the header for the target function _<../src/calculator.h>_ and cifuzz _<cifuzz/cifuzz.h>_
 
- o Fuzz test uses the _<fuzzer/FuzzedDataProvider.h>_ header from LLVM. This should be included
+ o Fuzz test file uses the _<fuzzer/FuzzedDataProvider.h>_ header from LLVM. This should be included
 
- o Create input variables and define their mutation scheme. As an example, if one of the input variables is integer, it’s mutation scheme can be defined using LLVM’s _FuzzedDataProvide.h_ header as:
+ o Create input variables and define their mutation scheme. As an example, if one of the input variables is integer, its mutation scheme can be defined using LLVM’s _FuzzedDataProvide.h_ header as:
  ```int num1 = fuzzed_data.ConsumeIntegral<int8_t>();```
+
+ LLVM [documentation](https://releases.llvm.org/5.0.0/docs/LibFuzzer.html#fuzz-target)
 
  o After creating input variables (example: num1, num2, and operator), the fuzz test should call the target function under test within this file. Sample call to a function named _‘calculator’_: ```calculator(num1, operator, num2)```
 
@@ -255,14 +262,14 @@ Write unit test cases within your main file (as a call to calculator function). 
 **C) Run the fuzzer**
 
 By now, `cifuzz` should be correctly integrated with the project and ready to find bugs.
-If you are still experiencing issues, go through [this](https://docs.code-intelligence.com/getting-started/ci-fuzz-cpp-first-bug) tutorial:
+If you are still experiencing issues, go through [this](https://docs.code-intelligence.com/getting-started/ci-fuzz-cpp-first-bug) tutorial.
 
 
 Run your fuzzer and report your findings.
 
 **The command used to run fuzzer**
 
-**Name of bugs, if found any**
+**Name of bugs, if found any. What do they represent?**
 
 ---
 
@@ -291,7 +298,7 @@ Based on your previous fuzzing efforts a bug identified was forwarded to the dev
 The developer team has fixed the reported bug and has created a patch fix for it.
 
 Your task is to do the following:
-* **Download and extract the patch into your project's root directory** Download file manually: [Patch File](./files/0001-New-version-release.-Contains-previous-bug-fix.tar.xz).
+* **Download and extract the patch into your project's root directory** Download [Patch File](./files/0001-Updated-calculator-code.tar.xz).
 
 .
 * **Apply the patch using**:
@@ -302,7 +309,7 @@ git apply /path/to/your/patch-file.patch
 ```
 * After successfully applying the patch, run fuzzer again
 
-**What bugs did you discover now? Is the bug found in task 2 fixed in this patch?**
+**What bugs did you discover now? Explain what they represent if found any? Is the bug found in task 2 fixed in this patch?**
 
 **Add screenshot**
 
@@ -311,7 +318,7 @@ git apply /path/to/your/patch-file.patch
 ### B) Design a fuzzer job
 
 Your next task is to automate the process of fuzzing for the project calculator.
-The latest version of ProjectX has been packed into Docker by the DevOps team and they have left the following note:
+The latest version of ProjectX has been packed into Docker by the DevOps team and they have left following note:
 
       **_Notes from DevOps_**
       ProjectX now comes packed into a Docker container with a fuzzer integrated. Moreover, we changed the build system from CMake to bazel.
