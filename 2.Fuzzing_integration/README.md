@@ -386,7 +386,7 @@ For CI, Gitlab can also be used:
 
 
 
-If you are unable to find any project for this task, you can utilize the source code of [ProjectX](https://github.com/ouspg/ProjectX). However, it is recommended to pick up a project
+If you are unable to find any project for this task, you can utilize the source code of [ProjectX](https://github.com/ouspg/ProjectX) but this might not give you full 2 points. Therefore, it is recommended to pick up a project
 from Github, fork it and try to fuzz automate it. 2 points will be awarded for a well-implemented CI pipeline with fuzz automation.
 
 **Document your work properly for this task and include necessary screenshots and commands used**
