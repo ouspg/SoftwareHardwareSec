@@ -44,7 +44,7 @@ Total points accumulated by doing the exercises reflect the overall grade. You c
 
 * This document contains task descriptions and theory for the fuzz automation lab. If there are any differences between the return template and this file, consider this to be the up-to-date document.
 * **You can use your own computer/virtual machine if you want.** Check the chapter "Prerequisites" for information on what you need to install. This lab has been made to be completed in a Linux environment and tested to work in the provided Arch Linux virtual machine.
-* __Upper scores for this assignment require that all previous tasks in this assignment have been done as well__, so e.g. in order to get the fourth point you will have to complete tasks 1, 2 & 3.
+* __Upper scores for this assignment require that all previous tasks in this assignment have been done as well__, so e.g. in order to get the third point you will have to complete tasks 1, 2 & 3.
 * Check the deadline from Moodle and __remember that you have to return your name (and possibly people you worked together with) and GitHub repository information to Moodle before the deadline.__
 
 
