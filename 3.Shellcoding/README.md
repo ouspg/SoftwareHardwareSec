@@ -324,13 +324,18 @@ Try it out by yourself. It is not necessary, if you are already very familiar wi
 
 What makes this particular (`rip`) register so interesting? What does `ret` instruction have to do with `rip` register in most cases of buffer overflows?
 
-This leads to the conclusion, that in most cases we might need to put our buffer overflow in an external function, and it's recommended to do so in this lab for not making things too hard.
+The answers of these lead into the conclusion, that in most cases we might need to put our buffer overflow in an external function, and it's recommended to do so in this lab for not making things too hard.
 
 You can do this task as 32 - bit or 64 - bit versions. By default, the program is compiled as 64-bit.
 
 In this case, stack canaries might cause problems if you are using a modern distribution; disable them.
 
-> ***Explain briefly the role of the `rip` register and `ret` instruction, and why we are interested in them. Explain what is causing the overflow in [example program. ](src/vuln_progs/Overflow.c).  Further, analyze this program with gdb and try to find a suitable size for overflow (padding size), which starts to fill up the instruction pointer register. You can also make your own program, if you want.***
+> 1. Explain briefly the role of the `rip` register and `ret` instruction, and why we are interested in them.
+
+> 2. Explain what is causing the overflow in [example program. ](src/vuln_progs/Overflow.c)
+
+>3. Further, analyze this program with `gdb` and try to find a suitable size for overflow (padding size), which starts to fill up the instruction pointer register.
+**Provide a screenshot when the overflow occurs and one byte from your input reaches the instruction pointer register.**
 
 ### B) Adding hidden (non-used) function to previous program. (And still executing it)
 
@@ -339,7 +344,9 @@ Let's add a new function to the previously used program , but never actually use
 We are going to execute this function by overflowing the program with specified input (in other words, with our crafted payload).
 
 In this payload, a specific memory address is utilized, which you should be able to identify based on the information provided in Section A.
-To ensure that this address is accurately targeted through buffer overflow, it's essential to use appropriate padding. In brief, by overflowing the buffer with the right amount of padding and inserting the correct memory address, you can redirect the program's execution flow to jump to the specified memory location.
+To ensure that this address is accurately targeted through buffer overflow, it's essential to use appropriate padding.
+
+By overflowing the buffer with the right amount of padding and inserting the correct memory address, you can redirect the program's execution flow to jump to the specified memory location.
 Increment the padding incrementally to fine-tune this process.
 
 Example scenario would be something like this.
@@ -356,14 +363,16 @@ Illegal instruction
 #
 
 ```
-Note, that using a script like above expects program to take input as an argument.
+By using a script like above expects program to take input as an argument.
 Also, the way memory address is actually used as input, is not so straightforward. (Is your system Little- or Big-endian?)
 
-You probably have to disable protections mentioned in prerequisites to be able to succeed. In this case, stack canaries will likely cause problems, if you are using distribution other than Kali Linux.
 
+***Use gdb or similar programs to analyze your program. Disassembling might be helpful. Find a suitable address, and figure out what should be overflowed with it, and how to get the correct values into it, and finally execute the function this way.***
 
+> 1. Return your whole program with new function as code snippet
 
-> ***Find a way to disable these protections. Use gdb or similar programs to analyze your program. Disassembling might be helpful. Find a suitable address, and figure out what should be overflowed with it and how to get the correct values into it, and finally execute the function this way.***
+> 2. Return the command you used for running the function. How did you execute function by just overflowing the input?
+> 3. Take a screenshot when you manage to execute the function.
 
 Tip: If your hidden function contains printing - add a newline ending to the string.
 Otherwise it might not be printing anything that can be actually seen.
