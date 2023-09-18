@@ -66,14 +66,14 @@ There will be an answer template.*
 
 </details>
 
-# Introduction
+## Introduction
 
 Right below is a summary of memory errors and their dangers.
 If you already know these things or have read the previously mentioned book and understood it, you can go directly to the task assignments.
 
 <details closed><summary>Collapsed content </summary>
 
-## What is a memory error?
+### What is a memory error?
 
 > Memory access errors describe memory accesses that, although permitted by a program, were not intended by the programmer. [^5]
 
@@ -97,7 +97,7 @@ You must ensure, that *every* unintended effect from the user-defined input is *
 You want the user to provide a name that is 15 characters long at maximum.
 What if they provide 20 characters???
 
-## Buffer overflows
+### Buffer overflows
 
 If you don't handle the lengths larger than 15 characters from the previous example in your program, a so-called _buffer overflow_ could happen if a boundary check is not implemented automatically by the programming language.
 
@@ -136,11 +136,15 @@ Since the compiler trusts the programmer, the program only does what it is progr
 
 If the end-user provides inputs larger than 14 characters, the buffer will overflow and it takes space in the memory in the area, which was not reserved for it.
 
+In practice, software buffer overflow means that the space reserved for data is insufficient for the data being stored.
+
 > "Buffer overflows are Mother Nature's little reminder of that law of physics that says: if you try to put more stuff into a container than it can hold, you're going to make a mess." [^7]
+
+Conversely, buffer over-read means that read processing might read more than it should.
 
 We mainly focus on buffer overflows in this exercise.
 
-## Understanding the stack
+### Understanding the stack
 
 The computer stack is like a stack of books.
 
@@ -164,7 +168,7 @@ Below is a simplified example from a stackframe of a 32-bit program, where the f
 | ...            | ...                          | ...                                     |
 
 
-## Dangers of the overflow
+### Dangers of the overflow
 
 While the stack grows towards the lower memory address, the overflow of the local variables goes towards a higher memory address.
 Let's see the illustration below.
@@ -196,7 +200,7 @@ Consequently, these vulnerabilities sometimes led to arbitrary code execution by
 
 For more information, read the chapter 2.3 Stack buffer overflows in "Low-Level Software Security for Compiler Developers" [^5]
 
-## Shellcoding
+### Shellcoding
 
 The term "***shellcoding***" simply comes from the scenario, when these memory bugs have been exploited in a way, that they finally open the computer's shell as a result.
 
@@ -222,19 +226,19 @@ Instead, you need to emulate `x86_64` platform.
 
 
 To enable 32-bit support for Arch Linux, uncomment the following line in `/etc/pacman.conf`:
-``` cmd
+```ini
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
 And install `gcc` dependency as
-```cmd
+```bash
 pacman -Sy multilib-devel
 ```
 
 
 For Debian based, install following packages:
 
-```cmd
+```bash
 sudo apt-get install gcc-multilib g++-multilib
 ```
 
@@ -274,7 +278,8 @@ These protections sometimes come with performance impact, and for that reason th
 
 ---
 
-# Task 1: Basics of buffer overflows
+Task 1: Basics of buffer overflows
+---
 
 Let's examine this in a real-world scenario.
 
@@ -304,10 +309,11 @@ int main(int argc, char** argv) {
 
 To get a better understanding of how the stack works, we need to use a debugger.
 
+Go through the tutorial presented [here]() to get started.
 
 
 
----
+----
 Task 3 : Defeating No-eXecute
 ----
 In previous the task we have executed some arbitrary code straight from the stack. This is a bit simple and old method, and has been prevented some (long) time ago.
