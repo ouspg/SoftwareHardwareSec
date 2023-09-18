@@ -1,8 +1,8 @@
-# Exercise 3: Shellcoding and exploits
+# Software and Hardware Security Lab 3: Shellcoding and exploits
 
 ## Pre-requisites
 
-This exercise requires a deep understanding of how a computer stack works, how it manages the underlying memory, and the basics of assembly language.
+This exercise requires a deep understanding of how a computer stack works, how it manages the underlying memory and the basics of assembly language.
 
 Before starting with the exercise, it is recommended to read the first two chapters from the book "Low-Level Software Security for Compiler Developers" [^5] and the paper "Smashing The Stack For Fun And Profit"  [^1].
 
@@ -14,10 +14,10 @@ We only cover the Linux operating system in this exercise, while many similariti
 ## Background
 
 We often see references for memory errors and might have encountered them ourselves while programming with some systems programming language, especially in C or C++.
-Usually, you see `Segmentation fault` or other undefined behavior when you encounter them.
+Usually, you see `Segmentation fault` or other *undefined behavior* [^8] when you encounter them.
 
 
-We fuzz test software, to especially find memory errors (often called bugs).
+We fuzz test software, to especially find memory errors.
 Why is this a big deal?
 Historically, memory bugs have caused many security disasters.
 In the worst case, memory bugs can be used to manipulate the execution flow of the program, allowing even arbitrary code execution, or reading unauthorized memory sections.
@@ -69,7 +69,7 @@ There will be an answer template.*
 # Introduction
 
 Right below is a summary of memory errors and their dangers.
-If you already know these things or have read the previously mentioned book, you can go directly to the task assignments.
+If you already know these things or have read the previously mentioned book and understood it, you can go directly to the task assignments.
 
 <details closed><summary>Collapsed content </summary>
 
@@ -210,14 +210,74 @@ Acquiring shell access this way usually leads to full control of the system. Thi
 </details>
 <br>
 
-# Task 1: Analyzing buffer overflow and changing execution flow
+## General tips
 
-Let's see how this happens in practice.
+You have to use C/C++ programming language in (most) cases when you want to create a program with buffer overflow vulnerability.
+
+Tasks are possible to do in both 32- and 64-bit machine instructions as long as the machine has support for them.
+Use flag `-m32` for `gcc` to compile as 32-bit.
+
+**You cannot use the course VM on ARM-based host machine!**
+Instead, you need to emulate `x86_64` platform.
+
+
+To enable 32-bit support for Arch based Linux, uncomment the following line in `/etc/pacman.conf`:
+```bash
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+And install `gcc` dependency as
+```bash
+pacman -Sy multilib-devel
+```
+
+
+For Debian based, install following packages:
+
+```bash
+sudo apt-get install gcc-multilib g++-multilib
+```
+
+Implementation will differ and be more challenging depending on the version. It's recommended to use the 32-bit version since you can find more examples from it.
+
+Task 3A is not possible to do with the latest Ubuntu, Arch Linux or any mature Linux environment which is intended for daily use.
+
+Encoding significantly matters in these tasks, for example, Python 2 print produces just data, whereas Python 3 print produces encoded string by default.
+
+### Mitigations
+
+You might have to note the following Linux protections.
+You can find most of them from the book[^1].
+
+ * Stack canaries (SSP)
+   * `-fno-stack-protector` gcc compiler flag
+ * Non-executable pages or stacks (NX)
+   * `-z execstack` gcc compiler flag
+ * Address Space Layout Randomization (ASLR)
+   * To disable globally: `echo 0 > /proc/sys/kernel/randomize_va_space`
+ * Less known, no need to note unless specified in the task: (ASCII ARMOR, RELRO, PIE, D_FORTIFY_SOURCE, PTR_MANGLE)
+
+Disable them if required.
+
+On later tasks, we try to bypass some of them: specifically mentioning not to disable them.
+
+#### Control-flow integrity
+
+Modern processors apply even more complex mitigations in order to prevent shellcoding.
+Code-reuse techniques (ROP, JOP) are mitigated by using technique called as *control-flow integrity*.[^9]
+Usually this is applied by using authentication tags for return addresses or adapting *shadow stack* to compare whether the runtime of the program has changed.
+Different manufactures have different names
+
+---
+
+# Task 1: Basics of buffer overflows
+
+Let's examine this in a real-world scenario.
 
 In this initial task, we are using a simple program with a buffer overflow vulnerability.
 With specifically crafted input, we will change the behavior to something unintended for the program but intended for us.
 
-We have the following code, (also located in `src/vuln_progs`)
+We have the following code, (also located in [src/vuln_progs](src/vuln_progs/overflow.c))
 
 ```c
 #include <string.h>
@@ -238,31 +298,150 @@ int main(int argc, char** argv) {
 }
 ```
 
-## Protection mechanics and general tips
+To get a better understanding of how the stack works, we need to use a debugger.
 
 
-You have to use C/C++ programming language in cases when you want to create a program with buffer overflow vulnerability.
 
-Tasks are possible to do in both 32 - and 64-bit machine instructions as long as the machine has support for them. Implementation will differ and be more challenging depending on the version. It's recommended to use the 32-bit version since you can find more examples from it.
 
-Task 3A is not possible to do with the latest Ubuntu, Arch Linux or any mature Linux environment which is intended for daily use.
+---
+Task 3 : Defeating No-eXecute
+----
+In previous the task we have executed some arbitrary code straight from the stack. This is a bit simple and old method, and has been prevented some (long) time ago.
 
-You might have to note following Linux protections
+NX - bit (no-eXecute) [was created][1] to separate areas in memory for storage of instructions and for storage of data.
+Processors will not execute data marked by NX - bit; in practice data which is just 'data'.
 
- * Stack canaries (SSP)
- * Non-executable pages or stacks (NX)
- * Address Space Layout Randomization (ASLR)
- * Less known, no need to note unless specified in the task: (ASCII ARMOR, RELRO, PIE, D_FORTIFY_SOURCE, PTR_MANGLE)
+This makes execution of our payload in the stack very hard, in case when it is stored as input to the vulnerable program's memory area.
 
-    Check from here for some compiler flags.
+But what if we are *not* executing code in the stack?
+THe previous prevention method has led to forming of *code reuse attack techniques* (ret2libc, ROP, JOP, COOP etc.). These techniques are focusing on using existing code to build required functionality. But from where to get code for reusing?
 
-Find a way to disable them if needed. Most are compiler options.
+*Presence of ASLR could be bypassed with specific implementation and combination of these techniques as well, but that will be left outside of this exercise, as it makes things a bit more complicated. Usually it requires information leakage as well. By default it will probably prevent everything that we are doing next.*
 
-More information about protections in Ubuntu (and overall) can be found here.
+From previously mentioned techniques, we are taking a short glance at ret2libc and ROP, which are some basic and original techniques.
 
-On later tasks, we try to bypass some of them: specifically mentioning not to disable them.
+### A) Return-to-libc (aka ret2libc)
 
-Encoding significantly matters in these tasks, for example, Python 2 print produces just data, whereas Python 3 print produces encoded string by default.
+One solution for this is... are libraries. Specifically: dynamic libraries, which are launched only during at the execution of the program.
+We can safely say that it's a very rare case if a program is not using any libraries.
+
+Library functions are not marked by NX - bit : they are existing instructions. By overflowing the stack suitably, we might be able to execute library functions with parameters we want.
+We could craft our payload with the intention of using functions from libraries by overflowing return addresses to point towards them.
+Reusing functions of the vulnerable program is possible as well, but it might not be that beneficial.
+
+One very common library is **libc** (which probably named this method as 'ret2libc'), which grants a lot of flexibility. And the most useful function from there, could be *system()*. By giving */bin/sh* as an argument, we could start a shell.
+If we somehow pass correct argument to the system() function, code isn't executed in the stack, it's executed in the address of system(). This was one of the earliest methods to bypass NX protection.
+
+> ***In this task, you should make an example implementation of this ret2libc method. It could be for example spawning a local shell. This time, **do not** disable NX protection (do not use -z execstack flag in compiler). Disabling other protections is still required. Like previously, make a step by step report(what, why, how) including possible source files and command line commands which lead you to get shell access.***
+
+To be noted:
+* You should check if ASCII Armoring is present in your system. It should be disabled additionally for this task. In some systems, it might not be possible. It is recommended to use Kali Linux in this task.
+* This task is much easier to get done with 32 - bit binaries, because of how function parameters are passed in practice, when compared to a 64-bit system. (Stack vs registers?)
+
+One simple implementation can be found from [this][2] paper for example.
+
+Extra: Method was firstly introduced in [here][3].
+
+### B) Return-oriented programming (aka ROP)
+
+Return-to-libc method brings some limitations: we are very dependant about the libraries' functions and arguments (and vulnerable program's text segment's). Sometimes the overall functionality what we are willing to achieve is very hard to implement with just pure existing functions. With ret2libc technique, pure function calls with parameters are limited only to two calls. This will be explained later.
+
+Return-oriented programming is more sophisticated version of ret2libc;
+instead of reusing library functions, we are additionally reusing **code chunks** (instruction
+sequences) from libraries and from the program itself. These areas are in program's executable memory.
+
+In practise, we are using these sequences, which ends to **ret** instrcution. This instruction is meaningful to us, as we can chain these code chunks (which are usually called as 'gadgets') to build the actual 'bigger' code we need. After gadget is executed, execution flow can be set so, that new gadget will be executed, and so on. By using some special gadgets, we can control the stack so, that we can chain these calls as much as we want.
+
+Intel style example maybe as simple as it can get:
+```shell
+pop eax ;ret
+```
+By giving enough reusable code, ROP is [*Turing complete*][4].
+
+But how we are actually getting and executing these gadgets?
+
+ We could manually disassemble binaries and look for them, but that could take a lot of effort. Luckily there are now some tools what we are able to use.
+
+One very frequently updated and multipurpose tool - [radare2](https://github.com/radare/radare2) is used as example.
+Let's use once again our vulnerable program as target what we created in Task 1. Tutorial for ROP and example for using radare2 (and pwntools) with it, is [here. ](Tutorials/Tutorial3B_Radare2_and_gadgets.md)
+Pwntools is Python library, which helps to generate more controllable and readable payload.
+
+Simple, but practical demonstration of ROP technique can be found [here](https://tc.gts3.org/cs6265/2016/l/lab07-rop/README-tut.txt).
+
+Extra: White paper introducing the ROP can be found [here][5].
+
+> ***Try to get previously mentioned example (ROP_hello) [here](src/pwntools_example/ROP_hello.py) to work by yourself. Next, make simple example implementation of ROP technique. This could be spawning a local shell for example. To not make it same as ret2libc method, print some text before spawning shell, and print also something after exiting the shell. In this way we can apply some ROP - chain.***
+
+Tip: If you are being bit unlucky, and are facing some function addresses containing null bytes in non-Ascii-Armored system, try out some alternative functions. For example putchar function has putchar_unlocked alternative.
+
+----
+Task 4 : A bit more advanced ROP implementation
+----
+You have an option to do pre-defined task below **or** suggest some other task you would do. Something interesting in shellcoding, but we haven't dealt with it yet? Feel free to implement and show us what you got. It does not necessary need to be related for ROP particularly, but in the most cases it probably must. *Your task has to be approved by assistant before you can start doing it.*
+
+## Defeating ASLR (kinda): pre-defined task
+
+As the name implies, ASLR (Address Space Layout Randomization) randomizes locations in the virtual memory where modules are loaded.
+
+In this task, the executable is compiled with Position Independent Executable (PIE)
+disabled; therefore, ASLR is disabled for this executable. But hardcoding e.g., libc function addresses into the exploit is not possible in this task because of ASLR.
+
+Before starting working on this task confirm that ASLR is enabled:
+
+```console
+$ cat /proc/sys/kernel/randomize_va_space
+2
+```
+
+If not, enable ASLR:
+
+```console
+$ echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
+2
+```
+
+Your objective is to:
+
+1. Find the buffer overflow vulnerability
+2. Figure out how it could be used to read memory. Hints:
+   1. Does the executable import functions that can print strings (or memory) to stdout?
+3. Use that to disclose imported libc function addresses. Hints:
+   1. Checkout .got.plt.
+   2. Remember to enter the main loop again after every read (ret back to loop start)
+      * Be careful that you ret to a correct place, otherwise, segfault is likely.
+4. Find libc version and base address using that information. Hints:
+   * Use libc database, such as https://libc.blukat.me/
+5. Compute your desired libc function (or gadget address) using that information
+6. Create a ROP chain that opens a local shell using e.g., system or execve
+
+See [task4.c](./src/vuln_progs/task4.c) for the vulnerable program source code.
+The 32-bit binary is in [prog_bin/](./prog_bin). The binary was compiled using:
+
+```console
+gcc task.c -m32 -no-pie -o task4
+```
+
+I recommend that you develop your exploit using pwntool script, similar to the one seen below. This one debugs the program using gdb and sets up breakpoints at locations `main` and `0x8049246`.
+In gdb, assembly can be viewed using `layout asm` and the stack can be printed using `x/20xw $esp`. Similarly, `x/20xw $ebp` prints current stack frame. See [GDB documentation](https://www.gnu.org/software/gdb/documentation/).
+
+```python
+#!/usr/bin/python3
+import pwn
+import pwnlib.util.packing as packing
+import struct
+
+pwn.context.terminal = ['/usr/bin/x-terminal-emulator', '-e']
+pwn.context.log_level = 'debug'
+
+io = pwn.pwnlib.gdb.debug('./program', '''
+break main
+break *0x8049246
+''')
+
+# put your exploit here
+
+io.interactive()
+```
 
 
 [^0]: [The Internet Worm of 1988](https://web.archive.org/web/20070520233435/http://world.std.com/~franl/worm.html)
@@ -273,3 +452,5 @@ Encoding significantly matters in these tasks, for example, Python 2 print produ
 [^5]: [Low-Level Software Security for Compiler Developers](https://llsoftsec.github.io/llsoftsecbook/)
 [^6]: [SoK: Eternal War in Memory](https://ieeexplore.ieee.org/document/6547101?arnumber=6547101)
 [^7]: [2009 CWE/SANS Top 25 Most Dangerous Programming Errors](https://cwe.mitre.org/top25/archive/2009/2009_cwe_sans_top25.html)
+[^8]: [Undefined behavior](https://en.wikipedia.org/wiki/Undefined_behavior)
+[^9]: [Control-flow Integrity ](https://en.wikipedia.org/wiki/Control-flow_integrity)
