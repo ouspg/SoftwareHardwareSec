@@ -309,7 +309,7 @@ int main(int argc, char** argv) {
 
 To get a better understanding of how the stack works, we need to use a debugger.
 
-Go through the tutorial presented [here]() to get started.
+Go through the tutorial presented [here](gdb_tutorial.md) to get started.
 
 
 
