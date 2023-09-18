@@ -225,12 +225,12 @@ Use flag `-m32` for `gcc` to compile as 32-bit.
 Instead, you need to emulate `x86_64` platform.
 
 
-To enable 32-bit support for Arch Linux, uncomment the following line in `/etc/pacman.conf`:
+To enable 32-bit support for Arch Linux, uncomment or add the following lines in `/etc/pacman.conf`:
 ```ini
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
-And install `gcc` dependency as
+And install 32-bit dependencies for `gcc` as
 ```bash
 pacman -Sy multilib-devel
 ```
@@ -281,6 +281,10 @@ These protections sometimes come with performance impact, and for that reason th
 Task 1: Basics of buffer overflows
 ---
 
+> **Note**
+> You will need Python and also `pwntools` dependency for the later parts of this task.
+
+
 Let's examine this in a real-world scenario.
 
 In this initial task, we are using a simple program with a buffer overflow vulnerability.
@@ -311,7 +315,60 @@ To get a better understanding of how the stack works, we need to use a debugger.
 
 Go through the tutorial presented [here](gdb_tutorial.md) to get started.
 
+We want to understand the very basics of what is happening in the stack and in the registers of the machine at the time when stack overflow occurs.
 
+Try it out by yourself. It is not necessary, if you are already very familiar with the topic and able to answer bolded questions.
+
+### A) Using a program with improper input validation and analyzing overflow.
+
+
+What makes this particular (`rip`) register so interesting? What does `ret` instruction have to do with `rip` register in most cases of buffer overflows?
+
+This leads to the conclusion, that in most cases we might need to put our buffer overflow in an external function, and it's recommended to do so in this lab for not making things too hard.
+
+You can do this task as 32 - bit or 64 - bit versions. By default, the program is compiled as 64-bit.
+
+In this case, stack canaries might cause problems if you are using a modern distribution; disable them.
+
+> ***Explain briefly the role of the `rip` register and `ret` instruction, and why we are interested in them. Explain what is causing the overflow in [example program. ](src/vuln_progs/Overflow.c).  Further, analyze this program with gdb and try to find a suitable size for overflow (padding size), which starts to fill up the instruction pointer register. You can also make your own program, if you want.***
+
+### B) Adding hidden (non-used) function to previous program. (And still executing it)
+
+Let's add a new function to the previously used program , but never actually use it.
+
+We are going to execute this function by overflowing the program with specified input (in other words, with our crafted payload).
+
+In this payload, a specific memory address is utilized, which you should be able to identify based on the information provided in Section A.
+To ensure that this address is accurately targeted through buffer overflow, it's essential to use appropriate padding. In brief, by overflowing the buffer with the right amount of padding and inserting the correct memory address, you can redirect the program's execution flow to jump to the specified memory location.
+Increment the padding incrementally to fine-tune this process.
+
+Example scenario would be something like this.
+The function which is never actually called, is printing something and opening the shell:
+
+```shell
+# ./Overflow $(python -c 'print "A" * 10')
+AAAAAAAAAA
+# ./Overflow $(python -c 'print "A" * 20 + "\x11\x11\x11\x11"')
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGUUUUAccidental shell access appeared
+# exit
+exit
+Illegal instruction
+#
+
+```
+Note, that using a script like above expects program to take input as an argument.
+Also, the way memory address is actually used as input, is not so straightforward. (Is your system Little- or Big-endian?)
+
+You probably have to disable protections mentioned in prerequisites to be able to succeed. In this case, stack canaries will likely cause problems, if you are using distribution other than Kali Linux.
+
+
+
+> ***Find a way to disable these protections. Use gdb or similar programs to analyze your program. Disassembling might be helpful. Find a suitable address, and figure out what should be overflowed with it and how to get the correct values into it, and finally execute the function this way.***
+
+Tip: If your hidden function contains printing - add a newline ending to the string.
+Otherwise it might not be printing anything that can be actually seen.
+
+### C) Reproduce the previous with `pwntools`
 
 ----
 Task 3 : Defeating No-eXecute

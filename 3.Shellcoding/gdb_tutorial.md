@@ -19,7 +19,7 @@
 
 ### 4. Examining Variables and Memory
 - **`p <variable>` or `print <variable>`**: Display the value of a variable.
-- **`x/<format> <address>`**: Examine memory at a specific address.
+- **`x/<format> <address>`**: Examine memory at a specific address. E.g. **`x/20x`** to show 20 memory units in hexadecimal format.
 
 ### 5. Stack Operations
 - **`bt` or `backtrace`**: Display the call stack.
@@ -29,7 +29,7 @@
 ### 6. Miscellaneous Commands
 - **`set disassembly-flavor <flavor>`**: Set disassembly flavor (e.g., `intel` or `att`).
 - **`disas <function>` or `disassemble <function>`**: Disassemble a function.
-- **`info registers`** or **`i r`**: Display the content of CPU registers. E.g. **`x/20x`** to show 20 memory units in hexadecimal format.
+- **`info registers`** or **`i r`**: Display the content of CPU registers.
 
 
 ## Analysing the sample program
@@ -54,7 +54,7 @@ https://mohit.io/blog/gdb-assembly-language-debugging-101/
 
 
 ```shell
-# gcc -o test Overflow.c
+# gcc -o test -fno-stack-protector Overflow.c
 # gdb -q test
 Reading symbols from test...(no debugging symbols found)...done.
 (gdb) r "$(python -c 'print("A" * 9)')"
