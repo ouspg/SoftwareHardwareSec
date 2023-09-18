@@ -221,20 +221,20 @@ Use flag `-m32` for `gcc` to compile as 32-bit.
 Instead, you need to emulate `x86_64` platform.
 
 
-To enable 32-bit support for Arch based Linux, uncomment the following line in `/etc/pacman.conf`:
-```bash
+To enable 32-bit support for Arch Linux, uncomment the following line in `/etc/pacman.conf`:
+``` cmd
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
 And install `gcc` dependency as
-```bash
+```cmd
 pacman -Sy multilib-devel
 ```
 
 
 For Debian based, install following packages:
 
-```bash
+```cmd
 sudo apt-get install gcc-multilib g++-multilib
 ```
 
@@ -263,10 +263,14 @@ On later tasks, we try to bypass some of them: specifically mentioning not to di
 
 #### Control-flow integrity
 
-Modern processors apply even more complex mitigations in order to prevent shellcoding.
+Modern processors and compilers options apply even more complex mitigations in order to prevent shellcoding.
 Code-reuse techniques (ROP, JOP) are mitigated by using technique called as *control-flow integrity*.[^9]
 Usually this is applied by using authentication tags for return addresses or adapting *shadow stack* to compare whether the runtime of the program has changed.
-Different manufactures have different names
+However, it is still possible to bypass these if advisor, for example, somehow acquires the private key, or finds
+
+Different companies in hardware and software might have different names; Intel calls it as  Control-flow Enforcement Technology (CET) [^10], Microsoft Control Flow Guard (CFG) [^12] while ARM calls it as Pointer Authentication Code (PAC) [^11]
+
+These protections sometimes come with performance impact, and for that reason they have been also applied on hardware level.
 
 ---
 
@@ -454,3 +458,6 @@ io.interactive()
 [^7]: [2009 CWE/SANS Top 25 Most Dangerous Programming Errors](https://cwe.mitre.org/top25/archive/2009/2009_cwe_sans_top25.html)
 [^8]: [Undefined behavior](https://en.wikipedia.org/wiki/Undefined_behavior)
 [^9]: [Control-flow Integrity ](https://en.wikipedia.org/wiki/Control-flow_integrity)
+[^10]: [A Technical Look at Intel’s Control-flow Enforcement Technology](https://www.intel.com/content/www/us/en/developer/articles/technical/technical-look-control-flow-enforcement-technology.html)
+[^11]: [Pointer Authentication on ARMv8.3](https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/pointer-auth-v7.pdf)
+[^12]: [Control Flow Guard for platform security](https://learn.microsoft.com/en-us/windows/win32/secbp/control-flow-guard)
