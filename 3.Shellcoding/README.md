@@ -527,14 +527,14 @@ mov ecx, esp
 mov al, 11
 int 0x80
 ```
-We can compile and link it to as 32-bit binary.
+We can compile and link it as 32-bit binary.
 
 ```bash
 nasm -f elf32 shell.asm
 ld  -m elf_i386 shell.o -o shell
 ```
 
-Now if you check the machine code with `objdump -D shell`, you can see that it is free from null bytes.
+Now if you check the machine code with `objdump -D shell`, you can see that it is free from null bytes, and it only has `_start` section.
 
 ```cmd
 objdump -D shell
@@ -558,6 +558,29 @@ Disassembly of section .text:
  8049017:       cd 80                   int    $0x80
 ```
 
+On the second column, you can see the machine code presentation of the instructions in hex format.
+
+As the first task, pick these machine code pieces, combine them and test their execution in a C program.
+You can look the previous blogs how it happens more precisely.
+
+Test program could be following, for example:
+
+```c
+#include<stdio.h>
+#include<string.h>
+
+void main()
+{
+    char shellcode[] = "<your shellcode>";
+    void(*fp) (void);
+    fp = (void *)&shellcode;
+    fp();
+}
+```
+
+Compile the test program with correct compiler flags and run the shellcode.
+
+> ***Provide the commands for compiling the program, the source code of the test C program with shellcode, and a screenshot when you successfully open a shell by executing the shellcode.***
 
 ----
 Task 3 : Defeating No-eXecute
