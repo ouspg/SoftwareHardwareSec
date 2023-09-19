@@ -536,7 +536,7 @@ ld  -m elf_i386 shell.o -o shell
 
 Now if you check the machine code with `objdump -D shell`, you can see that it is free from null bytes.
 
-```sh
+```cmd
 objdump -D shell
 
 shell:     file format elf32-i386
