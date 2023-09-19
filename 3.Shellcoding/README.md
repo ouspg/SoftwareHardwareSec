@@ -142,7 +142,9 @@ In practice, software buffer overflow means that the space reserved for data is 
 
 Conversely, buffer over-read means that read processing might read more than it should.
 
-We mainly focus on buffer overflows in this exercise.
+We mainly focus on stack buffer overflows in this exercise.
+
+If you are curios how memory in `heap` works, take a look for [this page](https://samwho.dev/memory-allocation/) [^15].
 
 ### Understanding the stack
 
@@ -196,7 +198,7 @@ When the data stored in `Variable 1` exceeds its allocated space on the stack, i
 If an attacker successfully overwrites the return address, they can dictate where the program resumes execution next. Suppose the manipulated return address points to a location containing malicious instructions. In that case, the program will unwittingly execute this code.
 
 In earlier computing eras, many compilers lacked mechanisms to detect or prevent such overflows.
-Consequently, these vulnerabilities sometimes led to arbitrary code execution by exploiting such weaknesses.
+Consequently, these vulnerabilities sometimes lead to arbitrary code execution by exploiting such weaknesses.
 
 For more information, read the chapter 2.3 Stack buffer overflows in "Low-Level Software Security for Compiler Developers" [^5]
 
@@ -221,7 +223,7 @@ You have to use C/C++ programming language in (most) cases when you want to crea
 Tasks are possible to do in both 32- and 64-bit machine instructions as long as the machine has support for them.
 Use flag `-m32` for `gcc` to compile as 32-bit.
 
-**You cannot use the course VM on ARM-based host machine!**
+**You cannot use the course VM on an ARM-based host machine!**
 Instead, you need to emulate `x86_64` platform.
 
 
@@ -248,7 +250,13 @@ Task 3A is not possible to do with the latest Ubuntu, Arch Linux or any mature L
 
 Encoding significantly matters in these tasks, for example, Python 2 print produces just data, whereas Python 3 print produces encoded string by default.
 
-### Mitigations
+The following external tools will be used in the tasks:
+
+  * [radare2](https://github.com/radareorg/radare2) - advanced disassembler and forensics tool
+  * [pwntools](https://github.com/Gallopsled/pwntools) - controlled generation and execution of payloads
+
+
+### Mitigation
 
 You might have to note the following Linux protections.
 You can find most of them from the book[^1].
@@ -279,14 +287,14 @@ GCC 14.1 is getting a single option `-fhardened` to apply multiple protections a
 
 #### Control-flow integrity
 
-Modern processors and compilers' options apply even more complex mitigations in order to prevent shellcoding.
-Code-reuse techniques (ROP, JOP) are mitigated by using technique called as *control-flow integrity*.[^9]
+Modern processors and compilers' options apply even more complex mitigation to prevent shellcoding.
+Code-reuse techniques (ROP, JOP) are mitigated by using a technique called *control-flow integrity*.[^9]
 Usually this is applied by using authentication tags for return addresses or adapting *shadow stack* to compare whether the runtime of the program has changed.
 However, it is still possible to bypass these if an advisor, for example, somehow acquires the private key, or finds sections from the co
 
-Different companies in hardware and software might have different names; Intel calls it as  Control-flow Enforcement Technology (CET) [^10], Microsoft Control Flow Guard (CFG) [^12] while ARM calls it as Pointer Authentication Code (PAC) [^11]
+Different companies in hardware and software might have different names; Intel calls it as Control-flow Enforcement Technology (CET) [^10], Microsoft Control Flow Guard (CFG) [^12] while ARM calls it Pointer Authentication Code (PAC) [^11]
 
-These protections sometimes come with performance impact, and for that reason they have been also applied on hardware level.
+These protections sometimes come with performance impact, and for that reason, they have been also applied on the hardware level.
 
 ---
 
@@ -327,18 +335,20 @@ To get a better understanding of how the stack works, we need to use a debugger.
 
 Go through the tutorial presented [here](gdb_tutorial.md) to get started.
 
-We want to understand the very basics of what is happening in the stack and in the registers of the machine at the time when stack overflow occurs.
+We want to understand the very basics of what is happening in the stack and the registers of the machine at the time when a stack overflow occurs.
 
-Try it out by yourself. It is not necessary, if you are already very familiar with the topic and able to answer bolded questions.
+Try it out by yourself.
+It is not necessary if you are already very familiar with the topic and able to answer bolded questions.
 
 ### A) Using a program with improper input validation and analyzing overflow.
 
 
 What makes this particular (`rip`) register so interesting? What does `ret` instruction have to do with `rip` register in most cases of buffer overflows?
 
-The answers of these lead into the conclusion, that in most cases we might need to put our buffer overflow in an external function, and it's recommended to do so in this lab for not making things too hard.
+The answers to these lead to the conclusion, that in most cases we might need to put our buffer overflow in an external function, and it's recommended to do so in this lab to not make things too hard.
 
-You can do this task as 32-bit or 64-bit versions. By default, the program is compiled as 64-bit.
+You can do this task in 32-bit or 64-bit versions.
+By default, the program is compiled as 64-bit.
 
 In this case, stack canaries might cause problems if you are using a modern distribution; disable them.
 
@@ -361,7 +371,7 @@ To ensure that this address is accurately targeted through buffer overflow, it's
 By overflowing the buffer with the right amount of padding and inserting the correct memory address, you can redirect the program's execution flow to jump to the specified memory location.
 Increment the padding incrementally to fine-tune this process.
 
-Example scenario would be something like this.
+An example scenario would be something like this.
 The function which is never actually called, is printing something and opening the shell:
 
 ```shell
@@ -375,8 +385,8 @@ Illegal instruction
 #
 
 ```
-By using a script like above expects program to take input as an argument.
-Also, the way memory address is actually used as input, is not so straightforward. (Is your system Little- or Big-endian?)
+By using a script like the above expects program to take input as an argument.
+Also, the way memory address is used as input is not so straightforward. (Is your system Little- or Big-endian?)
 
 
 ***Use gdb or similar programs to analyze your program. Disassembling might be helpful. Find a suitable address, and figure out what should be overflowed with it, and how to get the correct values into it, and finally execute the function this way.***
@@ -387,7 +397,7 @@ Also, the way memory address is actually used as input, is not so straightforwar
 > ***3. Take a screenshot when you manage to execute the function.***
 
 Tip: If your hidden function contains printing - add a newline ending to the string.
-Otherwise it might not be printing anything that can be actually seen - output needs to be flushed.
+Otherwise, it might not be printing anything that can be actually seen - output needs to be flushed.
 
 ### C) Reproduce the previous with `pwntools`
 
@@ -405,17 +415,17 @@ At this point, we are going to move outside of `gdb`.
 GBU Debugger creates a separate memory space where the program is being executed.
 As a result, the same address does not work when we exit the debugger.
 It also disables `ASLR` by default when it runs the program.
-Usually we need to manually disable it globally to succeed.
+Usually, we need to manually disable it globally to succeed, if we don't bypass it in our exploit.
 
-In general, only *a small change is required for it to work outside of `gbd`*, which could be brute forced.
+In general, only *a small address change is required for it to work outside of `gbd`*, which could be brute forced.
 
 
-However, we are going calculate the address change with the help of `pwntools`, instead of brute forcing it in this case.
+However, we are going to calculate the address change with the help of `pwntools`, instead of brute forcing it in this case.
 It is a library specifically meant for writing exploits.
-Use following `pwntools` template to overflow the program outside of `gdb`.
+Use the following `pwntools` template to overflow the program outside of `gdb`.
 
 You only need to replace the part with `'?'` for it to work!
-On the example, the program is compiled as 32-bit.
+In the example, the program is compiled as 32-bit.
 
 ```python
 from pwn import *
@@ -429,6 +439,7 @@ def main():
     PADDING_SIZE = '?'
     payload = b"A" * PADDING_SIZE
     # Get address of the function automatically!
+    # What are symbols of the compiled program?
     secret = task_bin.symbols['?']
     # 'I' means unsigned as integer, convert integer to hexbytes with correct alignment
     payload += struct.pack('I', secret)
@@ -453,7 +464,7 @@ Could we redirect the execution flow to our own code?
 Notably, this could mean the execution of our own program within another program.
 In the past, this mechanism was entirely possible.
 
-**Ultimately, the goal is to transform the code into the format that mirrors its representation in memory during CPU execution.**
+**Ultimately, the goal is to transform the code into a format that mirrors its representation in memory during CPU execution.**
 
 For clarity's sake, we can draft the payload using C/C++.
 After drafting, this code should be manually translated into machine code. Avoid auto-generating assembly from a compiled binary due to various concerns, which are noted later.
@@ -469,7 +480,7 @@ For a deeper understanding, consider referring to the previously cited book and 
 
 ## A) Crafting the payload
 
-Let's take a look for a following C code:
+Let's take a look at a following C code:
 
 ```c
 include <unistd.h>
@@ -489,9 +500,9 @@ gcc -o shell shell.c
 exit
 ```
 
-If we take a look for the generated machine code with `objdump -D shell`, it appears that our binary is quite large and it **also includes many null bytes `0x00`**.
+If we take a look at the generated machine code with `objdump -D shell`, it appears that our binary is quite large and it **also includes many null bytes `0x00`**.
 Often, our shellcode cannot include null bytes, because the vulnerability is often in string functions, like in this case.
-For example, `strcpy` terminates on null byte.
+For example, `strcpy` terminates on a null byte.
 
 Also, null bytes behave differently in many other cases.
 
@@ -527,7 +538,7 @@ mov ecx, esp
 mov al, 11
 int 0x80
 ```
-We can compile and link it as 32-bit binary.
+We can compile and link it as a 32-bit binary.
 
 ```bash
 nasm -f elf32 shell.asm
@@ -536,7 +547,7 @@ ld  -m elf_i386 shell.o -o shell
 
 Now if you check the machine code with `objdump -D shell`, you can see that it is free from null bytes, and it only has `_start` section.
 
-```cmd
+```assembly
 objdump -D shell
 
 shell:     file format elf32-i386
@@ -558,12 +569,12 @@ Disassembly of section .text:
  8049017:       cd 80                   int    $0x80
 ```
 
-On the second column, you can see the machine code presentation of the instructions in hex format.
+In the second column, you can see the machine code presentation of the instructions in hex format.
 
 As the first task, pick these machine code pieces, combine them and test their execution in a C program.
-You can look the previous blogs how it happens more precisely.
+You can look at previous blogs on how it happens more precisely.
 
-Test program could be following, for example:
+The test program could be the following, for example:
 
 ```c
 #include<stdio.h>
@@ -578,12 +589,12 @@ void main()
 }
 ```
 
-Compile the test program with correct compiler flags and run the shellcode.
+Compile the test program with the correct compiler flags and run the shellcode.
 
 > ***Provide the commands for compiling the program, the source code of the test C program with shellcode, and a screenshot when you successfully open a shell by executing the shellcode.***
 
 ----
-Task 3 : Defeating No-eXecute
+Task 3: Defeating No-eXecute
 ----
 In previous the task we have executed some arbitrary code straight from the stack. This is a bit simple and old method, and has been prevented some (long) time ago.
 
@@ -738,3 +749,4 @@ io.interactive()
 [^12]: [Control Flow Guard for platform security](https://learn.microsoft.com/en-us/windows/win32/secbp/control-flow-guard)
 [^13]: [RFC: Introduce -fhardened to enable security-related flags](https://gcc.gnu.org/pipermail/gcc-patches/2023-August/628748.html)
 [^14]: [pwntools - CTF toolkit](https://github.com/Gallopsled/pwntools)
+[^15]: [Memory Allocation](https://samwho.dev/memory-allocation/)
