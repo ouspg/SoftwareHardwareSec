@@ -481,7 +481,7 @@ For a deeper understanding, consider referring to the previously cited book and 
 
 ## A) Crafting the payload
 
-Let's take a look into following C code:
+Let's take a look into the following C code:
 
 ```c
 include <unistd.h>
@@ -623,9 +623,16 @@ flowchart LR
 
 Consult the previously mentioned materials if you get in trouble.
 
-> ***`1. At first, you need to open shell by executing the shellcode in the provided sample program, inside `gdb`. Adjust the padding, find the correct memory address and run the shellcode! Provide the command and screenshot when it succeeds. Explain how you obtained the memory address and the logic of your command.***
+> ***1. At first, you need to open shell by executing the shellcode in the provided sample program, inside `gdb`. Adjust the padding, find the correct memory address and run the shellcode! Provide the command and screenshot when it succeeds. Explain how you obtained the memory address and the logic of your command.***
 
-> ***2. Secondly, let's run the same shellcode with `pwntools`, outside of the debugger.***
+> ***2. Secondly, let's run the same shellcode with `pwntools`, outside of the debugger. You must brute force the address. However, it should be quite near the one you had in `gdb`.***
+
+Make sure to disable ASLR, and remember to operate with raw bytes instead of encoded strings e.g. the following instead of `print`:
+```bash
+python -c 'import sys; sys.stdout.buffer.write()'
+```
+
+NOP sled can also help significantly.
 
 ----
 Task 3: Defeating No-eXecute
