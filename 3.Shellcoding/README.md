@@ -56,13 +56,13 @@ Task|Grade/Level|Description|
 
 By completing Task 1, grade 1 can be achieved.
 
-By doing Task 2 A&B, you are eligible for grade 2 from this lab. Completion of the C part increases the grade to 3.
+By doing only Task 2 A, your work compensates 0,5 points.
+The B part is worth 1,5 points from the total of 2.
 
 Difficulty on tasks is expected to rise exponentially as you go forward with them.
 Without understanding the previous task, the next one could be very ambiguous.
 
-*Return completed tasks to your private GitHub repository!
-There will be an answer template.*
+*Return completed tasks to your private GitHub repository!*
 
 </details>
 
@@ -359,7 +359,7 @@ In this case, stack canaries might cause problems if you are using a modern dist
 > ***3. Further, analyze this program with `gdb` and try to find a suitable size for overflow (padding size), which starts to fill up the instruction pointer register.***
 **Provide a screenshot when the overflow occurs and one byte from your input reaches the instruction pointer register.**
 
-### B) Adding hidden (non-used) function to previous program. (And still executing it)
+### B) Adding hidden (non-used) function to the previous program. (And still executing it)
 
 Let's add a new function to the previously used program, but never actually use it.
 
@@ -385,11 +385,11 @@ Illegal instruction
 #
 
 ```
-By using a script like the above expects program to take input as an argument.
+Using a script like the above expects the program to take input as an argument.
 Also, the way memory address is used as input is not so straightforward. (Is your system Little- or Big-endian?)
 
 
-***Use gdb or similar programs to analyze your program. Disassembling might be helpful. Find a suitable address, and figure out what should be overflowed with it, and how to get the correct values into it, and finally execute the function this way.***
+***Use gdb or similar programs to analyze your program. Disassembling might be helpful. Find a suitable address, figure out what should be overflowed with it, and how to get the correct values into it, and finally execute the function this way.***
 
 > ***1. Return your whole program with new function as code snippet!***
 
@@ -458,16 +458,17 @@ Getting used to `pwntools` at this point will help on the following tasks.
 Task 2: Arbitrary code execution
 ---
 
-How about if we create a slightly more advanced payload; some arbitrary code that we want to execute, and pass it to our previously created vulnerable program?
+How about if we create a more advanced payload; some arbitrary code that we want to execute, and pass it to our previously created vulnerable program?
 
-Could we redirect the execution flow to our own code?
-Notably, this could mean the execution of our own program within another program.
+Could we redirect the execution flow to our code?
+Notably, this could mean the execution of our program within another program.
 In the past, this mechanism was entirely possible.
 
-**Ultimately, the goal is to transform the code into a format that mirrors its representation in memory during CPU execution.**
+**Ultimately, the goal is to transform our custom code into a format that mirrors its representation in memory during CPU execution. And then, computer could execute it like anything else.**
 
 For clarity's sake, we can draft the payload using C/C++.
-After drafting, this code should be manually translated into machine code. Avoid auto-generating assembly from a compiled binary due to various concerns, which are noted later.
+After drafting, this code should be manually translated into machine code.
+We avoid auto-generating assembly from a compiled binary due to various concerns, which are noted later.
 Subsequently, this machine code can be combined with other instructions to complete the payload.
 
 A well-known white paper on this approach is written by Aleph One[^1].
@@ -480,7 +481,7 @@ For a deeper understanding, consider referring to the previously cited book and 
 
 ## A) Crafting the payload
 
-Let's take a look at a following C code:
+Let's take a look into following C code:
 
 ```c
 include <unistd.h>
@@ -569,7 +570,7 @@ Disassembly of section .text:
  8049017:       cd 80                   int    $0x80
 ```
 
-In the second column, you can see the machine code presentation of the instructions in hex format.
+In the second column, you can see the machine code presentation of the assembly instructions in hex format.
 
 As the first task, pick these machine code pieces, combine them and test their execution in a C program.
 You can look at previous blogs on how it happens more precisely.
@@ -593,6 +594,22 @@ Compile the test program with the correct compiler flags and run the shellcode.
 
 > ***Provide the commands for compiling the program, the source code of the test C program with shellcode, and a screenshot when you successfully open a shell by executing the shellcode.***
 
+## B) Executing the payload in another program
+
+In task 1, we figured out that we could redirect the execution flow into a specific memory address by overflowing the stack in a way that the instruction pointer is altered.
+We did so by executing a function that was not regularly called.
+
+With this information, we have now the following:
+  * We have new machine code from the previous part and we could store it somewhere, preferably in our program's memory space.
+  * We should redirect the execution flow into this machine code
+  * As a result, we could execute arbitrary code in another program!
+
+We can try to do this like in the first task, by using `gdb` and `python` to generate the payload.
+
+We need to solve the following problems:
+  * Can the shellcode with into the `buffer` variable? Maybe we can adjust its size, or just place the shellcode *after* everything since the stack just grows and we only need the current stack frame for the program to work?
+  * What is the address of the shellcode? Can we broaden the memory range by using `NOP` instruction as a so-called NOP sled?
+
 ----
 Task 3: Defeating No-eXecute
 ----
@@ -608,7 +625,7 @@ THe previous prevention method has led to forming of *code reuse attack techniqu
 
 *Presence of ASLR could be bypassed with specific implementation and combination of these techniques as well, but that will be left outside of this exercise, as it makes things a bit more complicated. Usually it requires information leakage as well. By default it will probably prevent everything that we are doing next.*
 
-From previously mentioned techniques, we are taking a short glance at ret2libc and ROP, which are some basic and original techniques.
+From the previously mentioned techniques, we are taking a short glance at ret2libc and ROP, which are some basic and original techniques.
 
 ### A) Return-to-libc (aka ret2libc)
 
@@ -665,9 +682,9 @@ Extra: White paper introducing the ROP can be found [here][5].
 Tip: If you are being bit unlucky, and are facing some function addresses containing null bytes in non-Ascii-Armored system, try out some alternative functions. For example putchar function has putchar_unlocked alternative.
 
 ----
-Task 4 : A bit more advanced ROP implementation
+Task 4: A bit more advanced ROP implementation
 ----
-You have an option to do pre-defined task below **or** suggest some other task you would do. Something interesting in shellcoding, but we haven't dealt with it yet? Feel free to implement and show us what you got. It does not necessary need to be related for ROP particularly, but in the most cases it probably must. *Your task has to be approved by assistant before you can start doing it.*
+You have the option to do a pre-defined task below **or** suggest some other task you would do. Something interesting in shellcoding, but we haven't dealt with it yet? Feel free to implement and show us what you got. It does not necessary need to be related for ROP particularly, but in the most cases it probably must. *Your task has to be approved by assistant before you can start doing it.*
 
 ## Defeating ASLR (kinda): pre-defined task
 
