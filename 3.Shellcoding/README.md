@@ -267,10 +267,10 @@ On later tasks, we try to bypass some of them: specifically mentioning not to di
 
 #### Control-flow integrity
 
-Modern processors and compilers options apply even more complex mitigations in order to prevent shellcoding.
+Modern processors and compilers' options apply even more complex mitigations in order to prevent shellcoding.
 Code-reuse techniques (ROP, JOP) are mitigated by using technique called as *control-flow integrity*.[^9]
 Usually this is applied by using authentication tags for return addresses or adapting *shadow stack* to compare whether the runtime of the program has changed.
-However, it is still possible to bypass these if advisor, for example, somehow acquires the private key, or finds
+However, it is still possible to bypass these if an advisor, for example, somehow acquires the private key, or finds sections from the co
 
 Different companies in hardware and software might have different names; Intel calls it as  Control-flow Enforcement Technology (CET) [^10], Microsoft Control Flow Guard (CFG) [^12] while ARM calls it as Pointer Authentication Code (PAC) [^11]
 
@@ -282,7 +282,7 @@ Task 1: Basics of buffer overflows
 ---
 
 > **Note**
-> You will need Python and also `pwntools` dependency for the later parts of this task.
+> You will need Python and `pwntools` dependency for the later parts of this task.
 
 
 Let's examine this in a real-world scenario.
@@ -326,20 +326,20 @@ What makes this particular (`rip`) register so interesting? What does `ret` inst
 
 The answers of these lead into the conclusion, that in most cases we might need to put our buffer overflow in an external function, and it's recommended to do so in this lab for not making things too hard.
 
-You can do this task as 32 - bit or 64 - bit versions. By default, the program is compiled as 64-bit.
+You can do this task as 32-bit or 64-bit versions. By default, the program is compiled as 64-bit.
 
 In this case, stack canaries might cause problems if you are using a modern distribution; disable them.
 
 > 1. Explain briefly the role of the `rip` register and `ret` instruction, and why we are interested in them.
 
-> 2. Explain what is causing the overflow in [example program. ](src/vuln_progs/Overflow.c)
+> 2. Explain what is causing the overflow in the [example program. ](src/vuln_progs/Overflow.c)
 
 >3. Further, analyze this program with `gdb` and try to find a suitable size for overflow (padding size), which starts to fill up the instruction pointer register.
 **Provide a screenshot when the overflow occurs and one byte from your input reaches the instruction pointer register.**
 
 ### B) Adding hidden (non-used) function to previous program. (And still executing it)
 
-Let's add a new function to the previously used program , but never actually use it.
+Let's add a new function to the previously used program, but never actually use it.
 
 We are going to execute this function by overflowing the program with specified input (in other words, with our crafted payload).
 
@@ -369,15 +369,28 @@ Also, the way memory address is actually used as input, is not so straightforwar
 
 ***Use gdb or similar programs to analyze your program. Disassembling might be helpful. Find a suitable address, and figure out what should be overflowed with it, and how to get the correct values into it, and finally execute the function this way.***
 
-> 1. Return your whole program with new function as code snippet
+> 1. Return your whole program with new function as code snippet!
 
 > 2. Return the command you used for running the function. How did you execute function by just overflowing the input?
 > 3. Take a screenshot when you manage to execute the function.
 
 Tip: If your hidden function contains printing - add a newline ending to the string.
-Otherwise it might not be printing anything that can be actually seen.
+Otherwise it might not be printing anything that can be actually seen - output needs to be flushed.
 
 ### C) Reproduce the previous with `pwntools`
+
+At this point, we are going to move outside of `gdb`.
+GBU Debugger creates a separate memory space when the program is being executed.
+As a result, the same address does not work when we exit the debugger.
+It also disables `ASLR` by default when it runs the program.
+We need to manually disable it globally to succeed.
+
+However, only *a small change is required for it to work outside of `gbd`*.
+
+We are going to brute force the address change with the help of `pwntools`.
+It is a library specifically meant for shellcoding.
+Use following `pwntools` template to overflow the program outside of `gdb`.
+
 
 ----
 Task 3 : Defeating No-eXecute
