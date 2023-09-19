@@ -442,7 +442,7 @@ if __name__ == "__main__":
 ```
 Getting used to `pwntools` at this point will help on the following tasks.
 
-> ***Return a screenshot when you manage to execute the "secret" function by using `pwntools` and also your Python source code.***
+> ***Return a screenshot when you manage to execute the "secret" function by using `pwntools` and also return your Python source code.***
 ---
 Task 2: Arbitrary code execution
 ---
@@ -497,7 +497,7 @@ Also, null bytes behave differently in many other cases.
 
 As a result, we need to write the above functionality without null bytes.
 We could get the following 32-bit assembly:
-```x86asm
+```assembly
 global _start
 
 section .text
