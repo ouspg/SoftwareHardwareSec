@@ -414,6 +414,9 @@ However, we are going calculate the address change with the help of `pwntools`, 
 It is a library specifically meant for writing exploits.
 Use following `pwntools` template to overflow the program outside of `gdb`.
 
+You only need to replace the part with `'?'` for it to work!
+On the example, the program is compiled as 32-bit.
+
 ```python
 from pwn import *
 context.update(arch='i386', os='linux', endian='little', word_size=32)
@@ -437,6 +440,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+> Return a screenshot when you manage to execute the "secret" function by using `pwntools` and also your Python source code.
 
 ----
 Task 3 : Defeating No-eXecute
