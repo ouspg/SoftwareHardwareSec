@@ -601,14 +601,14 @@ We did so by executing a function that was not regularly called.
 
 With this information, we have now the following:
   * We have new machine code from the previous part and we could store it somewhere, preferably in our program's memory space.
-  * We should redirect the execution flow into this machine code
+  * We could redirect the execution flow into this machine code
   * As a result, we could execute arbitrary code in another program!
 
 We can try to do this like in the first task, by using `gdb` and `python` to generate the payload.
 
 We need to solve the following problems:
-  * Can the shellcode with into the `buffer` variable? Maybe we can adjust its size, or just place the shellcode *after* everything since the stack just grows and we only need the current stack frame for the program to work?
-  * What is the address of the shellcode? Can we broaden the memory range by using `NOP` instruction as a so-called NOP sled?
+  * Can the shellcode fit into the `buffer` variable? Maybe we can adjust its size, or just place the shellcode *after* everything since the stack just grows and we only need the current stack frame for the program to work?
+  * What is the address of the shellcode? Can we broaden the memory range and increase the odds by using `NOP` instruction as a so-called NOP sled?
 
 The following presents the flow:
 
@@ -618,22 +618,31 @@ flowchart LR
     B --> C[Alter instruction pointer]
     C --> D[Execution jumps to shellcode or NOP instruction]
     D --> E[Shellcode executed from 'buffer' variable]
+    E -- Shell opens --> A
 ```
+
+Consult the previously mentioned materials if you get in trouble.
+
+> ***`1. At first, you need to open shell by executing the shellcode in the provided sample program, inside `gdb`. Adjust the padding, find the correct memory address and run the shellcode! Provide the command and screenshot when it succeeds. Explain how you obtained the memory address and the logic of your command.***
+
+> ***2. Secondly, let's run the same shellcode with `pwntools`, outside of the debugger.***
 
 ----
 Task 3: Defeating No-eXecute
 ----
-In previous the task we have executed some arbitrary code straight from the stack. This is a bit simple and old method, and has been prevented some (long) time ago.
+In the previous task, we have executed some arbitrary code straight from the stack.
+This is a bit simple and old method and has been prevented some (long) time ago.
 
-NX - bit (no-eXecute) [was created][1] to separate areas in memory for storage of instructions and for storage of data.
-Processors will not execute data marked by NX - bit; in practice data which is just 'data'.
+NX-bit (no-eXecute) was created [^16] to separate areas in memory for the storage of instructions and storage of data.
+Processors will not execute data marked by NX-bit; in practice data, which is just 'data'.
 
-This makes execution of our payload in the stack very hard, in case when it is stored as input to the vulnerable program's memory area.
+This makes execution of our payload in the stack very hard, in a case when it is stored as input to the vulnerable program's memory area.
 
 But what if we are *not* executing code in the stack?
-THe previous prevention method has led to forming of *code reuse attack techniques* (ret2libc, ROP, JOP, COOP etc.). These techniques are focusing on using existing code to build required functionality. But from where to get code for reusing?
+The previous prevention method has led to the forming of *code reuse attack techniques* (ret2libc, ROP, JOP, COOP etc.). These techniques focus on using existing code to build the required functionality.
+But from where to get code for reusing?
 
-*Presence of ASLR could be bypassed with specific implementation and combination of these techniques as well, but that will be left outside of this exercise, as it makes things a bit more complicated. Usually it requires information leakage as well. By default it will probably prevent everything that we are doing next.*
+*The presence of ASLR could be bypassed with specific implementation and combination of these techniques as well, but that will be left outside of this task, as it makes things a bit more complicated. Usually, it requires information leakage as well. By default, it will probably prevent everything that we are doing next.*
 
 From the previously mentioned techniques, we are taking a short glance at ret2libc and ROP, which are some basic and original techniques.
 
@@ -777,3 +786,4 @@ io.interactive()
 [^13]: [RFC: Introduce -fhardened to enable security-related flags](https://gcc.gnu.org/pipermail/gcc-patches/2023-August/628748.html)
 [^14]: [pwntools - CTF toolkit](https://github.com/Gallopsled/pwntools)
 [^15]: [Memory Allocation](https://samwho.dev/memory-allocation/)
+[^16]: [What's The "NX Bit"?](https://www.scribd.com/document/60416747/NX-bit)
