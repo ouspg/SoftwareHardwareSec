@@ -610,6 +610,16 @@ We need to solve the following problems:
   * Can the shellcode with into the `buffer` variable? Maybe we can adjust its size, or just place the shellcode *after* everything since the stack just grows and we only need the current stack frame for the program to work?
   * What is the address of the shellcode? Can we broaden the memory range by using `NOP` instruction as a so-called NOP sled?
 
+The following presents the flow:
+
+```mermaid
+flowchart LR
+    A[Program receives input] --> B[Buffer overflows]
+    B --> C[Alter instruction pointer]
+    C --> D[Execution jumps to shellcode or NOP instruction]
+    D --> E[Shellcode executed from 'buffer' variable]
+```
+
 ----
 Task 3: Defeating No-eXecute
 ----
