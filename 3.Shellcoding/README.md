@@ -254,9 +254,9 @@ You might have to note the following Linux protections.
 You can find most of them from the book[^1].
 
  * Stack canaries (SSP)
-   * `-fno-stack-protector` gcc compiler flag
+   * `-fno-stack-protector` gcc compiler flag to disable
  * Non-executable pages or stacks (NX)
-   * `-z execstack` gcc compiler flag
+   * `-z execstack` gcc compiler flag to disable
  * Address Space Layout Randomization (ASLR)
    * To disable globally: `echo 0 > /proc/sys/kernel/randomize_va_space`
  * Less known, no need to note unless specified in the task: (ASCII ARMOR, RELRO, PIE, D_FORTIFY_SOURCE, PTR_MANGLE)
@@ -294,7 +294,7 @@ Task 1: Basics of buffer overflows
 ---
 
 > **Note**
-> You will need Python and `pwntools` dependency for the later parts of this task.
+> You will need Python and `pwntools`[^14] dependency for the later parts of this task.
 
 
 Let's examine this in a real-world scenario.
@@ -342,11 +342,11 @@ You can do this task as 32-bit or 64-bit versions. By default, the program is co
 
 In this case, stack canaries might cause problems if you are using a modern distribution; disable them.
 
-> 1. Explain briefly the role of the `rip` register and `ret` instruction, and why we are interested in them.
+> ***1. Explain briefly the role of the `rip` register and `ret` instruction, and why we are interested in them.***
 
-> 2. Explain what is causing the overflow in the [example program. ](src/vuln_progs/Overflow.c)
+> ***2. Explain what is causing the overflow in the [example program. ](src/vuln_progs/Overflow.c)***
 
->3. Further, analyze this program with `gdb` and try to find a suitable size for overflow (padding size), which starts to fill up the instruction pointer register.
+> ***3. Further, analyze this program with `gdb` and try to find a suitable size for overflow (padding size), which starts to fill up the instruction pointer register.***
 **Provide a screenshot when the overflow occurs and one byte from your input reaches the instruction pointer register.**
 
 ### B) Adding hidden (non-used) function to previous program. (And still executing it)
@@ -381,10 +381,10 @@ Also, the way memory address is actually used as input, is not so straightforwar
 
 ***Use gdb or similar programs to analyze your program. Disassembling might be helpful. Find a suitable address, and figure out what should be overflowed with it, and how to get the correct values into it, and finally execute the function this way.***
 
-> 1. Return your whole program with new function as code snippet!
+> ***1. Return your whole program with new function as code snippet!***
 
-> 2. Return the command you used for running the function. How did you execute function by just overflowing the input?
-> 3. Take a screenshot when you manage to execute the function.
+> ***2. Return the command you used for running the function. How did you execute function by just overflowing the input?***
+> ***3. Take a screenshot when you manage to execute the function.***
 
 Tip: If your hidden function contains printing - add a newline ending to the string.
 Otherwise it might not be printing anything that can be actually seen - output needs to be flushed.
@@ -407,7 +407,7 @@ As a result, the same address does not work when we exit the debugger.
 It also disables `ASLR` by default when it runs the program.
 We need to manually disable it globally to succeed.
 
-In general, only *a small change is required for it to work outside of `gbd`*.
+In general, only *a small change is required for it to work outside of `gbd`*, which could be brute forced.
 
 
 However, we are going calculate the address change with the help of `pwntools`, instead of brute forcing it in this case.
@@ -430,7 +430,7 @@ def main():
     payload = b"A" * PADDING_SIZE
     # Get address of the function automatically!
     secret = task_bin.symbols['?']
-    # 'I' means unsigned as integer, convert integer to hexbytes
+    # 'I' means unsigned as integer, convert integer to hexbytes with correct alignment
     payload += struct.pack('I', secret)
     print(f'Secret address {hex(secret)}')
     p = task_bin.process(argv=[payload])
@@ -441,7 +441,54 @@ if __name__ == "__main__":
     main()
 ```
 
-> Return a screenshot when you manage to execute the "secret" function by using `pwntools` and also your Python source code.
+> ***Return a screenshot when you manage to execute the "secret" function by using `pwntools` and also your Python source code.***
+---
+Task 2: Arbitrary code execution
+---
+
+How about if we crete a bit more advanced payload; some arbitrary code that we want to execute, and pass it into our previously created vulnerable program?
+
+Could we redirect the execution flow into our own code?
+Notably, this could mean execution of our own program inside of another program.
+In the past, this mechanic was very possible.
+
+**Overall, we want to convert the code into the same format as it usually is represented in memory when CPU executes it.**
+
+We could initially develop a payload in C/C++ code for clarity.
+Once written, this code should be manually converted into machine code. It's not recommended to automatically generate assembly from a compiled binary due to several concerns. 
+After this, the machine code can be integrated with other instructions to finalize the payload.
+
+
+Maybe the most known white paper about this method is the Aleph One's [^1].
+
+For more background, you can also check the previously mentioned book and the following blog posts:
+
+  * https://0x00sec.org/t/linux-shellcoding-part-1-0/289
+  * https://dhavalkapil.com/blogs/Shellcode-Injection/
+  * http://hackoftheday.securitytube.net/2013/04/demystifying-execve-shellcode-stack.html
+
+## A) Crafting the payload
+
+Let's take a look for a following C code:
+
+```c
+include <unistd.h>
+
+int main() {
+        char *args[2];
+        args[0] = "/bin/sh";
+        args[1] = NULL;
+        execve(args[0], NULL, NULL);
+}
+```
+
+We can compile the code and run it. It spawns a shell.
+```bash
+gcc -o simpleshell Simpleshell.c 
+./simpleshell 
+exit
+```
+
 
 ----
 Task 3 : Defeating No-eXecute
