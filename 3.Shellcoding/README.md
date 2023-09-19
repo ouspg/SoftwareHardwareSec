@@ -265,7 +265,7 @@ Disable them if required.
 
 On later tasks, we try to bypass some of them: specifically mentioning not to disable them.
 
-GCC 14 is getting an single option `-fhardened` to apply multiple protections at once [^13]:
+GCC 14.1 is getting a single option `-fhardened` to apply multiple protections at once [^13]:
 
 ```bash
 -D_FORTIFY_SOURCE=3 (or =2 for older glibcs)
@@ -440,6 +440,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+Getting used to `pwntools` at this point will help on the following tasks.
 
 > ***Return a screenshot when you manage to execute the "secret" function by using `pwntools` and also your Python source code.***
 ---
@@ -455,7 +456,7 @@ In the past, this mechanic was very possible.
 **Overall, we want to convert the code into the same format as it usually is represented in memory when CPU executes it.**
 
 We could initially develop a payload in C/C++ code for clarity.
-Once written, this code should be manually converted into machine code. It's not recommended to automatically generate assembly from a compiled binary due to several concerns. 
+Once written, this code should be manually converted into machine code. It's not recommended to automatically generate assembly from a compiled binary due to several concerns.
 After this, the machine code can be integrated with other instructions to finalize the payload.
 
 
@@ -484,11 +485,10 @@ int main() {
 
 We can compile the code and run it. It spawns a shell.
 ```bash
-gcc -o simpleshell Simpleshell.c 
-./simpleshell 
+gcc -o simpleshell Simpleshell.c
+./simpleshell
 exit
 ```
-
 
 ----
 Task 3 : Defeating No-eXecute
