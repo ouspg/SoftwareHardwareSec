@@ -265,6 +265,18 @@ Disable them if required.
 
 On later tasks, we try to bypass some of them: specifically mentioning not to disable them.
 
+GCC 14 is getting an single option `-fhardened` to apply multiple protections at once [^13]:
+
+```bash
+-D_FORTIFY_SOURCE=3 (or =2 for older glibcs)
+-D_GLIBCXX_ASSERTIONS
+-ftrivial-auto-var-init=pattern
+-fPIE -pie -Wl,-z,relro,-z,now
+-fstack-protector-strong
+-fstack-clash-protection
+-fcf-protection=full (x86 GNU/Linux only)
+```
+
 #### Control-flow integrity
 
 Modern processors and compilers' options apply even more complex mitigations in order to prevent shellcoding.
@@ -546,3 +558,4 @@ io.interactive()
 [^10]: [A Technical Look at Intel’s Control-flow Enforcement Technology](https://www.intel.com/content/www/us/en/developer/articles/technical/technical-look-control-flow-enforcement-technology.html)
 [^11]: [Pointer Authentication on ARMv8.3](https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/pointer-auth-v7.pdf)
 [^12]: [Control Flow Guard for platform security](https://learn.microsoft.com/en-us/windows/win32/secbp/control-flow-guard)
+[^13]: [RFC: Introduce -fhardened to enable security-related flags](https://gcc.gnu.org/pipermail/gcc-patches/2023-August/628748.html)
