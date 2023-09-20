@@ -354,7 +354,7 @@ In this case, stack canaries might cause problems if you are using a modern dist
 
 > ***1. Explain briefly the role of the `rip` register and `ret` instruction, and why we are interested in them.***
 
-> ***2. Explain what is causing the overflow in the [example program. ](src/vuln_progs/Overflow.c)***
+> ***2. Explain what is causing the overflow in the [example program.](src/vuln_progs/overflow.c)***
 
 > ***3. Further, analyze this program with `gdb` and try to find a suitable size for overflow (padding size), which starts to fill up the instruction pointer register.***
 **Provide a screenshot when the overflow occurs and one byte from your input reaches the instruction pointer register.**
@@ -394,6 +394,7 @@ Also, the way memory address is used as input is not so straightforward. (Is you
 > ***1. Return your whole program with new function as code snippet!***
 
 > ***2. Return the command you used for running the function. How did you execute function by just overflowing the input?***
+
 > ***3. Take a screenshot when you manage to execute the function.***
 
 Tip: If your hidden function contains printing - add a newline ending to the string.
@@ -423,6 +424,7 @@ In general, only *a small address change is required for it to work outside of `
 However, we are going to calculate the address change with the help of `pwntools`, instead of brute forcing it in this case.
 It is a library specifically meant for writing exploits.
 Use the following `pwntools` template to overflow the program outside of `gdb`.
+In this case, `pwntools` creates own virtual memory space for the program, but it is okay for educational purposes.
 
 You only need to replace the part with `'?'` for it to work!
 In the example, the program is compiled as 32-bit.
@@ -673,39 +675,46 @@ To be noted:
 * You should check if ASCII Armoring is present in your system. It should be disabled additionally for this task. In some systems, it might not be possible. It is recommended to use Kali Linux in this task.
 * This task is much easier to get done with 32-bit binaries; the function parameters are passed differently when compared to a 64-bit system. (Stack vs. registers?)
 
-One simple implementation can be found from (this)[https://shellblade.net/files/docs/ret2libc.pdf] paper for example.
+One simple implementation can be found in [this](https://shellblade.net/files/docs/ret2libc.pdf) paper for example.
 
-Extra: Method was first introduced in (here)[https://seclists.org/bugtraq/1997/Aug/63].
+Extra: Method was first introduced [here.](https://seclists.org/bugtraq/1997/Aug/63)
 
 ### B) Return-oriented programming (aka ROP)
 
-Return-to-libc method brings some limitations: we are very dependant about the libraries' functions and arguments (and vulnerable program's text segment's). Sometimes the overall functionality what we are willing to achieve is very hard to implement with just pure existing functions. With ret2libc technique, pure function calls with parameters are limited only to two calls. This will be explained later.
+Return-to-libc method brings some limitations: we are very dependent on the libraries' functions and arguments (and vulnerable program's text segment's).
+Sometimes the overall functionality that we are willing to achieve is very hard to implement with just pure existing functions.
+With ret2libc technique, pure function calls with parameters are limited only to two calls. This will be explained later.
 
-Return-oriented programming is more sophisticated version of ret2libc;
+Return-oriented programming is the more sophisticated version of ret2libc;
 instead of reusing library functions, we are additionally reusing **code chunks** (instruction
-sequences) from libraries and from the program itself. These areas are in program's executable memory.
+sequences) from libraries and from the program itself. These areas are in the program's executable memory.
 
-In practise, we are using these sequences, which ends to **ret** instrcution. This instruction is meaningful to us, as we can chain these code chunks (which are usually called as 'gadgets') to build the actual 'bigger' code we need. After gadget is executed, execution flow can be set so, that new gadget will be executed, and so on. By using some special gadgets, we can control the stack so, that we can chain these calls as much as we want.
+In practice, we are using these sequences, which will end to **ret** instruction.
+This instruction is meaningful to us, as we can chain these code chunks (which are usually called 'gadgets') to build the actual 'bigger' code we need.
+After the gadget is executed, the execution flow can be set so, that a new gadget will be executed, and so on.
+By using some special gadgets, we can control the stack so, that we can chain these calls as much as we want.
 
-Intel style example maybe as simple as it can get:
+Intel style example may be as simple as it can get:
 ```shell
 pop eax ;ret
 ```
-By giving enough reusable code, ROP is [*Turing complete*][4].
+By giving enough reusable code, ROP is *Turing complete* [^17].
 
-But how we are actually getting and executing these gadgets?
+But how we are getting and executing these gadgets?
 
- We could manually disassemble binaries and look for them, but that could take a lot of effort. Luckily there are now some tools what we are able to use.
+We could manually disassemble binaries and look for them, but that could take a lot of effort.
+Luckily there are now some tools that we can use.
 
-One very frequently updated and multipurpose tool - [radare2](https://github.com/radare/radare2) is used as example.
-Let's use once again our vulnerable program as target what we created in Task 1. Tutorial for ROP and example for using radare2 (and pwntools) with it, is [here. ](Tutorials/Tutorial3B_Radare2_and_gadgets.md)
-Pwntools is Python library, which helps to generate more controllable and readable payload.
+One very frequently updated and multipurpose tool - [radare2](https://github.com/radare/radare2) is used as an example.
 
-Simple, but practical demonstration of ROP technique can be found [here](https://tc.gts3.org/cs6265/2016/l/lab07-rop/README-tut.txt).
+Let's use once again our vulnerable program as the target that we used in Task 1.
+The tutorial for an ROP and example for using radare2 (and pwntools) with it, is [here. ](Radare2_and_gadgets.md)
 
-Extra: White paper introducing the ROP can be found [here][5].
+Simple, but practical demonstration of the ROP technique can be found [here](https://tc.gts3.org/cs6265/2016/l/lab07-rop/README-tut.txt).
 
-> ***Try to get previously mentioned example (ROP_hello) [here](src/pwntools_example/ROP_hello.py) to work by yourself. Next, make simple example implementation of ROP technique. This could be spawning a local shell for example. To not make it same as ret2libc method, print some text before spawning shell, and print also something after exiting the shell. In this way we can apply some ROP - chain.***
+Extra: The white paper introducing the ROP can be found here [^18].
+
+> ***Try to get previously mentioned example (ROP_hello) [here](src/ROP_hello.py) to work by yourself. Next, make simple example implementation of ROP technique. This could be spawning a local shell for example. To not make it same as ret2libc method, print some text before spawning shell, and print also something after exiting the shell. In this way we can apply some ROP - chain.***
 
 Tip: If you are being bit unlucky, and are facing some function addresses containing null bytes in non-Ascii-Armored system, try out some alternative functions. For example putchar function has putchar_unlocked alternative.
 
@@ -797,3 +806,5 @@ io.interactive()
 [^14]: [pwntools - CTF toolkit](https://github.com/Gallopsled/pwntools)
 [^15]: [Memory Allocation](https://samwho.dev/memory-allocation/)
 [^16]: [What's The "NX Bit"?](https://www.scribd.com/document/60416747/NX-bit)
+[^17]: [Microgadgets: Size Does Matter In Turing-complete Return-oriented Programming](https://publications.sba-research.org/publications/woot12.pdf)
+[^18]: [The Geometry of Innocent Flesh on the Bone: Return-into-libc without Function Calls (on the x86)](https://hovav.net/ucsd/dist/geometry.pdf)
