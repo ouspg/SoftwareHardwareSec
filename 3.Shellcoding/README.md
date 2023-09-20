@@ -289,8 +289,8 @@ GCC 14.1 is getting a single option `-fhardened` to apply multiple protections a
 
 Modern processors and compilers' options apply even more complex mitigation to prevent shellcoding.
 Code-reuse techniques (ROP, JOP) are mitigated by using a technique called *control-flow integrity*.[^9]
-Usually this is applied by using authentication tags for return addresses or adapting *shadow stack* to compare whether the runtime of the program has changed.
-However, it is still possible to bypass these if an advisor, for example, somehow acquires the private key, or finds sections from the co
+Usually, this is applied by using authentication tags for return addresses or adapting *shadow stack* to compare whether the runtime of the program has changed.
+However, it is still possible to bypass these if an advisor, for example, somehow acquires the private key. Check the book for more details.
 
 Different companies in hardware and software might have different names; Intel calls it as Control-flow Enforcement Technology (CET) [^10], Microsoft Control Flow Guard (CFG) [^12] while ARM calls it Pointer Authentication Code (PAC) [^11]
 
@@ -626,7 +626,7 @@ Consult the previously mentioned materials if you get in trouble.
 
 > ***1. At first, you need to open shell by executing the shellcode in the provided sample program, inside `gdb`. Adjust the padding, find the correct memory address and run the shellcode! Provide the command and screenshot when it succeeds. Explain how you obtained the memory address and the logic of your command.***
 
-> ***2. Secondly, let's run the same shellcode with `pwntools`, outside of the debugger. You must brute force the address. However, it should be quite near the one you had in `gdb`.***
+> ***2. Secondly, let's run the same shellcode with `pwntools`, outside of the debugger. You must brute force the address. However, it should be quite near the one you had in `gdb`. Return your code and screenshot of success. Briefly explain what you had to do.***
 
 Make sure to disable ASLR, and remember to operate with raw bytes instead of encoded strings e.g. use the following instead of `print`, when using python3 to generate payloads:
 ```bash
@@ -659,22 +659,23 @@ From the previously mentioned techniques, we are taking a short glance at ret2li
 One solution for this is... are libraries. Specifically: dynamic libraries, which are launched only during at the execution of the program.
 We can safely say that it's a very rare case if a program is not using any libraries.
 
-Library functions are not marked by NX - bit : they are existing instructions. By overflowing the stack suitably, we might be able to execute library functions with parameters we want.
-We could craft our payload with the intention of using functions from libraries by overflowing return addresses to point towards them.
+Library functions are not marked by NX - bit: they are existing instructions.
+By overflowing the stack suitably, we might be able to execute library functions with the parameters we want.
+We could craft our payload to use functions from libraries by overflowing return addresses to point toward them.
 Reusing functions of the vulnerable program is possible as well, but it might not be that beneficial.
 
-One very common library is **libc** (which probably named this method as 'ret2libc'), which grants a lot of flexibility. And the most useful function from there, could be *system()*. By giving */bin/sh* as an argument, we could start a shell.
-If we somehow pass correct argument to the system() function, code isn't executed in the stack, it's executed in the address of system(). This was one of the earliest methods to bypass NX protection.
+One very common library is **libc** (which probably named this method 'ret2libc'), which grants a lot of flexibility. And the most useful function from there could be *system()*. By giving */bin/sh* as an argument, we could start a shell.
+If we somehow pass the correct argument to the system() function, the code isn't executed in the stack, it's executed in the address of system(). This was one of the earliest methods to bypass NX protection.
 
 > ***In this task, you should make an example implementation of this ret2libc method. It could be for example spawning a local shell. This time, **do not** disable NX protection (do not use -z execstack flag in compiler). Disabling other protections is still required. Like previously, make a step by step report(what, why, how) including possible source files and command line commands which lead you to get shell access.***
 
 To be noted:
 * You should check if ASCII Armoring is present in your system. It should be disabled additionally for this task. In some systems, it might not be possible. It is recommended to use Kali Linux in this task.
-* This task is much easier to get done with 32 - bit binaries, because of how function parameters are passed in practice, when compared to a 64-bit system. (Stack vs registers?)
+* This task is much easier to get done with 32-bit binaries; the function parameters are passed differently when compared to a 64-bit system. (Stack vs. registers?)
 
-One simple implementation can be found from [this][2] paper for example.
+One simple implementation can be found from (this)[https://shellblade.net/files/docs/ret2libc.pdf] paper for example.
 
-Extra: Method was firstly introduced in [here][3].
+Extra: Method was first introduced in (here)[https://seclists.org/bugtraq/1997/Aug/63].
 
 ### B) Return-oriented programming (aka ROP)
 
@@ -711,7 +712,8 @@ Tip: If you are being bit unlucky, and are facing some function addresses contai
 ----
 Task 4: A bit more advanced ROP implementation
 ----
-You have the option to do a pre-defined task below **or** suggest some other task you would do. Something interesting in shellcoding, but we haven't dealt with it yet? Feel free to implement and show us what you got. It does not necessary need to be related for ROP particularly, but in the most cases it probably must. *Your task has to be approved by assistant before you can start doing it.*
+You have the option to do a pre-defined task below **or** suggest some other task you would do. Something interesting in shellcoding, but we haven't dealt with it yet? Feel free to implement and show us what you got.
+It does not necessarily need to be related to ROP particularly, but in most cases, it probably must. *Your task has to be approved by the assistant before you can start doing it.*
 
 ## Defeating ASLR (kinda): pre-defined task
 
@@ -742,7 +744,7 @@ Your objective is to:
 3. Use that to disclose imported libc function addresses. Hints:
    1. Checkout .got.plt.
    2. Remember to enter the main loop again after every read (ret back to loop start)
-      * Be careful that you ret to a correct place, otherwise, segfault is likely.
+      * Be careful that you `ret` to the correct place, otherwise, segfault is likely.
 4. Find libc version and base address using that information. Hints:
    * Use libc database, such as https://libc.blukat.me/
 5. Compute your desired libc function (or gadget address) using that information
@@ -755,8 +757,8 @@ The 32-bit binary is in [prog_bin/](./prog_bin). The binary was compiled using:
 gcc task.c -m32 -no-pie -o task4
 ```
 
-I recommend that you develop your exploit using pwntool script, similar to the one seen below. This one debugs the program using gdb and sets up breakpoints at locations `main` and `0x8049246`.
-In gdb, assembly can be viewed using `layout asm` and the stack can be printed using `x/20xw $esp`. Similarly, `x/20xw $ebp` prints current stack frame. See [GDB documentation](https://www.gnu.org/software/gdb/documentation/).
+I recommend that you develop your exploit using `pwntool` script, similar to the one seen below. This one debugs the program using gdb and sets up breakpoints at locations `main` and `0x8049246`.
+In gdb, assembly can be viewed using `layout asm` and the stack can be printed using `x/20xw $esp`. Similarly, `x/20xw $ebp` prints the current stack frame. See [GDB documentation](https://www.gnu.org/software/gdb/documentation/).
 
 ```python
 #!/usr/bin/python3
