@@ -246,7 +246,8 @@ sudo apt-get install gcc-multilib g++-multilib
 
 Implementation will differ and be more challenging depending on the version. It's recommended to use the 32-bit version since you can find more examples from it.
 
-Task 3A is not possible to do with the latest Ubuntu, Arch Linux or any mature Linux environment which is intended for daily use.
+Task 3A might not be possible to do with some distributions, which have ASCII Armoring present.
+On the latest Arch Linux, it seems to be still possible.
 
 Encoding significantly matters in these tasks, for example, Python 2 print produces just data, whereas Python 3 print produces encoded string by default.
 
@@ -672,7 +673,7 @@ If we somehow pass the correct argument to the system() function, the code isn't
 > ***In this task, you should make an example implementation of this ret2libc method. It could be for example spawning a local shell. This time, **do not** disable NX protection (do not use -z execstack flag in compiler). Disabling other protections is still required. Like previously, make a step by step report(what, why, how) including possible source files and command line commands which lead you to get shell access.***
 
 To be noted:
-* You should check if ASCII Armoring is present in your system. It should be disabled additionally for this task. In some systems, it might not be possible. It is recommended to use Kali Linux in this task.
+* You should check if ASCII Armoring is present in your system. If null bytes are present in `system` function, it is enough to describe how you could have done the task.
 * This task is much easier to get done with 32-bit binaries; the function parameters are passed differently when compared to a 64-bit system. (Stack vs. registers?)
 
 One simple implementation can be found in [this](https://shellblade.net/files/docs/ret2libc.pdf) paper for example.
