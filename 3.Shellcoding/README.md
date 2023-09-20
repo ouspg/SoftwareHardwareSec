@@ -49,10 +49,10 @@ Tasks 3 & 4 are more advanced than earlier ones. Implementation will very likely
 
 Task|Grade/Level|Description|
 ----|:---:|-----------|
-[Task 1](#task-1--basics-of-buffer-overflows "Task 1 : Basics of buffer overflows") | 1 |  Analyzing buffer overflow and changing execution flow
-[Task 2](#task-2--arbitrary-code-execution "Task 2 : Arbitrary code execution") | 2 - 3| Arbitrary code execution in the vulnerable program
-[Task 3](#task-3--defeating-no-execute "Task 3 : Defeating No-eXecute") | 4 | Code reuse attack techniques: ret2libc & ROP
-[Task 4](#task-4--a-bit-more-advanced-rop-implementation "Task 4 : A bit more advanced ROP implementation") | 5 | A bit more advanced ROP implementation
+[Task 1](#task-1-basics-of-buffer-overflows "Task 1 : Basics of buffer overflows") | 1 |  Analyzing buffer overflow and changing execution flow
+[Task 2](#task-2-arbitrary-code-execution "Task 2 : Arbitrary code execution") | 2 - 3| Arbitrary code execution in the vulnerable program
+[Task 3](#task-3-defeating-no-execute "Task 3 : Defeating No-eXecute") | 4 | Code reuse attack techniques: ret2libc & ROP
+[Task 4](#task-4-a-bit-more-advanced-rop-implementation "Task 4 : A bit more advanced ROP implementation") | 5 | A bit more advanced ROP implementation
 
 By completing Task 1, grade 1 can be achieved.
 
@@ -434,6 +434,7 @@ context.binary="./overflow"
 
 def main():
     # Our beloved target binary
+    # Note that this generates virtual address space
     task_bin = ELF('./overflow')
     # Payload to be passed into the program
     PADDING_SIZE = '?'
@@ -627,12 +628,12 @@ Consult the previously mentioned materials if you get in trouble.
 
 > ***2. Secondly, let's run the same shellcode with `pwntools`, outside of the debugger. You must brute force the address. However, it should be quite near the one you had in `gdb`.***
 
-Make sure to disable ASLR, and remember to operate with raw bytes instead of encoded strings e.g. the following instead of `print`:
+Make sure to disable ASLR, and remember to operate with raw bytes instead of encoded strings e.g. use the following instead of `print`, when using python3 to generate payloads:
 ```bash
 python -c 'import sys; sys.stdout.buffer.write()'
 ```
 
-NOP sled can also help significantly.
+NOP sled can also help significantly in hitting the correct memory address.
 
 ----
 Task 3: Defeating No-eXecute
