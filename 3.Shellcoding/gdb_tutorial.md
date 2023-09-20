@@ -48,10 +48,10 @@ This 64-bit example is using Python script to generate argument for actual
 program.
 We will have a look for register contents.
 
-Here is a short intro to the usage of `gdb``, if it is not familiar beforehand:
+Here is a short intro to the usage of `gdb`, if it is not familiar beforehand:
 https://mohit.io/blog/gdb-assembly-language-debugging-101/
 
-**The following example uses Python 2, which does not encode the strings to UTF-8. If you use Python 3, you must replace the `print` with writing raw bytes.**
+**The following examples uses Python 2, which does not encode the strings to UTF-8. If you use Python 3, you must replace the `print` with writing raw bytes.**
 
 ```shell
 python -c 'import sys; sys.stdout.buffer.write("data")'
@@ -59,14 +59,14 @@ python -c 'import sys; sys.stdout.buffer.write("data")'
 
 
 ```shell
-# gcc -o test -fno-stack-protector Overflow.c
-# gdb -q test
+# gcc -o Overflow -fno-stack-protector Overflow.c
+# gdb -q Overflow
 Reading symbols from test...(no debugging symbols found)...done.
 (gdb) r "$(python -c 'print("A" * 9)')"
-Starting program: /root/Desktop/Shellcode/test "$(python -c 'print("A" * 9)')"
+Starting program: /root/Overflow "$(python -c 'print("A" * 9)')"
 [Inferior 1 (process 9552) exited normally]
 (gdb) r "$(python -c 'print("A" * 10)')"
-Starting program: /root/Desktop/Shellcode/test "$(python -c 'print("A" * 10)')"
+Starting program: /root/Overflow "$(python -c 'print("A" * 10)')"
 
 Program received signal SIGSEGV, Segmentation fault.
 0x0000004000000100 in ?? ()
@@ -101,7 +101,7 @@ If we go little bit further and overflow some more...
 (gdb) r "$(python -c 'print("A" * 20)')"
 The program being debugged has been started already.
 Start it from the beginning? (y or n) y
-Starting program: /root/Desktop/Shellcode/test "$(python -c 'print("A" * 20)')"
+Starting program: /root/Overflow "$(python -c 'print("A" * 20)')"
 
 #Looking rip register with input size of 20x A characters
 rip            0x555555004141	0x555555004141
@@ -166,7 +166,7 @@ Breakpoint 1 at 0x555555554758
 Breakpoint 2 at 0x55555555475d
 (gdb) b * 0x555555554770
 Breakpoint 3 at 0x555555554770
-Starting program: /root/Desktop/Shellcode Lab/Overflow $(python -c 'print("A" * 20)')
+Starting program: /root/Overflow $(python -c 'print("A" * 20)')
 ```
 Execute, and after first breakpoint:
 
@@ -216,7 +216,7 @@ What is the content of stack if we the execute program, by causing the buffer ov
 Stack information in first breakpoint should stay same, but let's have a look on second breakpoint again, which is right after when overflow occurs.
 ```shell
 (gdb) r $(python -c 'print("A" * 26)')
-Starting program: /root/Desktop/Shellcode Lab2/Overflow $(python -c 'print("A" * 26)')
+Starting program: /root/Overflow $(python -c 'print("A" * 26)')
 
 Breakpoint 1, 0x0000555555554758 in stackoverflow ()
 (gdb) x/20x $rsp
