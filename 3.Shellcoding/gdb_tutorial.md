@@ -51,6 +51,11 @@ We will have a look for register contents.
 Here is a short intro to the usage of `gdb``, if it is not familiar beforehand:
 https://mohit.io/blog/gdb-assembly-language-debugging-101/
 
+**The following example uses Python 2, which does not encode the strings to UTF-8. If you use Python 3, you must replace the `print` with writing raw bytes.**
+
+```shell
+python -c 'import sys; sys.stdout.buffer.write("data")'
+```
 
 
 ```shell
