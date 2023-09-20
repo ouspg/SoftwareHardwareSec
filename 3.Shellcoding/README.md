@@ -716,7 +716,9 @@ Extra: The white paper introducing the ROP can be found here [^18].
 
 > ***Try to get previously mentioned example (ROP_hello) [here](src/ROP_hello.py) to work by yourself. Next, make simple example implementation of ROP technique. This could be spawning a local shell for example. To not make it same as ret2libc method, print some text before spawning shell, and print also something after exiting the shell. In this way we can apply some ROP - chain.***
 
-Tip: If you are being bit unlucky, and are facing some function addresses containing null bytes in non-Ascii-Armored system, try out some alternative functions. For example putchar function has putchar_unlocked alternative.
+Tip: If you are being bit unlucky, and are facing some function addresses containing null bytes in non-Ascii-Armored system, try out some alternative functions. For example, `putchar` function has `putchar_unlocked` alternative.
+
+Extra: What if you use symbols with `pwntools` and also load the `libc` binary with it? You can avoid the hardcoded addresses altogether.
 
 ----
 Task 4: A bit more advanced ROP implementation
