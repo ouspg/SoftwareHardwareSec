@@ -429,6 +429,7 @@ In this case, `pwntools` creates own virtual memory space for the program, but i
 
 You only need to replace the part with `'?'` for it to work!
 In the example, the program is compiled as 32-bit.
+You must compile the program with `-no-pie` option in this case.
 
 ```python
 from pwn import *
@@ -455,7 +456,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-Getting used to `pwntools` at this point will help on the following tasks.
+Getting used to `pwntools` at this point will help with the following tasks.
 
 > ***Return a screenshot when you manage to execute the "secret" function by using `pwntools` and also return your Python source code.***
 ---
