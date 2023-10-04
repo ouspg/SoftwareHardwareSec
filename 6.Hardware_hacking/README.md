@@ -361,7 +361,7 @@ to carry out badUSB attack on a virtual linux VM, to avoid harming your computer
 
 You must return next 2 items to return template to gain points from this task:
 1. Your working attack script.
-2. Screenshot of output(s) after your code has successfully solved correct password & SSID. Screenshot of wifi_credentials.txt file
+2. Proof of success. A small video capturing the process. Compress and upload it to moodle or provide link from a streaming service.
 
 
 
