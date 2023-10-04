@@ -307,7 +307,7 @@ makepkg -si
 ```
 
 
-You are given a sample network file called [networkfile.nmconnection](misc/networkfile.nmconnection) which contains Wifi credentials for a network called 'Cross'
+You are given a sample network file called [networkfile.nmconnection](misc/networkfile.nmconnection) which contains Wifi credentials for a network called 'Cross'.
 Now that you're familiar with ducky scripts, your end goal is a script which automatically extracts whole password and SSID for you from this file. Afterwards, it should send this password and SSID
 over email to win10_9121@outlook.com!
 
