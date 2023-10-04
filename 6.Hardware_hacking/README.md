@@ -158,7 +158,7 @@ It is necessary to know the RFID tag types, so that you know how to interact wit
 You should explain how the technology within flipper zero interacts with different types of RFID tags/cards. Furthermore, explain how tag readers work. What happens when a tag comes near to a reader?
 
 __Things to Consider__
-Your answers should consider describing power source of these tags and readers, mechanism to activate them, how do they emit radiations and utilization offrequency bands.
+Your answers should consider describing power source of these tags and readers, mechanism to activate them, how do they emit radiations and which frequency bands they utilize.
 
 **What tools exist in market and mobile applications to access/read RFID devices**
 
