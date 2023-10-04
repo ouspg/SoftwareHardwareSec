@@ -314,6 +314,8 @@ over email to win10_9121@outlook.com!
 To aid you in this task, flipper zero comes with a sample Wi-Fi credentials stealing script written in ducky language in following directory: _SD Card/badusb/Wifi-Stealer_ORG.txt_
 The filename is: Wifi-Stealer_ORG.txt
 
+However, this script is written for windows and does not have automated email sending component using powershell. 
+
 Contents of the file are shared below for your reference:
 
 ```shell
