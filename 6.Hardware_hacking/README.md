@@ -256,6 +256,8 @@ For example, a BadUSB attack might involve creating a USB device that, when plug
 Since WiFi credentials are often stored on a computer to allow automatic connections to networks, a BadUSB attack could potentially target the relevant configuration files or use other methods to access and steal these credentials. These credentials can then be exported via email using powershell script.
 
 
+
+
 ### Getting familiar with Ducky Script
 
 ## A) Writing a script to open shell on linux
@@ -286,6 +288,24 @@ __HINT__: If you need to test your solution, copy paste it to flipper zero's bad
 
 
 ## B) Engineering a complete script to steal password from a text file and send it over email
+
+Before proceeding with this task, you'll need to install Powershell on your virtual machine. Click here for arch linux [guide](https://ephos.github.io/posts/2018-9-17-Pwsh-ArchLinux)
+
+```shell
+# POWERSHELL INSTALL SCRIPT FOR ARCH LINUX
+# Clone the AUR package down with git, use the "Git Clone URL"
+git clone https://aur.archlinux.org/powershell-bin.git
+
+# Navigate into the directory from the Git clone
+cd powershell-bin
+
+# AUR Packages are community created, MAKE SURE YOU REVIEW THE FILES BEFORE INSTALL!
+cat PKGBUILD
+
+# Run makepkg to build the AUR package, '-s' will sync dependencies, '-i' will install the package after build.
+makepkg -si
+```
+
 
 You are given a sample network file called networkfile.nmconnection which contains Wifi credentials for a network called 'Cross'
 Now that you're familiar with ducky scripts, your end goal should be a script which automatically extracts whole password and SSID for you from this file. Afterwards, it should send this password and SSID
