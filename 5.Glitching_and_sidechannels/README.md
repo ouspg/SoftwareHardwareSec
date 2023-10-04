@@ -149,16 +149,6 @@ If you want to make custom installation on your machine follow instructions [her
 
 These options have not been tried, so no guarantees about those (but there should not be any reason why that should not work either).
 
-## Remote ChipWhisperer machine
-
-This year we are testing for the first time remotely usable ChipWhisperer setup that can serve multiple users simultaneously.
-
-Contact course assistants to receive your username, private key and instructions to connect to the system.
-
-You need university account to perform SSH jump to reach the server.
-
-When you connect system, device is allocated to you and virtual machine using the device is automatically started for you. This means that you do not have to install anything or worry about borrowing device at all. Sounds great, right? This is tried first time so let's see how well it will work.
-
 ---
 
 # Tasks
