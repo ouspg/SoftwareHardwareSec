@@ -54,7 +54,7 @@ Task| Point | Description | Good-to-have skills
 --|:--:|--|--
 1|1|Getting familiar with flipper zero, understanding initial setup, reading and understanding technical articles about flipper and RFID access system | Article reading, Radio-frequency technology
 2|3|NFC Card emulation with flipper zero and gaining access control. Mifare classic and infraded module | Knowing how to use flipper zero 
-3|4|Engineering a BadUSB attack with flipper zero | Ducky scripting language, Linux
+3|4|Engineering a BadUSB attack with flipper zero | Ducky scripting language, Linux, Powershell
 4|5|Several alternatives for advanced experimenting with flipper zero based on your interest | Arduino, Hardware integration, Command-line interface
 
 ---
@@ -245,7 +245,7 @@ If you recorded video, upload it to moodle with your report submission.
 
 ---
 ## Task 3
-### Design a Bad USB attack to steal Wifi credentials by plugging in flipper zero, targetting a linux VM
+### Design a Bad USB attack to steal password by plugging in flipper zero, and sending them over email
 
 In this task, you will learn how to use the badUSB module in flipper and convert it into a powerful badUSB for pentesting attacks.
 
@@ -253,14 +253,14 @@ BadUSB attacks involve exploiting the inherent trust that USB devices have with 
 
 For example, a BadUSB attack might involve creating a USB device that, when plugged into a computer, presents itself as a keyboard and starts typing out a series of commands to the operating system. These commands could include downloading and executing malicious scripts that attempt to extract sensitive information like WiFi credentials from the system. 
 
-Since WiFi credentials are often stored on a computer to allow automatic connections to networks, a BadUSB attack could potentially target the relevant configuration files or use other methods to access and steal these credentials. 
+Since WiFi credentials are often stored on a computer to allow automatic connections to networks, a BadUSB attack could potentially target the relevant configuration files or use other methods to access and steal these credentials. These credentials can then be exported via email using powershell script.
 
 
 ### Getting familiar with Ducky Script
 
 ## A) Writing a script to open shell on linux
 
-In this task you will get familiar with writing scripts that can open powershell.
+In this task you will get familiar with writing scripts that can open shell.
 
 Ducky Script Tutorial: [link](https://web.archive.org/web/20220816200129/http://github.com/hak5darren/USB-Rubber-Ducky/wiki/Duckyscript)
 
@@ -285,9 +285,11 @@ __NOTE__: You can test your script only on Rubber Ducky USB compatible devices. 
 __HINT__: If you need to test your solution, copy paste it to flipper zero's badusb folder. Connect it with pc and run the script from your device!
 
 
-## B) Engineering a complete script to steal Wi-Fi credentials on linux
+## B) Engineering a complete script to steal password from a text file and send it over email
 
-Now that you're familiar with ducky scripts, your end goal should be a script which automatically solves whole password and SSID for you. A simple plug and play results in output file with password!
+You are given a sample network file called networkfile.nmconnection which contains Wifi credentials for a network called 'Cross'
+Now that you're familiar with ducky scripts, your end goal should be a script which automatically extracts whole password and SSID for you from this file. Afterwards, it should send this password and SSID
+over email to win10_9121@outlook.com!
 
 Flipper zero comes with a sample Wi-Fi credentials stealing script written in ducky language in following directory: _SD Card/badusb/Wifi-Stealer_ORG.txt_
 The filename is: Wifi-Stealer_ORG.txt
@@ -309,10 +311,12 @@ DELAY 500
 STRING cd C:\Users\$env:UserName\Desktop; netsh wlan export profile key=clear; Select-String -Path WiFi-* -Pattern 'keyMaterial' | % { $_ -replace '</?keyMaterial>', ''} | % {$_ -replace "C:\\Users\\$env:UserName\\Desktop\\", ''} | % {$_ -replace '.xml:22:', ''} > 0.txt; del WiFi-*;exit
 ENTER
 ```
-Your job is to study ducky script and bad USB attacks to come up with a script that finds the configuration files on virtual linux VMs for Wifi password and SSID.
-Your script should store this informaton in a file called wifi_credentials.txt
+Your job is to first download given configuration file on your virtual linux. Next, study ducky script, powershell and bad USB attacks to come up with a script that finds the configuration file for Wifi password, SSID and exports them over email as plain text.
+
 
 **Recommended way to proceed:**
+
+**i.**	Download wifi credentials file on your machine.
 
 **i.**	Write ducky script on your machine. Save file
 
@@ -327,7 +331,7 @@ Your script should store this informaton in a file called wifi_credentials.txt
 
 __HINT__: You should place your script in following directory of flipper: _SD Card/badusb/<your_script>_ 
 
-This task will require some trial and error from your side before finally being able to steal credentials. Partial marks can be awarded to good attempts.
+This task will require some trial and error from your side before finally being able to steal credentials and send automatically over email. Partial marks can be awarded to good attempts.
 
 >[!WARNING]
 > Bad USB scripts can be very dangerous as they execute shell commands. Writing a wrong script can potentially damage the functionality of your OS or machine. Therefore, it is advised
