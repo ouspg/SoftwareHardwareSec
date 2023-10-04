@@ -396,7 +396,7 @@ Videos should be compressed and uploaded to moodle directly with return answer t
 
 > Report could be as simple as:
  * What is the experiment about? Plan of action
- * Objective of this experiment? Intented outcome/result
+ * Objective of this experiment? Intended outcome/result
  * Hardware and software setup required to achieve it
  * Actual experiment. Challenges and roadblocks faced
  * Record experiments in video
