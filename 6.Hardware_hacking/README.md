@@ -179,7 +179,7 @@ In the last part of this task, you'll familiarize yourself with Mifare Classic t
 
 ## A) Reading cards and key tags
 
-**Fist task is to read and save different cards, key tags and inspect saved files**. In this tutorial you will learn to read access control cards and tags.
+**First task is to read and save different cards, key tags and inspect saved files**. In this tutorial you will learn to read access control cards and tags.
 
 Task is rather straightforward and requires you to put card/key at the back of flipper and executing correct module on device.
 
