@@ -339,7 +339,7 @@ i) finds the downloaded configuration file
 
 ii) extracts Wifi password & SSID from it
 
-iii) sends password & SSID to following email: win10_9121@outlook.com
+iii) sends password & SSID to following email: win10_9121@outlook.com as plain body text
 
 
 **Recommended way to proceed:**
@@ -371,6 +371,8 @@ You must return next 2 items to return template to gain points from this task:
 1. Your working attack script.
 2. Proof of success. A small video capturing the process. Compress and upload it to moodle or provide link from a streaming service.
 
+>[!NOTE]
+> Replace your SMTP email and password with dummy when submitting script. You could replace your authentication email with email@gmail.com, and password with abc1234 for example
 
 
 
