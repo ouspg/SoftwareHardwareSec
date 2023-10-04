@@ -1,7 +1,7 @@
-Computer Security Lab 5: ChipWhisperer
+Software and Hardware Security Lab 5: ChipWhisperer (Hardware Glitching and side channel attacks)
 ====
 
-Responsible person/main contact: Joni Liljeblad
+Responsible person/main contact: Asad Hasan
 
 ## ToC
 * [Preliminary tasks](#Preliminary-tasks)
