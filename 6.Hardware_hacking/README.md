@@ -40,7 +40,7 @@ and advanced tasks include usage of actual device (Flipper Zero) to perform them
 
 This lab is little bit different than others because tasks 2, 3 & 4 require the usage of external device. Number of devices are limited which causes some difficulties to arrangements.
 
-* Students are encouraged to do labwork in groups of 3 or 4 if possible. 
+* Students are encouraged to do labwork in groups of 2, 3 or 4 if possible. 
 * Students are encouraged to borrow device do the lab ahead of schedule to balance load on actual lab week.
 * We try to arrange loaning times so that everyone would have chance to hold device at least couple of days if they want.
 * Answers to theoretical questions must be returned individually.
