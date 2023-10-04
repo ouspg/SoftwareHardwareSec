@@ -165,6 +165,11 @@ Most of the tasks are based on ChipWhisperer tutorials which are located in fold
 
 **If you are doing this work in group, remember to mark down clearly which of you participated on which tasks**
 
+__NOTES__
+> Before you begin tutorials, note the scope and platform for device we are using
+> SCOPETYPE = 'OPENADC'
+> PLATFORM = 'CW303'
+
 ## Task 1
 
 Task 1 tasks are meant to be relatively simple tasks to help you understand that what is the Chipwhisperer device and what can be done with it. You will learn how to connect the board, inspect power traces and use ChipWhisperer analyzer program.
