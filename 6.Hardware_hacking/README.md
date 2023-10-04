@@ -289,7 +289,7 @@ __HINT__: If you need to test your solution, copy paste it to flipper zero's bad
 
 ## B) Engineering a complete script to steal password from a text file and send it over email
 
-Before proceeding with this task, you'll need to install Powershell on your virtual machine. Click here for arch linux [guide](https://ephos.github.io/posts/2018-9-17-Pwsh-ArchLinux)
+Before proceeding with this task, you'll need to install Powershell on your virtual machine. Install instructions are given below for arch linux [reference guide](https://ephos.github.io/posts/2018-9-17-Pwsh-ArchLinux)
 
 ```shell
 # POWERSHELL INSTALL SCRIPT FOR ARCH LINUX
