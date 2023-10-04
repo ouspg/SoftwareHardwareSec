@@ -167,7 +167,9 @@ Most of the tasks are based on ChipWhisperer tutorials which are located in fold
 
 __NOTES__
 > Before you begin tutorials, note the scope and platform for device we are using
+> 
 > SCOPETYPE = 'OPENADC'
+> 
 > PLATFORM = 'CW303'
 
 ## Task 1
