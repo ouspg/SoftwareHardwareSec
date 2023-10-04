@@ -199,9 +199,9 @@ Each smart card contains an integrated chip with a unique permanent identificati
 
 **What is the UID of card/key?**
 
-**Can this card/key emulated by flipper zero?**
+**Can this card/key be emulated by flipper zero?**
 
-**Transfer saved card/key file to your computer and open it with text editor. What do you see? Paste screenshot**
+**Transfer one of the saved card/key files to your computer and open it with text editor. What do you see? Paste screenshot**
 
 >[!IMPORTANT]
 >_Blur or remove any personal information from screenshots of your card/key text files._
