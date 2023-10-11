@@ -183,10 +183,10 @@ Let's see the illustration below.
 |---------------------|
 | Local Variable 1    |
 |---------------------|
-| Array (e.g., char)  |  <-- Start of local array
+| Array (e.g., char)  |  <-- End of local array
+| (Variable 2)|
 |                     |
-|                     |
-|---------------------|  <-- End of local array
+|---------------------|  <-- Start of local array
 | Local Variable 2    |
 |---------------------|
 | ...                 |  <-- Stack Pointer (Lower Memory Address)
