@@ -23,6 +23,23 @@ Exploiting known TPM vulnerabilities or attempts of tampering might go outside o
 > [!WARNING]
 > During this exercise, only use the simulator and not the underlying TPM module of your computer, even if you think that you know what you are doing. In the worst case, your computer will become unbootable (and unfixable) and your encrypted disk can never be decrypted.
 
+## Grading
+
+You are eligible for the following grades in this exercise by doing tasks as defined. Great ideas and implementations could compensate for some poorly implemented ones.
+
+***You don't have to do the tasks 2 and 3 in order!***
+
+
+Task|Points|Description|
+----|:---:|-----------|
+[Task 1](#task-1-getting-started-with-tpm-20) | 1 | Getting started with TPM 2.0 |
+[Task 2](#task-2-hardware-secured-end-to-end-encrypted-messenger) | 1-3 | Hardware-secured end-to-end encrypted messenger |
+[Task 3](#task-3-risks-and-limitations-of-hardware-based-security-and-remote-attestation) | 1 | Risks and limitations of hardware-based security and remote attestation |
+
+A total of 5 points can be obtained from this lab.
+
+
+*Return completed tasks to your private GitHub repository!*
 
 # Task 1: Getting started with TPM 2.0
 
@@ -51,18 +68,18 @@ If the object memory of the TPM simulator gets full, you can in this case clear 
 
 > 2. Create Owner-class Hierarchy Primary Key of elliptic-curve kind. What the seed means in this context and how it affects for key generation? Are we using correct hierarchy if we want to generate keys for applications? Provide the commands.
 
-> 3. Create usable key with the help primary key. Load the key into TPM. Print the public key in `PEM` format. Provide the commands.
+> 3. Create usable key with the help of primary key. Load the key into TPM. Print the public key in `PEM` format. Provide the commands.
 
 > 4. Let's use the key. At first, generate symmetric key for AES encryption. Encrypt some string which is longer in bits than the asymmetric key size (256 bits). Sign the ciphertext with the ECC keys and verify the integrity. Provide the commands.
 
 > 5. Check the [PCR section](https://github.com/nokia/TPMCourse/blob/master/docs/pcrs.md) and [NVMRAM sealing](https://github.com/nokia/TPMCourse/blob/master/docs/nvram.md#sealing) of the Nokia instructions. Create a PCR policy, define NVMRAM section, and write a string there, which is sealed by the policy. Do you have any idea, what your policy is about? It tells about the state, but what state? Provide the commands.
 
-# Task 2: End-to-end encrypted messenger
+# Task 2: Hardware-secured end-to-end encrypted messenger
 
 > [!NOTE]
 > You can skip this task and do the final task, if you don't want to do tasks in order.
 
-# Task 3: Risks and limitations of hardware-based security
+# Task 3: Risks and limitations of hardware-based security and remote attestation
 
 > As the final task of the course, you need to write an essay.
 The essay should be 1-2 A4 pages long at minimum, or more. (400-800 words)
