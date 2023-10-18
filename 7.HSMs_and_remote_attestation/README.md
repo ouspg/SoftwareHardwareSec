@@ -64,7 +64,7 @@ Use the instructions from [Nokia's TPM course](https://github.com/nokia/TPMCours
 If the object memory of the TPM simulator gets full, you can in this case clear it safely by using the command `tpm2_flushcontext`, or start from the beginning by using `tpm2_clear`.
 
 
- 1. How you could generate 30 bytes of random data by using TPM. Can you increase the entropy of TPM's random number generator? Provide the commands.
+ 1. How you could generate 30 bytes of random data by using TPM? Can you increase the entropy of TPM's random number generator? Provide the commands.
 
  2. Create Owner-class Hierarchy Primary Key of elliptic-curve kind. What does the seed mean in this context and how does it affect key generation? Are we using the correct hierarchy if we want to generate keys for applications? Provide the commands.
 
@@ -72,12 +72,119 @@ If the object memory of the TPM simulator gets full, you can in this case clear 
 
  4. Let's use the key. At first, generate a symmetric key for AES encryption. Encrypt some string which is longer in bits than the asymmetric key size (256 bits). Sign the ciphertext with the ECC keys and verify the integrity. Provide the commands.
 
- 5. Check the [PCR section](https://github.com/nokia/TPMCourse/blob/master/docs/pcrs.md) and [NVMRAM sealing](https://github.com/nokia/TPMCourse/blob/master/docs/nvram.md#sealing) of the Nokia instructions. Create a PCR policy, define NVMRAM section, and write a string there, which is sealed by the policy. Do you have any idea, what your policy is about? It tells about the state, but what state? Provide the commands.
 
 # Task 2: Hardware-secured end-to-end encrypted messenger
 
 > [!NOTE]
 > You can skip this task and do the final task, if you don't want to do tasks in order.
+
+This task is a programming exercise, and you will likely need to use `Golang`, unless you are prepared to figure out many things yourself.
+
+We provide a base project, and you need to implement some missing features, to programmatically use TPM 2.0.
+
+There are also [Python bindings](https://github.com/tpm2-software/tpm2-pytss), for example,  if you don't want to use Go, but you are on your own.
+
+## Requirements
+
+The idea is the following; we are going to implement a secure end-to-end messenger, where most of the cryptographic keys are stored, *sealed* inside the TPM.
+In theory, only the untampered TPM devices can decrypt the message contents, and nobody else.
+
+The messenger should do the following:
+ * The same application is able to send and receive messages. (already in the base project)
+ * Two users, Alice and Bob are sending messages. This is simulated with Unix sockets between two Docker containers. We need containers to provide two TPM 2.0 instances. (Compose file already provided)
+ * Both Alice and Bob have their own public-private key pairs, and *private key is stored inside separate TPMs.* (Missing)
+   * Simulated by running the same application twice in different containers.
+ * TPM is responsible for generating session-based stream encryption key (e.g. AES) (Missing)
+ * The public key of the receiver is used to encrypt the AES key, among the encrypted data, when the date is being sent. It means that the receiver uses its private key from TPM to decrypt the AES key, and then further the message content with the decrypted symmetric key. (Missing)
+
+
+### Advanced (required for full points)
+
+The messenger should implement the following Signal Protocols:
+ * [The X3DH Key Agreement Protocol](https://signal.org/docs/specifications/x3dh/#introduction)
+ * [The Double Ratchet Algorithm](https://signal.org/docs/specifications/doubleratchet/)
+
+For example,  Signal, Facebook Messenger, WhatsApp, Google Messages, and Matrix use these in order to provide E2E encryption.
+
+When compared to the previous. this should have perfect forward secrecy.
+
+There are libraries available, that abstract most of the complexity. It is not as difficult as it sounds!
+
+  * [Xochimilco - both Double Ratchet and X3DH with examples](https://pkg.go.dev/github.com/oxzi/xochimilco#section-readme)
+
+ TPM 2.0 simulator does not support `Curve25519` or `Curve448` elliptic curves, which are recommended and often used by Signal protocol implementations.
+ Instead, we need to use other TPM 2.0-supported algorithms to encrypt the private keys of these curves.
+
+ Check the [PCR section](https://github.com/nokia/TPMCourse/blob/master/docs/pcrs.md) and [NVMRAM sealing](https://github.com/nokia/TPMCourse/blob/master/docs/nvram.md#sealing) of the Nokia instructions.
+
+ Create a PCR policy, define NVMRAM section, and write a private key in there, which is sealed by the policy. Do you have any idea, what your policy is about? It tells about the state, but what state?
+
+Check Go go-tpm-tools package [client](https://pkg.go.dev/github.com/google/go-tpm-tools/client) which abstracts a lot.
+
+## Getting started
+
+To start developing, all you need is `docker-compose` or `podman-compose` installed and working.
+
+
+On this directory, run `docker-compose up`.
+
+This will spawn two identical containers named as:
+  * tpm2fun_1
+  * tpm2fun_2
+
+The base code is located on the directory `messenger` on this repository, which is automatically mounted to `/data` directory inside the container.
+
+Then in different terminal windows, connect to containers as
+```console
+podman exec -it tpm2fun_1
+# On another window
+podman exec -it tpm2fun_2
+```
+
+For demo purpose, on the second window you can set Netcat for listening mode:
+```console
+nc -lU /var/run/messenger/unix.sock
+```
+In the first window, once you are in `/data` folder, just run
+```console
+go run .
+```
+This will install Go dependencies and run the main program, which will send some data over `Unix` socket, and Netcat will show the data.
+
+## Additional help
+
+If you haven't developed much with Go, you can get the development environment running rather fast.
+Install VSCode if you haven't already, and the following extensions:
+  * [`Dev Containers`](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) (To attach TPM container)
+  * When you have run the compose file, attach either `tmp2fun_1` or `tmp2fun_2` container, and open `/data` directory.
+  * Once attached into the container, install `Go by Go Team in Google`(install also popups)
+
+For Golang simulator documentation, look [here](https://pkg.go.dev/github.com/google/go-tpm-tools@v0.4.1/simulator#pkg-overview), however, you probably don't need it more than already has been provided.
+
+We will use the [old API of `go-tpm`](https://pkg.go.dev/github.com/google/go-tpm@v0.9.0/legacy/tpm2), since the new one is still under development and is missing documentation.
+
+Some examples are available [here.](https://github.com/google/go-tpm/tree/main/examples)
+
+
+When looking tutorials, in most cases, you can replace the usage of the real device as follows:
+
+```go
+    //  We don't use real device
+    // rwc, err := tpm2.OpenTPM(path)
+    // Instead ->
+	rwc, err := simulator.Get()
+	if err != nil {
+		log.Fatalf("failed to initialize simulator: %v", err)
+	}
+```
+
+When building the simulator, you will see some `GCC`-related notes; you can suppress them by setting `export CGO_CFLAGS="-Wno-psabi"` environment variable.
+On containers, this is already set by default.
+
+To compile `ProtoBuff` files, if you modify them:
+```console
+protoc --go_out=. --go_opt=paths=source_relative message.proto
+```
 
 # Task 3: Risks and limitations of hardware-based security and remote attestation
 

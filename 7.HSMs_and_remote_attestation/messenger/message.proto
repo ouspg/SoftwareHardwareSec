@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "./main";
+
+message Message {
+    DataKind kind = 1;
+    bytes data = 2;
+}
+
+  enum DataKind {
+    UNSPECIFIED = 0;
+    ENCRYPTED_MESSAGE = 1;
+    PUBLIC_KEY = 2;
+  }
