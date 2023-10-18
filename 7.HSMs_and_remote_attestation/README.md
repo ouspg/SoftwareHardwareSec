@@ -118,7 +118,7 @@ There are libraries available, that abstract most of the complexity. It is not a
 
  Check the [PCR section](https://github.com/nokia/TPMCourse/blob/master/docs/pcrs.md) and [NVMRAM sealing](https://github.com/nokia/TPMCourse/blob/master/docs/nvram.md#sealing) of the Nokia instructions.
 
- Create a PCR policy, define NVMRAM section, and write a private key in there, which is sealed by the policy. Do you have any idea, what your policy is about? It tells about the state, but what state?
+ Create a PCR policy, define NVMRAM section, and write the required private key(s) in there, which is sealed by the policy. Do you have any idea, what your policy is about? It tells about the state, but what state?
 
 Check Go go-tpm-tools package [client](https://pkg.go.dev/github.com/google/go-tpm-tools/client) which abstracts a lot.
 
