@@ -133,7 +133,10 @@ This will spawn two identical containers named as:
   * `tpm2fun_1`
   * `tpm2fun_2`
 
-The base code is located on the directory `messenger` on this repository, which is automatically mounted to `/data` directory inside the container.
+The base code is located on the directory `messenger` on this repository, which is automatically mounted to `/data` directory inside both containers.
+
+It will also create a named volume, which is mounted to path `/var/run/messenger/` in both containers.
+This directory is used for the UNIX socket, which is used for communication.
 
 Then in different terminal windows, connect to containers as
 ```console
