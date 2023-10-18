@@ -93,7 +93,7 @@ If you are unfamiliar with remote attestation, read the [Wikipedia page of Trust
  * Can we control the global supply chain properly when manufacturing TPMs?
  * Privacy issues of the usage of the Endorsement Key - can we do better?
  * TPM has become a complex all-capable device - what does this mean for security? The public API has over 1200 functions [^11]. Complexity is the enemy of security.
- * The TPM manufacturing process can be very slow or lagging. For example, Curve25519 is a widely used cryptographic curve, but it just appeared in the standard 2020 and still, no single TPM chip supports it.
+ * The TPM manufacturing process can be very slow or lagging. For example, Curve25519 is a widely used cryptographic curve, but it just appeared in the standard 2020 and still, no single TPM chip supports it. For example, [the Signal protocol usually is implemented with Curve25519 or Curve448 elliptic curves](https://signal.org/docs/specifications/doubleratchet/).
  * TPM might lead you to not own your own computer anymore.  Explore the implications for personal and enterprise users.
  * How might vulnerabilities in the TPM firmware itself be addressed?
  * Is there enough transparency in the design, manufacturing, and functioning of TPMs for the broader cybersecurity community to place trust in them?
@@ -111,7 +111,6 @@ You can also look for public opinions about the topic.
 Think about the potential problems of this - do benefits beat the negative effects? Consider good use cases and bad use cases for remote attestation.
 
 
----
 
 [^1]: [Hardware Security Module](https://en.wikipedia.org/wiki/Hardware_security_module)
 
