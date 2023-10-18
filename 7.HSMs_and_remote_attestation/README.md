@@ -137,12 +137,12 @@ The base code is located on the directory `messenger` on this repository, which 
 
 Then in different terminal windows, connect to containers as
 ```console
-podman exec -it tpm2fun_1
+docker exec -it tpm2fun_1
 # On another window
-podman exec -it tpm2fun_2
+docker exec -it tpm2fun_2
 ```
 
-For demo purpose, on the second window you can set Netcat for listening mode:
+For demo the purpose, on the second window you can set Netcat for listening mode:
 ```console
 nc -lU /var/run/messenger/unix.sock
 ```
@@ -151,6 +151,7 @@ In the first window, once you are in `/data` folder, just run
 go run .
 ```
 This will install Go dependencies and run the main program, which will send some data over `Unix` socket, and Netcat will show the data.
+In this case, it is just random bytes from TPM.
 
 ## Additional help
 
