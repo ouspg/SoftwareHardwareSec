@@ -94,6 +94,7 @@ The messenger should do the following:
  * Two users, Alice and Bob are sending messages. This is simulated with Unix sockets between two Docker containers. We need containers to provide two TPM 2.0 instances. (Compose file already provided)
  * Both Alice and Bob have their own public-private key pairs, and *private key is stored inside separate TPMs.* (Missing)
    * Simulated by running the same application twice in different containers.
+   * All encryption functionality is missing
  * TPM is responsible for generating session-based stream encryption key (e.g. AES) (Missing)
  * The public key of the receiver is used to encrypt the AES key, among the encrypted data, when the date is being sent. It means that the receiver uses its private key from TPM to decrypt the AES key, and then further the message content with the decrypted symmetric key. (Missing)
 
@@ -129,8 +130,8 @@ To start developing, all you need is `docker-compose` or `podman-compose` instal
 On this directory, run `docker-compose up`.
 
 This will spawn two identical containers named as:
-  * tpm2fun_1
-  * tpm2fun_2
+  * `tpm2fun_1`
+  * `tpm2fun_2`
 
 The base code is located on the directory `messenger` on this repository, which is automatically mounted to `/data` directory inside the container.
 
