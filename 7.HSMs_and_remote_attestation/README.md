@@ -49,7 +49,7 @@ However, this can be sometimes a bit dangerous and should be avoided when just l
 For the exercise, we will use a custom Docker/OCI image, which uses Microsoft's official TPM 2.0 reference implementation and its simulator [^7].
 
 The image contains a set of TPM-specific tools and some additional dependencies to do the exercise this week.
-In the first task, we are mainly using tpm2-tools collection, and the docs are available [here.](https://tpm2-tools.readthedocs.io/en/latest/)
+In the first task, we are mainly using `tpm2-tools` collection, and the docs are available [here.](https://tpm2-tools.readthedocs.io/en/latest/)
 
 To start doing this task, simply run
 
@@ -61,18 +61,18 @@ The image is available for both `x86_64` and `AArch64` platforms.
 
 
 Use the instructions from [Nokia's TPM course](https://github.com/nokia/TPMCourse/blob/master/docs/STARTHERE.md) [^8] as help and answer the following questions.
-If the object memory of the TPM simulator gets full, you can in this case clear it safely by using the command `tpm2_flushcontext -t`.
+If the object memory of the TPM simulator gets full, you can in this case clear it safely by using the command `tpm2_flushcontext`, or start from the beginning by using `tpm2_clear`.
 
 
-> 1. How you could generate 30 bytes of random data by using TPM. Can you increase the entropy of TPMs random number generator? Provide the commands.
+ 1. How you could generate 30 bytes of random data by using TPM. Can you increase the entropy of TPM's random number generator? Provide the commands.
 
-> 2. Create Owner-class Hierarchy Primary Key of elliptic-curve kind. What the seed means in this context and how it affects for key generation? Are we using correct hierarchy if we want to generate keys for applications? Provide the commands.
+ 2. Create Owner-class Hierarchy Primary Key of elliptic-curve kind. What does the seed mean in this context and how does it affect key generation? Are we using the correct hierarchy if we want to generate keys for applications? Provide the commands.
 
-> 3. Create usable key with the help of primary key. Load the key into TPM. Print the public key in `PEM` format. Provide the commands.
+ 3. Create a usable key with the help of the primary key. Load the key into TPM. Print the public key in `PEM` format. Provide the commands.
 
-> 4. Let's use the key. At first, generate symmetric key for AES encryption. Encrypt some string which is longer in bits than the asymmetric key size (256 bits). Sign the ciphertext with the ECC keys and verify the integrity. Provide the commands.
+ 4. Let's use the key. At first, generate a symmetric key for AES encryption. Encrypt some string which is longer in bits than the asymmetric key size (256 bits). Sign the ciphertext with the ECC keys and verify the integrity. Provide the commands.
 
-> 5. Check the [PCR section](https://github.com/nokia/TPMCourse/blob/master/docs/pcrs.md) and [NVMRAM sealing](https://github.com/nokia/TPMCourse/blob/master/docs/nvram.md#sealing) of the Nokia instructions. Create a PCR policy, define NVMRAM section, and write a string there, which is sealed by the policy. Do you have any idea, what your policy is about? It tells about the state, but what state? Provide the commands.
+ 5. Check the [PCR section](https://github.com/nokia/TPMCourse/blob/master/docs/pcrs.md) and [NVMRAM sealing](https://github.com/nokia/TPMCourse/blob/master/docs/nvram.md#sealing) of the Nokia instructions. Create a PCR policy, define NVMRAM section, and write a string there, which is sealed by the policy. Do you have any idea, what your policy is about? It tells about the state, but what state? Provide the commands.
 
 # Task 2: Hardware-secured end-to-end encrypted messenger
 
