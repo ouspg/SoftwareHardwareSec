@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  tpm2fun_1:
+    image: ghcr.io/ouspg/tpm2env
+    container_name: tpm2fun_1
+    working_dir: /data
+    command: tail -f /dev/null
+    volumes:
+      - ./messenger:/data
+      - messenger_socket:/var/run/messenger
+
+  tpm2fun_2:
+    image: ghcr.io/ouspg/tpm2env
+    container_name: tpm2fun_2
+    working_dir: /data
+    command: tail -f /dev/null
+    volumes:
+      - ./messenger:/data
+      - messenger_socket:/var/run/messenger
+
+volumes:
+  messenger_socket:
