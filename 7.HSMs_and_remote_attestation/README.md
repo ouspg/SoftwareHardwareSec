@@ -177,8 +177,10 @@ We will use the [old API of `go-tpm`](https://pkg.go.dev/github.com/google/go-tp
 
 Some examples are available [here.](https://github.com/google/go-tpm/tree/main/examples)
 
+Also, [tests](https://github.com/google/go-tpm/blob/ee6cbcd136f878df2c2f36b4a085d2115330f379/legacy/tpm2/test/tpm2_test.go) can be an excellent way to find more examples.
 
-When looking tutorials, in most cases, you can replace the usage of the real device as follows:
+
+When looking at tutorials, in most cases, you can replace the usage of the real device as follows:
 
 ```go
     //  We don't use real device
