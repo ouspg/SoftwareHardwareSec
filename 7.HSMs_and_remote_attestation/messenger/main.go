@@ -47,7 +47,7 @@ func main() {
 
 	// See the file message.proto for more about types
 	msg := &Message{
-		Kind: 1, // 1 means ENCRYPTED_MESSAGE, however, it is not yet..
+		Kind: DataKind_ENCRYPTED_MESSAGE, // 1 means ENCRYPTED_MESSAGE, however, it is not yet..
 		Data: data,
 	}
 
