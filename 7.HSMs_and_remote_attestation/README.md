@@ -96,7 +96,8 @@ The messenger should do the following:
    * Simulated by running the same application twice in different containers.
    * All encryption functionality is missing
  * TPM is responsible for generating session-based stream encryption key (e.g. AES) (Missing)
- * The public key of the receiver is used to encrypt the AES key, among the encrypted data, when the date is being sent. It means that the receiver uses its private key from TPM to decrypt the AES key, and then further the message content with the decrypted symmetric key. (Missing)
+ * The public key of the receiver is used to encrypt the AES key, among the encrypted data, when the data is being sent.
+ It means that the receiver then uses their private key from TPM to decrypt the AES key, and then further decrypts the message content with the derived symmetric key. (Missing)
 
 
 ### Advanced (required for full points)
@@ -122,6 +123,12 @@ There are libraries available, that abstract most of the complexity. It is not a
 
 Check Go go-tpm-tools package [client](https://pkg.go.dev/github.com/google/go-tpm-tools/client) which abstracts a lot.
 
+> You can explore further other ways to utilise TPM on this task!
+
+> [!IMPORTANT]
+> Do not use the previous in production. It is more about practicing using TPM rather than the most secure implementation (or maybe it is, but no guarantees).
+
+
 ## Getting started
 
 To start developing, all you need is `docker-compose` or `podman-compose` installed and working.
@@ -140,9 +147,9 @@ This directory is used for the UNIX socket, which is used for communication.
 
 Then in different terminal windows, connect to containers as
 ```console
-docker exec -it tpm2fun_1
+docker exec -it tpm2fun_1 bash
 # On another window
-docker exec -it tpm2fun_2
+docker exec -it tpm2fun_2 bash
 ```
 
 For demo the purpose, on the second window you can set Netcat for listening mode:
@@ -162,7 +169,7 @@ If you haven't developed much with Go, you can get the development environment r
 Install VSCode if you haven't already, and the following extensions:
   * [`Dev Containers`](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) (To attach TPM container)
   * When you have run the compose file, attach either `tmp2fun_1` or `tmp2fun_2` container, and open `/data` directory.
-  * Once attached into the container, install `Go by Go Team in Google`(install also popups)
+  * Once attached to the container, install `Go by Go Team in Google` extension (install also popups)
 
 For Golang simulator documentation, look [here](https://pkg.go.dev/github.com/google/go-tpm-tools@v0.4.1/simulator#pkg-overview), however, you probably don't need it more than already has been provided.
 
