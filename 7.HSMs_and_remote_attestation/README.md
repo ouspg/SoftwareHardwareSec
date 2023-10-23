@@ -79,6 +79,11 @@ If the object memory of the TPM simulator gets full, you can in this case clear 
 > You can skip this task and do the final task, if you don't want to do tasks in order.
 
 This task is a programming exercise, and you will likely need to use `Golang`, unless you are prepared to figure out many things yourself.
+Following are being used as base libraries:
+  * [go-tpm](https://github.com/google/go-tpm)
+  * [go-tpm-tools](https://github.com/google/go-tpm-tools)
+
+These include many subpackages.
 
 We provide a base project, and you need to implement some missing features, to programmatically use TPM 2.0.
 
@@ -95,6 +100,7 @@ The messenger should do the following:
  * Both Alice and Bob have their own public-private key pairs, and *private key is stored inside separate TPMs.* (Missing)
    * Simulated by running the same application twice in different containers.
    * All encryption functionality is missing
+ * Application is expected to exchange public keys of the messaging parties before the messaging is started. 
  * TPM is responsible for generating session-based stream encryption key (e.g. AES) (Missing)
  * The public key of the receiver is used to encrypt the AES key, among the encrypted data, when the data is being sent.
  It means that the receiver then uses their private key from TPM to decrypt the AES key, and then further decrypts the message content with the derived symmetric key. (Missing)
@@ -102,7 +108,7 @@ The messenger should do the following:
 
 ### Advanced (required for full points)
 
-The messenger should implement the following Signal Protocols:
+The messenger should implement the following Signal Protocols to replace the encryption functionality of the simple version:
  * [The X3DH Key Agreement Protocol](https://signal.org/docs/specifications/x3dh/#introduction)
  * [The Double Ratchet Algorithm](https://signal.org/docs/specifications/doubleratchet/)
 
