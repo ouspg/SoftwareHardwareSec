@@ -26,7 +26,7 @@ Make yourself familiar with GitHub Actions and `cifuzz` fuzzing tool.
 
 <!-- <details><summary>Details</summary> -->
 
-Task #|Points|Description|
+Task #|Grade/Level|Description|
 -----|:---:|-----------|
 Task 1 | 1 | Implement a fuzzer (CIFUZZ) into C++ project
 Task 2 | 2 | Finding bugs in project with fuzzer and generating coverage report
