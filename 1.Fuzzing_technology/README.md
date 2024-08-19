@@ -47,10 +47,9 @@ This week’s theme is software and fuzz testing. Tasks are designed to be done 
 
 <!-- <details><summary>Details</summary> -->
 
-Task #|Points|Description|
+Task #|Grade/Level|Description|
 -----|:---:|-----------|
-Task 0 | 0 | Introduction to software testing (Optional. No points awarded)
-Task 1 | 1 | Mutated test case generation with Radamsa
+Task 1 | 1 | Fuzzing a RUST library with cargo-fuzz
 Task 2 | 2 | Analyzing a C-program with AddressSanitizer, fuzz testing with AFL
 Task 3 | 3 | Library fuzzing
 Task 4 | 4 | Creating your own fuzzer and fuzz test it
@@ -61,55 +60,6 @@ Total points accumulated by doing the exercises reflect the overall grade. You c
 
 ---
 
-## INTRODUCTION TO SOFTWARE TESTING (Optional)
-
-In this lab, we will explore the key concept of software testing. Software testing is done to check the intended functionality of a piece of code/function or software. We will go through a quick tutorial on software testing to give you an overview:
-
-## Task 0
-
-## Testing A Simple Square-Root Function
-
-Consider a square root function implementation in Python (Jupyter notebook) below:
-
-```python
-def my_sqrt(x):
-    """Computes the square root of x, using the Newton-Raphson method"""
-    approx = None
-    guess = x / 2
-    while approx != guess:
-        approx = guess
-        guess = (approx + x / approx) / 2
-    return approx
-```
-Your job is now to find out whether this function actually does what it claims to do.
-
-**Record your answer with an explanation**
-
-This type of testing is called manually checking the function.
-Such a test is the bare minimum of quality assurance and there is a better method of performing such tasks automatically known as ‘Automated Testing’
-
-Almost all programming languages do have means to automatically check whether a condition holds, and stop execution if it does not.
-This is called an assertion, and it is immensely useful for testing.
-
-In Python, the assert statement takes a condition, and if the condition is true, nothing happens.
-(If everything works as it should, you should not be bothered.)
-If the condition evaluates to false, though, assert raises an exception, indicating that a test just failed.
-
-
-A test suite is a collection of test cases that are designed to validate the functionality, behavior, or performance of a software application or system.
-It is a systematic approach to testing, where multiple test cases are grouped based on a common objective or feature set.
-You can now design a suite of assert statements yourself to carry out a case.
-An example could look like this:
-
-assert my_sqrt(4) == 2
-
-assert my_sqrt(9) == 3
-
-**Design a test suite with multiple assert statements and provide a screenshot of your results**
-
-For more reading [follow](https://www.fuzzingbook.org/html/Intro_Testing.html)
-
-[Credits](https://www.fuzzingbook.org/html/Intro_Testing.html)
 
 
 ## INTRODUCTION TO FUZZ TESTING a.k.a. 'FUZZING'
@@ -134,7 +84,7 @@ In this exercise you will learn:
 
 ## Task 1
 
-### Generating mutated test cases with Radamsa
+### Fuzzing a RUST library with cargo-fuzz
 
 **A)** Make yourself familiar with [Radamsa](https://gitlab.com/akihe/radamsa). Try it out in a terminal and print 10 malformed samples of ```Fuzztest 1337``` using *echo*.
 
