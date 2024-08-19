@@ -50,7 +50,7 @@ This lab is little bit different than others because tasks 2, 3 & 4 require the 
 
 Task of this lab are divided to 4 different tasks which have corresponding grades in table below. Notice that *Good-to-have skills* are only directional descriptions about required skill levels.
 
-Task| Point | Description | Good-to-have skills
+Task| Grade/Level | Description | Good-to-have skills
 --|:--:|--|--
 1|1|Getting familiar with flipper zero, understanding initial setup, reading and understanding technical articles about flipper and RFID access system | Article reading, Radio-frequency technology
 2|3|NFC Card emulation with flipper zero and gaining access control. Mifare classic and infraded module | Knowing how to use flipper zero 
