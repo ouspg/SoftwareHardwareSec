@@ -6,24 +6,20 @@ Responsible person/main contact: Asad Hasan
 ## Preliminary tasks
 
 * Create a GitHub account if you don't already have one
-* Create your answer repository from the provided link in [Moodle space](https://moodle.oulu.fi/course/view.php?id=18470), **as instructed [here](../README.md#instructions)**
+* Create your answer repository from the provided link in [Moodle space] **TODO**, **as instructed [here](../README.md#instructions)**
 * Check the instructions on how to download and use the course's Arch Linux virtual machine
     * Instructions are available [here](https://ouspg.org/resources/laboratories/). You will find the download link from the Moodle workspace.
     * If you want to use your own computer, download and install Virtualbox to run the virtual machine. VMWare Player should work also.
-* Get familiar with the documentation for the following tools:
-    * [Radamsa](https://gitlab.com/akihe/radamsa)
-    * [AFL (American Fuzzy Lop)](http://lcamtuf.coredump.cx/afl/)
-    * [AddressSanitizer (ASan)](https://github.com/google/sanitizers/wiki/AddressSanitizer)
-    * [Valgrind](http://valgrind.org/docs/manual/quick-start.html)
+    * Use of other virtual machine's such as [kali linux](https://www.kali.org/) is also allowed.
 
 
 ## Prerequisites
 
-A basic understanding of the Python and C programming language is required.
+A basic understanding of the Python, RUST and C programming language is required.
 
 A small introduction to each tool used in this exercise is provided before its actual task. However, you need to make yourself familiar with their usage:
 
-* **Radamsa** - https://gitlab.com/akihe/radamsa
+* **cargo-fuzz** - https://rust-fuzz.github.io/book/cargo-fuzz.html
 * **AFL** (American Fuzzy Lop) - http://lcamtuf.coredump.cx/afl/
 * **AddressSanitizer** (ASan) - https://github.com/google/sanitizers/wiki/AddressSanitizer
 * **Valgrind** - http://valgrind.org/docs/manual/quick-start.html
@@ -40,7 +36,7 @@ A small introduction to each tool used in this exercise is provided before its a
 
 ## Background
 
-This week’s theme is software and fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course practical assignments page]([https://github.com/ouspg/CompSec](https://moodle.oulu.fi/course/view.php?id=18470&section=3#tabs-tree-start)) for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
+This week’s theme is fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course practical assignments page]([https://github.com/ouspg/CompSec](https://moodle.oulu.fi/course/view.php?id=18470&section=3#tabs-tree-start)) for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
 
 
 ## Grading
@@ -75,7 +71,8 @@ The programs that are used to perform fuzz testing are commonly called "fuzzers"
 Example of Resource Exhaustion with Fuzzing: Fuzzing can be used to send a large volume of specially crafted inputs to a target application, overwhelming its resources. As an example, an HTTP server could be bombarded with a flood of excessively long or malformed requests, causing it to consume excessive memory or CPU cycles, ultimately leading to a denial of service condition.
 
 In this exercise you will learn:
-- Basic usage of 2 common fuzzers; Radamsa and American Fuzzy Lop (AFL).
+- Basic usage of cargo-fuzz tool to fuzz RUST libraries (known as crates)
+- Fuzzing with American Fuzzy Lop (AFL)
 - Working with AddressSanitizer, a memory error detection tool, and
 - Valgrind, a debugging tool (can detect memory errors as well). This tool is often used alongside other fuzzers.
 - Making your own fuzzer in Jupyter Notebook and fuzzing it
@@ -86,18 +83,50 @@ In this exercise you will learn:
 
 ### Fuzzing a RUST library with cargo-fuzz
 
-**A)** Make yourself familiar with [Radamsa](https://gitlab.com/akihe/radamsa). Try it out in a terminal and print 10 malformed samples of ```Fuzztest 1337``` using *echo*.
+[LibFuzzer](https://llvm.org/docs/LibFuzzer.html) is a powerful in-process fuzzer that automatically generates test cases for C/C++ libraries, aiming to expose potential bugs by systematically mutating inputs. It works by integrating directly with the code under test, enabling the detection of various types of vulnerabilities, such as buffer overflows and memory leaks. Cargo-fuzz acts as a convenient tool for Rust developers to leverage libFuzzer, providing an easy interface to run fuzzing tests on Rust code. In this task, you will be using cargo-fuzz tool to invoke libFuzzer on a RUST library.
 
-**Provide the command line you used to do this.**
+Libraries in RUST are called crates and can be accessed via official site: https://crates.io/
 
-Radamsa can also handle various types of files. Next, you have to generate a bunch of *.txt* test samples for later usage.
+**A)** Make yourself familiar with [cargo-fuzz](https://rust-fuzz.github.io/book/cargo-fuzz/tutorial.html). Setup the tool and start fuzzing the [yaml-rust](https://crates.io/crates/yaml-rust) parser crate.
 
-**B)** Create a *.txt* file that contains only the text ```12 EF``` and nothing more. Use Radamsa to generate 100 fuzzed samples of the file that are stored in a single file called ```fuzz.txt```. You should create a separate folder for the sample files.
+Fuzzing a library is one of the easiest target to fuzz, so we start the exercise from this. In this task, you will fuzz a parser library known as [yaml-rust](https://crates.io/crates/yaml-rust) from [crates.io](https://crates.io/) registry. In Rust, which emphasizes memory safety and concurrency, parsers are critical components that can benefit from fuzzing to ensure robustness and security.
 
-**Provide the content of 5 different samples that Radamsa created**
-**Add a screenshot**
+So, here's what you need to do:
 
-**Provide the command-line command(s) used to create the samples**
+1. **Install** the fuzzer tool from the [official github reposiotry](https://github.com/rust-fuzz/cargo-fuzz)
+
+Follow installation instructions and install necessary dependencies.
+
+2. **Clone** the [yaml-rust github repository](https://github.com/chyh1990/yaml-rust) and ```cd``` your way into it
+
+yaml-rust is a YAML 1.2 parser implemented in Rust. YAML is often used for configuration files, and secure parsing of YAML is crucial for preventing configuration injection attacks.
+
+3. Initialize the cargo-fuzz inside the repository
+
+**Provide command used to initialize the tool**
+
+Initialization will give you a default template of fuzzing in the fuzz folder. Write the correct target file named _'fuzz_target_1.rs' _so that it uses the YamlLoader. It should be located at 
+```shell
+/<path>/<to>/<yaml-rust>/fuzz/fuzz_targets/fuzz_target_1.rs
+```
+Refer to yaml-rust [documentation](https://docs.rs/yaml-rust/0.4.5/yaml_rust/) for more help.
+
+4. Start and run the fuzzer for 5 minutes
+
+**Provide the command-line command(s) used to run the fuzzer**
+**Add screenshot of fuzzer run after 5 minutes**
+
+**B)** Provide a fuzzing file in the input corpus directory to have better coverage
+
+In your previous task above, fuzzer starts from 0 files and reaches limited coverage in a specific timeframe. Your task is to improve the coverage reached in 5 minutes by providing 1 custom yaml 
+file to the input corpus. 
+
+**Provide command used to achieve this**
+**Add screensot of your fuzzer results and yaml file.**
+
+Answer the following question below using stats gathered from task A) and B)
+
+**Write a report about your coverage findings. How was coverage imporved. Explain.**
 
 ---
 
