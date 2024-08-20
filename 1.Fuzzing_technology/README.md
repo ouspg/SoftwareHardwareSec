@@ -93,15 +93,15 @@ Fuzzing a library is one of the easiest target to fuzz, so we start the exercise
 
 So, here's what you need to do:
 
-1. **Install** the fuzzer tool from the [official github reposiotry](https://github.com/rust-fuzz/cargo-fuzz)
+1. **Install** the fuzzer tool from the official github reposiotry [here](https://github.com/rust-fuzz/cargo-fuzz)
 
 Follow installation instructions and install necessary dependencies.
 
-2. **Clone** the [yaml-rust github repository](https://github.com/chyh1990/yaml-rust) and ```cd``` your way into it
+2. **Clone** the yaml-rust [github repository](https://github.com/chyh1990/yaml-rust) and ```cd``` your way into it
 
 yaml-rust is a YAML 1.2 parser implemented in Rust. YAML is often used for configuration files, and secure parsing of YAML is crucial for preventing configuration injection attacks.
 
-3. Initialize the cargo-fuzz inside the repository
+3. **Initialize** the cargo-fuzz inside the repository
 
 **Provide command used to initialize the tool**
 
@@ -111,10 +111,16 @@ Initialization will give you a default template of fuzzing in the fuzz folder. W
 ```
 Refer to yaml-rust [documentation](https://docs.rs/yaml-rust/0.4.5/yaml_rust/) for more help.
 
-4. Start and run the fuzzer for 5 minutes
+4. **Run** the fuzzer for 5 minutes
 
 **Provide the command-line command(s) used to run the fuzzer**
+
 **Add screenshot of fuzzer run after 5 minutes**
+
+> [!NOTE]
+> Requires nightly toolchain to run the fuzzer. Set it up by installing the nightly toolchain kit
+> ```rustup install nightly```
+> ```rustup default nightly```
 
 ### B) Provide a fuzzing file in the input corpus directory to have better coverage
 
