@@ -10,7 +10,7 @@ Responsible person/main contact: Asad Hasan
 * Check the instructions on how to download and use the course's Arch Linux virtual machine
     * Instructions are available [here](https://ouspg.org/resources/laboratories/). You will find the download link from the Moodle workspace.
     * If you want to use your own computer, download and install Virtualbox to run the virtual machine. VMWare Player should work also.
-    * Use of other virtual machine's such as [kali linux](https://www.kali.org/) is also allowed.
+    
 
 
 ## Prerequisites
