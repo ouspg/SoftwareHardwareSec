@@ -128,9 +128,8 @@ In your previous task above, fuzzer starts from 0 files and reaches limited cove
 file to the input corpus. 
 
 **Provide command used to achieve this**
-**Add screensot of your fuzzer results and yaml file.**
 
-Answer the following question below using stats gathered from task A) and B)
+**Add screensot of your fuzzer results and yaml file.**
 
 **Write a report about your coverage findings. How was coverage imporved. Explain.**
 
