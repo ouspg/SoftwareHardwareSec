@@ -87,7 +87,7 @@ In this exercise you will learn:
 
 Libraries in RUST are called crates and can be accessed via official site: https://crates.io/
 
-**A)** Make yourself familiar with [cargo-fuzz](https://rust-fuzz.github.io/book/cargo-fuzz/tutorial.html). Setup the tool and start fuzzing the [yaml-rust](https://crates.io/crates/yaml-rust) parser crate.
+### A) Make yourself familiar with [cargo-fuzz](https://rust-fuzz.github.io/book/cargo-fuzz/tutorial.html). Setup the tool and start fuzzing the [yaml-rust](https://crates.io/crates/yaml-rust) parser crate.
 
 Fuzzing a library is one of the easiest target to fuzz, so we start the exercise from this. In this task, you will fuzz a parser library known as [yaml-rust](https://crates.io/crates/yaml-rust) from [crates.io](https://crates.io/) registry. In Rust, which emphasizes memory safety and concurrency, parsers are critical components that can benefit from fuzzing to ensure robustness and security.
 
@@ -116,7 +116,7 @@ Refer to yaml-rust [documentation](https://docs.rs/yaml-rust/0.4.5/yaml_rust/) f
 **Provide the command-line command(s) used to run the fuzzer**
 **Add screenshot of fuzzer run after 5 minutes**
 
-**B)** Provide a fuzzing file in the input corpus directory to have better coverage
+### B) Provide a fuzzing file in the input corpus directory to have better coverage
 
 In your previous task above, fuzzer starts from 0 files and reaches limited coverage in a specific timeframe. Your task is to improve the coverage reached in 5 minutes by providing 1 custom yaml 
 file to the input corpus. 
