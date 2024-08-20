@@ -36,7 +36,7 @@ A small introduction to each tool used in this exercise is provided before its a
 
 ## Background
 
-This week’s theme is fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course practical assignments page]([https://github.com/ouspg/CompSec](https://moodle.oulu.fi/course/view.php?id=18470&section=3#tabs-tree-start)) for instructions on how to run the virtual machine (VM). The provided Arch VM has all the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
+This week’s theme is fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course practical assignments page]([https://github.com/ouspg/CompSec](https://moodle.oulu.fi/course/view.php?id=18470&section=3#tabs-tree-start)) for instructions on how to run the virtual machine (VM). The provided Arch VM has most of the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
 
 
 ## Grading
