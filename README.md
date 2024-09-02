@@ -39,7 +39,7 @@ All laboratory tasks are optional and total points from those will determine you
 <!-- <details><summary>Details (Click to collapse!)</summary> -->
 
 
-As described earlier, you have to lectures (or do their respective exams) to pass the course.
+As described earlier, you have to attend all lectures (or do their respective exams) to pass the course.
 You can have higher grades by doing lab work.
 
 You can get up to 5 points in each lab (A total of 35 points).
