@@ -19,16 +19,16 @@ The course is organized by Oulu University Secure Programming Group (OUSPG)
 
 ## Practicalities
 
-The course has seven laboratory exercises, and six (might change!) Moodle exams.
+The course has seven laboratory exercises, and seven mandatory lectures.
 
 
 Lectures are handling topics from a high perspective and they are not generally going technically deep.
-Moodle exams are mostly based on the lectures.
+Lecture exams (in case of a missed lecture) are mostly based on the lectures.
 
 Laboratory exercises are thought of as independent packages: containing theory and exercises and going technologically very deep.
 
 
-To pass this course with grade 1, you have to pass the Moodle exams.
+To pass this course with grade 1, you have to attend all lectures (or replace them with their Exams).
 
 To get a better grade, you have to do some laboratory exercises.
 You can somewhat decide what grade you will earn on this course because you can (hopefully!) see from the beginning how much work is required for each grade.
@@ -39,7 +39,7 @@ All laboratory tasks are optional and total points from those will determine you
 <!-- <details><summary>Details (Click to collapse!)</summary> -->
 
 
-As described earlier, you have to pass Moodle exams to pass the course.
+As described earlier, you have to lectures (or do their respective exams) to pass the course.
 You can have higher grades by doing lab work.
 
 You can get up to 5 points in each lab (A total of 35 points).
