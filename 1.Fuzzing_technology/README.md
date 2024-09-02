@@ -23,6 +23,7 @@ A small introduction to each tool used in this exercise is provided before its a
 * **AFL** (American Fuzzy Lop) - http://lcamtuf.coredump.cx/afl/
 * **AddressSanitizer** (ASan) - https://github.com/google/sanitizers/wiki/AddressSanitizer
 * **Valgrind** - http://valgrind.org/docs/manual/quick-start.html
+* **Radamsa** - https://gitlab.com/akihe/radamsa 
 
 
 
