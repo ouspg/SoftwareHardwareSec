@@ -6,7 +6,7 @@ Responsible person/main contact: Asad Hasan
 ## Preliminary tasks
 
 * Create a GitHub account if you don't already have one
-* Create your answer repository from the provided link in [Moodle space] **TODO**, **as instructed [here](../README.md#instructions)**
+* Create your answer repository from the provided link in [Moodle space](https://moodle.oulu.fi/course/view.php?id=18470), **as instructed [here](../README.md#instructions)**
 * Check the instructions on how to download and use the course's Arch Linux virtual machine
     * Instructions are available [here](https://ouspg.org/resources/laboratories/). You will find the download link from the Moodle workspace.
     * If you want to use your own computer, download and install Virtualbox to run the virtual machine. VMWare Player should work also.
