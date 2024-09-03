@@ -61,7 +61,7 @@ Total Points|Total Grade
 * Find the course's Moodle page from the University's Moodle
 * Find a link where you can receive and create a private repository containing all the return template folders. You are expected to answer for given templates and store your actual work in this repository.
 * Create a GitHub account, if you don't have one already, and create this private repository from the link.
-* You can see the deadlines below. They are the same in Moodle. There might be exceptions for ChipWhisperer and FlipperZero (Week 6 & 7)
+* You can see the deadlines in Moodle. There might be exceptions for ChipWhisperer and FlipperZero (Week 6 & 7)
 * Complete as many tasks as you wish and update your repository accordingly. Check the grading table found in each lab instructions on what you have to complete to earn the grade of your choosing
 * Push your changes to your repository before the deadline, and return the link to your repository to the corresponding return box of the lab in Moodle.
 
