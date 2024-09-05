@@ -16,10 +16,10 @@ A basic understanding of C/C++ programming language is required. GitHub is requi
 
 Make yourself familiar with GitHub Actions and `cifuzz` fuzzing tool.
 
-* **CIFUZZ** - https://github.com/asadhasan73/cifuzz - Notice that it's a copy of old version of the tool
-* **CIFUZZ Documentation** https://docs.code-intelligence.com/ci-fuzz/ci-fuzz-overview
-* **GitHub Actions** https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions
-* **Creating .yml or .yaml file in GitHub actions** https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+* **CIFUZZ** - [Tool's source code on github](https://github.com/asadhasan73/cifuzz) - Notice that it's a copy of old version of the tool
+* **CIFUZZ Documentation** Click [here](https://docs.code-intelligence.com/ci-fuzz)
+* **GitHub Actions** Click [here](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions)
+* **Creating .yml or .yaml file in GitHub actions** [Click](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 
 
 ## Grading
@@ -228,7 +228,7 @@ By now, your fuzzer should be correctly linked across the calculator project and
 **Paste screenshot**
 
 
-In-case you are struggling with this task, refer to this cifuzz [example](https://github.com/CodeIntelligenceTesting/cifuzz/tree/main/examples/cmake).
+In-case you are struggling with this task, refer to documentation for guide. [Example 1](https://docs.code-intelligence.com/ci-fuzz/write-fuzz-test/c-cpp), [example 2](https://docs.code-intelligence.com/ci-fuzz/run-fuzz-test).
 
 ---
 
