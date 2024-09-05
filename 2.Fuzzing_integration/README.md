@@ -16,7 +16,7 @@ A basic understanding of C/C++ programming language is required. GitHub is requi
 
 Make yourself familiar with GitHub Actions and `cifuzz` fuzzing tool.
 
-* **CIFUZZ** - [Tool's source code on github](https://github.com/asadhasan73/cifuzz) - Notice that it's a copy of old version of the tool
+* **CIFUZZ** - [Tool's source code on github](https://github.com/asadhasan73/cifuzz) - Notice that it's a copy of old version
 * **CIFUZZ Documentation** Click [here](https://docs.code-intelligence.com/ci-fuzz)
 * **GitHub Actions** Click [here](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions)
 * **Creating .yml or .yaml file in GitHub actions** [Click](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
