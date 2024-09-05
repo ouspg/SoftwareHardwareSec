@@ -285,8 +285,6 @@ Write unit test cases within your main file (as a call to calculator function). 
 **C) Run the fuzzer**
 
 By now, `cifuzz` should be correctly integrated with the project and ready to find bugs.
-If you are still experiencing issues, go through [this](https://docs.code-intelligence.com/getting-started/ci-fuzz-cpp-first-bug) tutorial.
-
 
 Run your fuzzer and report your findings.
 
