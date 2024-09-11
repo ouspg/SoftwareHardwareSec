@@ -142,6 +142,17 @@ sudo pacman -S make
 sudo pacman –S docker
 ```
 
+#### Build static library (only for arch)
+
+Provided arch linux has a missing static library for cifuzz make process which can be manually built by following steps below:
+
+```
+git clone https://git.kernel.org/pub/scm/libs/libcap/libcap.git
+cd libcap
+make
+sudo cp libcap/libcap.a /usr/lib/
+```
+
 #### Install the tool via source code
 
 To build cifuzz from source you have to execute the following steps (notice a forked repository is used):
@@ -149,12 +160,14 @@ To build cifuzz from source you have to execute the following steps (notice a fo
 ```cmd
 git clone https://github.com/asadhasan73/cifuzz
 cd cifuzz
-make test
+make test  #optional to test integrity
 make install
 
 ```
+Provided arch linux 
 
-[NOTE!]
+
+> **[NOTE!]** 
 > The latest version of CIFUZZ has moved to a paid model. Therefore, a copy of old model is provided for this exercise.
 > Because of this, notice that some of the instructions on the Github fork might be outdated.
 
