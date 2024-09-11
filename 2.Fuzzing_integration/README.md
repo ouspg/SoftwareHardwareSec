@@ -164,10 +164,9 @@ make test  #optional to test integrity
 make install
 
 ```
-Provided arch linux 
 
 
-> **[NOTE!]** 
+> [!NOTE]
 > The latest version of CIFUZZ has moved to a paid model. Therefore, a copy of old model is provided for this exercise.
 > Because of this, notice that some of the instructions on the Github fork might be outdated.
 
