@@ -357,18 +357,19 @@ The latest version of ProjectX has been packed into Docker by the DevOps team an
 
       Newer version of ProjectX contains the following:
       * All ProjectX C++ files
-      * Project built with bazel instead of CMake
+      * Project built with CMake
       * Cifuzz integrated
       * Fuzzer set to timeout after 10 minutes to save resources
       * Docker container
 
 
-Here's the GitHub [link](https://github.com/ouspg/ProjectX2) to the latest version.
+Here's the GitHub [link](https://github.com/ouspg/ProjectX2.0) to the latest version.
 
-**Implement [this](https://github.com/ouspg/ProjectX2) project on your return repository and using GitHub actions, design a fuzzing job that does the following:**
-* Triggers for main branch on every pull/commit request
+**Implement [this](https://github.com/ouspg/ProjectX2.0) project on your return repository and using GitHub actions, design a fuzzing job that does the following:**
+* Triggers for master branch on every pull/commit request
 * Calls the script to build the Dockerfile into a container
-* Runs the Docker container
+* Runs the Docker container and CIFUZZ inside
+* Displays the fuzzing results in CI pipeline output
 
 Test your fuzz job in GitHub actions by making small changes to code such as adding an extra space line.
 Commit changes and this should trigger your workflow to run.
