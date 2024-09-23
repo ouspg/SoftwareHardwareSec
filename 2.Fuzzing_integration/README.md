@@ -353,7 +353,7 @@ Your next task is to automate the process of fuzzing for the project calculator.
 The latest version of ProjectX has been packed into Docker by the DevOps team and they have left following note:
 
       **_Notes from DevOps_**
-      ProjectX now comes packed into a Docker container with a fuzzer integrated. Moreover, we changed the build system from CMake to bazel.
+      ProjectX now comes packed into a Docker container with a fuzzer integrated.
 
       Newer version of ProjectX contains the following:
       * All ProjectX C++ files
