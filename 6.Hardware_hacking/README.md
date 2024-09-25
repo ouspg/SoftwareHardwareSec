@@ -33,7 +33,7 @@ Couple of articles explaining RFID Access Control systems
 This week’s theme is hardware security and how it can be exploited by hackers. In this lab you will be using Flipper Zero device to perform hardware security experiments. Introductry tasks revolve around theory of exploiting hardware
 and advanced tasks include usage of actual device (Flipper Zero) to perform them. 
 
-![Flipper Zero](https://flipperzero.one/) is a portable multi-tool for pentesters and geeks in a toy-like body. It loves hacking digital stuff, such as radio protocols, access control systems, hardware and more. It's fully open-source and customizable and you can extend it in whatever way you like.
+[Flipper Zero](https://flipperzero.one/) is a portable multi-tool for pentesters and geeks in a toy-like body. It loves hacking digital stuff, such as radio protocols, access control systems, hardware and more. It's fully open-source and customizable and you can extend it in whatever way you like.
 
 
 ## Practical arrangements of this lab
