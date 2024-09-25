@@ -266,7 +266,7 @@ In this task you will get familiar with writing scripts that can open shell.
 
 Ducky Script Tutorial: [link](https://web.archive.org/web/20220816200129/http://github.com/hak5darren/USB-Rubber-Ducky/wiki/Duckyscript)
 
-if you're interested to look for BadUsb scripts for flipper, check [this](https://web.archive.org/web/20231218132739/https://github.com/UNC0V3R3D/Flipper_Zero-BadUsb) out
+if you're interested to look for BadUsb scripts for flipper, you can find many examples on internet (github). For example [this](https://web.archive.org/web/20231218132739/https://github.com/UNC0V3R3D/Flipper_Zero-BadUsb) and [this](https://github.com/I-Am-Jakoby/Flipper-Zero-BadUSB)
 
 
 Take a look at code below which opens a powershell on windows platform.
