@@ -94,7 +94,7 @@ Fuzzing a library is one of the easiest target to fuzz, so we start the exercise
 
 So, here's what you need to do:
 
-1. **Install** the fuzzer tool from the official github reposiotry [here](https://github.com/rust-fuzz/cargo-fuzz)
+1. **Install** the fuzzer tool from the official github repository [here](https://github.com/rust-fuzz/cargo-fuzz)
 
 Follow installation instructions and install necessary dependencies.
 
