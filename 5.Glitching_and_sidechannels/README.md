@@ -112,18 +112,15 @@ More detailed documentation of the device can be found from http://wiki.newae.co
 ## Software setup
 
 In this lab we will use ChipWhisperer software version 5.2.1, which runs in the Jupyter Notebook.
-There exists setup with virtual machine and that is recommended way to use it in this course.
-Download link(s) to that virtual machine can be found on Moodle.
+There exists a docker image that can be used for this purposes and we recommend that. It requires a linux OS to run. The tutorial below guides how
+to build and run the docker image: [https://github.com/ouspg/chipwhisperer]{https://github.com/ouspg/chipwhisperer} 
 
-### Course VMWare virtual machine (OVA import)
+### Course arch linux
 
-Download (link in Moodle) virtual machine. Open OVA file and wait for it to get imported. Fist import might fail, but just click "Retry".
+Download (link in Moodle) virtual machine. 
 
-On first run, you must login virtual machine (user/password: vagrant/vagrant)
-and run command `ip address` to get the connectable address of Jupyter Notebook. Use that address in your browser
-with port 8888. Password for jupyter is "jupyter".
-
-On next logins, you do not have to login to virtual machine, server is running without login and address should be the same.
+The docker runs the Jupyter Notebook on the connectable address of localhost:8888. Use that address in your browser
+(with port 8888). Password for jupyter is "jupyter".
 
 * Device might not connect correctly if you do not give correct USB Controller setting on virtual machine settings (Use USB Compatibility 2.0)
 
