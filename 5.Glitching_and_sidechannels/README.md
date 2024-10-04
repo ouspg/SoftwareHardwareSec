@@ -113,7 +113,7 @@ More detailed documentation of the device can be found from http://wiki.newae.co
 
 In this lab we will use ChipWhisperer software version 5.2.1, which runs in the Jupyter Notebook.
 There exists a docker image that can be used for this purposes and we recommend that. It requires a linux OS to run. The tutorial below guides how
-to build and run the docker image: [https://github.com/ouspg/chipwhisperer]{https://github.com/ouspg/chipwhisperer} 
+to build and run the docker image: [https://github.com/ouspg/chipwhisperer](https://github.com/ouspg/chipwhisperer) 
 
 ### Course arch linux
 
