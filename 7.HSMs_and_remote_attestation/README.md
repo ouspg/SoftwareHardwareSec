@@ -1,6 +1,5 @@
 # Software and Hardware Security Lab 7: Hardware Security Modules (HSMs), Trusted Platform Module (TPM), and remote attestation.
 
-
 Almost every new computer and (high-end) mobile phone has a small piece of embedded hardware, called a Hardware Security Module (HSM) [^1], likely in your computer's or phone's motherboard/SoC, and contains one or more secure cryptoprocessors.
 
 The main purpose of this module is to **safeguard and manage secrets**.

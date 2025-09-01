@@ -1,8 +1,6 @@
 Software and Hardware Security Lab 2: Fuzz Automation
 ====
 
-Responsible person/main contact: Asad Hasan
-
 ## Preliminary tasks
 
 * Create a GitHub account if you don't already have one

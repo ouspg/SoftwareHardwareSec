@@ -1,8 +1,6 @@
 Software and Hardware Security Lab 1: Introduction to Software and Fuzz Testing
 ====
 
-Responsible person/main contact: Asad Hasan
-
 ## Preliminary tasks
 
 * Create a GitHub account if you don't already have one

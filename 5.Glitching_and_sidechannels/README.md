@@ -1,7 +1,6 @@
 Software and Hardware Security Lab 5: ChipWhisperer (Hardware glitching and side channel attacks)
 ====
 
-Responsible person/main contact: Asad Hasan
 
 ## ToC
 * [Preliminary tasks](#Preliminary-tasks)

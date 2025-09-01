@@ -1,8 +1,6 @@
 Software & Hardware Security Lab 6: Flipper Zero
 ====
 
-Responsible person/main contact: Asad Hasan
-
 ## ToC
 * [Preliminary tasks](#Preliminary-tasks)
 * [Introduction](#Introduction)
