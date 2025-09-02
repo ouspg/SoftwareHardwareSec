@@ -4,16 +4,16 @@ Software and Hardware Security Lab 1: Introduction to Software and Fuzz Testing
 ## Preliminary tasks
 
 * Create a GitHub account if you don't already have one
-* Create your answer repository from the provided link in [Moodle space](https://moodle.oulu.fi/course/view.php?id=18470), **as instructed [here](../README.md#instructions)**
-* Check the instructions on how to download and use the course's Arch Linux virtual machine
+* Create your answer repository from the provided link in Moodle workspace, **as instructed [here](../README.md#instructions)**
+* You can use any Linux/Unix compatible system you want, either directly or with virtualization/WSL
+* Optionally, check the instructions on how to download and use the course's Arch Linux virtual machine, if you need a minimal one
     * Instructions are available [here](https://ouspg.org/resources/laboratories/). You will find the download link from the Moodle workspace.
-    * If you want to use your own computer, download and install Virtualbox to run the virtual machine. VMWare Player should work also.
     
-
 
 ## Prerequisites
 
-A basic understanding of the Python, RUST and C programming language is required.
+A basic understanding of the Python, Rust and C programming language is required.
+We assume that you have made fuzz testing earlier, e.g in the course "Introduction to Cyber Security Testing" or "Cyber Security II: Cloud and Network Security". 
 
 A small introduction to each tool used in this exercise is provided before its actual task. However, you need to make yourself familiar with their usage:
 
@@ -27,8 +27,8 @@ A small introduction to each tool used in this exercise is provided before its a
 
 ## About the lab
 
-* This document contains task descriptions and theory for the fuzz testing lab. If there are any differences between the return template and this file, consider this to be the up-to-date document.
-* **You can use your own computer/virtual machine if you want.** Check the chapter "Prerequisites" for information on what you need to install. This lab has been made to be completed in a Linux environment and tested to work in the provided Arch Linux virtual machine.
+* This document contains task descriptions and theory for the fuzz testing lab.
+* This lab has been made to be completed in a Linux environment and tested to work in the provided Arch Linux virtual machine.
 * __Upper scores for this assignment require that all previous tasks in this assignment have been done as well__, so e.g. to get the fourth point you will have to complete tasks 1, 2, 3 & 4.
 * Check the deadline from Moodle and __remember that you have to return your name (and possibly people you worked together with) and GitHub repository information to Moodle before the deadline.__
 
@@ -42,13 +42,12 @@ This week’s theme is fuzz testing. Tasks are designed to be done with the prov
 
 <!-- <details><summary>Details</summary> -->
 
-Task #|Grade/Level|Description|
+Task #|Points|Description|
 -----|:---:|-----------|
-Task 1 | 1 | Fuzzing a RUST library with cargo-fuzz
-Task 2 | 2 | Analyzing a C-program with AddressSanitizer, fuzz testing with AFL
-Task 3 | 3 | Library fuzzing
-Task 4 | 4 | Creating your own fuzzer and fuzz test it
-Task 5 | 5 | Contribute to an existing open-source project. Set up a fuzzer and report findings.
+Task 1 | 1 | Fuzzing a Rust library with cargo-fuzz
+Task 2 | 1 | Analyzing a C-program with AddressSanitizer, fuzz testing with AFL
+Task 3 | 1 | Library fuzzing
+Task 4 | 2 | Creating your own fuzzer and fuzz test it
 
 Total points accumulated by doing the exercises reflect the overall grade. You can acquire upto 5 points per exercise.
 <!-- </details> -->
@@ -59,12 +58,16 @@ Total points accumulated by doing the exercises reflect the overall grade. You c
 
 ## INTRODUCTION TO FUZZ TESTING a.k.a. 'FUZZING'
 
-In contrast to software testing, fuzz testing is quite the opposite.
+> We assume that you already know the basics from the other courses.
+
+In contrast to typical software testing, fuzz testing is quite different.
 Fuzzing is a process of feeding malformed, mutated or unexpected inputs to a program (device or a system) and observing its behavior.
 The motivation behind this kind of testing is to discover bugs, vulnerabilities and memory leaks in a software (device or a system) for exploitation or quality improvement.
 While fuzzing is primarily used to discover and fix bugs, it can potentially be used in denial of service (DoS) attacks if certain conditions are met.
 
-The main goal of fuzzing is to make the target system behave *unexpectedly*. From the security perspective, the goal is to find and analyze those unexpected behaviors for possible exploits and figure out how to fix them.
+The main goal of fuzzing is to make the target system behave *unexpectedly*. Is there a state in the program that isn't handled properly or leads into unintended behavior?
+
+ From the security perspective, the goal is to find and analyze those unexpected behaviors for possible exploits and figure out how to fix them.
 The programs that are used to perform fuzz testing are commonly called "fuzzers".
 
 Example of Resource Exhaustion with Fuzzing: Fuzzing can be used to send a large volume of specially crafted inputs to a target application, overwhelming its resources. As an example, an HTTP server could be bombarded with a flood of excessively long or malformed requests, causing it to consume excessive memory or CPU cycles, ultimately leading to a denial of service condition.
@@ -397,39 +400,7 @@ Save these inputs (for example in a .txt file) and use these as input to your fu
 
 **How did your fuzzer perform now? Compare crash count with Task (C) and provide explanations if you observe differences**
 
----
 
-## Task 5
-
-### Contribute to an existing open-source project. Set up a fuzzer and report the whole process and possible findings.
-
-Contribute to some existing open-source software (OSS) projects by setting up a fuzzing environment and documenting the total process and results.
-You can choose the target software by yourself and use one of the 2 fuzzers introduced during the lab exercise, or pick some other that you think serves the purpose better.
-**You should do all the testing inside a virtual machine in case there are potentially malicious files being handled.**
-
-You should read for example [this guide](https://github.com/ouspg/fuzz-testing-beginners-guide) to get started.
-Please note that in case a real bug is found in the software, it is very important to document the findings in a way that the issue can be easily reproduced.
-The guide has some good points about what information you should provide.
-The student doesn't need to file a "real" bug report, but if you find something new, we highly recommend doing so.
-
-You should grab the most recent version of the source code. Few open-source projects as an example:
-
- * [Chromium](https://www.chromium.org/Home/) - An open-source browser project started by Google.
- * [VLC media player](https://www.videolan.org/vlc/index.html) - A common open-source media player from VideoLAN. Vast attack surface as the player uses many different libraries to handle audio/video encoding. See [features](https://www.videolan.org/vlc/features.html).
- * [ImageMagick](https://www.imagemagick.org/script/index.php) - An open-source suite for displaying, converting, and editing images, supporting over 200 file formats.
- * See [American Fuzzy Lop](https://lcamtuf.coredump.cx/afl/) main page for a comprehensive list of tools it has found bugs on. Newer versions of software can spawn new bugs, but the most common tools are usually tested the most so they might not be the best to start with.
-
-You should at minimum provide the following information in the documentation:
-
-* Which fuzzer was used
-* A brief explanation of the target software and why you chose it
-* Are you fuzzing the whole software or some specific part of it?
-* Is software using some libraries? Are those fuzzed as well?
-* Operating system and version information. Version numbers of target software, target software libraries, fuzzer and operating system are very important! Can you explain why?
-* Compiler and debugger flags
-* Initial test case(s) and the one(s) producing a possible crash
-* Necessary steps to reproduce the crash
-* It is not necessary to find any bugs. It is enough if you can prove that you have fuzzed with good code coverage and the way how input was mutated (=what kind of input fuzzer created overall))
 
 
 
