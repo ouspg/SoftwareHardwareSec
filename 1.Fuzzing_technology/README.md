@@ -91,9 +91,11 @@ In this exercise you will learn:
 
 Libraries in Rust are often referred as crates and can be accessed via official package registry: https://crates.io/
 
-### A) Make yourself familiar with [cargo fuzz](https://rust-fuzz.github.io/book/cargo-fuzz/tutorial.html). Setup the tool and start fuzzing the [yaml-rust](https://crates.io/crates/yaml-rust) parser crate.
+### A) Make yourself familiar with [cargo fuzz](https://rust-fuzz.github.io/book/cargo-fuzz/tutorial.html). Setup the tool and start fuzzing the [yaml-rust2](https://crates.io/crates/yaml-rust2) parser crate.
 
-Fuzzing a library is one of the easiest target to fuzz, so we start the exercise from this. In this task, you will fuzz a parser library known as [yaml-rust](https://crates.io/crates/yaml-rust) from [crates.io](https://crates.io/) registry. In Rust, which emphasizes memory safety and concurrency, parsers are critical components that can benefit from fuzzing to ensure robustness and security.
+Fuzzing a library is one of the easiest target to fuzz, so we start the exercise from this. In this task, you will fuzz a parser library known as [yaml-rust2](https://github.com/Ethiraric/yaml-rust2) from [crates.io](https://crates.io/) registry.
+
+In Rust, which emphasizes memory safety and concurrency, parsers are critical components that can benefit from fuzzing to ensure robustness and security.
 
 So, here's what you need to do:
 
@@ -101,9 +103,10 @@ So, here's what you need to do:
 
 Follow installation instructions and install necessary dependencies.
 
-2. **Clone** the yaml-rust [github repository](https://github.com/chyh1990/yaml-rust) and ```cd``` your way into it
+2. **Clone** the `yaml-rust2` [GitHub repository](https://github.com/Ethiraric/yaml-rust2) and ```cd``` your way into it
 
-yaml-rust is a YAML 1.2 parser implemented in Rust. YAML is often used for configuration files, and secure parsing of YAML is crucial for preventing configuration injection attacks.
+yaml-rust2 is a YAML 1.2 parser implemented in Rust. YAML is often used for configuration files, and secure parsing of YAML is crucial for preventing configuration injection attacks.
+The target in question is a maintained fork from the original library.
 
 3. **Initialize** the `cargo fuzz` inside the repository
 
@@ -113,18 +116,18 @@ Initialization will give you a default template of fuzzing in the fuzz folder. W
 ```shell
 /<path>/<to>/<yaml-rust>/fuzz/fuzz_targets/fuzz_target_1.rs
 ```
-Refer to yaml-rust [documentation](https://docs.rs/yaml-rust/0.4.5/yaml_rust/) for more help.
+Refer to `yaml-rust2` [documentation](https://docs.rs/yaml-rust2/latest/yaml_rust2/) for more help.
 
 4. **Run** the fuzzer for 5 minutes
 
 **Provide the command-line command(s) used to run the fuzzer**
 
-**Add screenshot of fuzzer run after 5 minutes**
+**Add screenshot of fuzzer run after 5 minutes.**
+It is not necessary to find any bugs.
 
 > [!NOTE]
 > Requires nightly toolchain to run the fuzzer. Set it up by installing the nightly toolchain kit
-> ```rustup install nightly```
-> ```rustup default nightly```
+> ```rustup install nightly && rustup default nightly```
 
 ### B) Provide a fuzzing file in the input corpus directory to have better coverage
 
@@ -241,7 +244,7 @@ You should now have found some crashes with the AFL. Next, you need to reproduce
 Run UnRTF with this file under Valgrind:
 
 ```shell
-~$ valgrind --leak-check=yes ~/unrtf/bin/unrtf --html /<path>/<to>/<crashfile>
+valgrind --leak-check=yes ~/unrtf/bin/unrtf --html /<path>/<to>/<crashfile>
 ```
 
 __Hint__: Make sure that you are actually running the UnRTF with a crash file! If you get "Error: Cannot open input file" before Valgrind's actual memory analysis output, you are trying to run the program without any input. See the Valgrind [documentation](http://valgrind.org/docs/manual/quick-start.html) for help.
