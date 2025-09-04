@@ -35,7 +35,9 @@ A small introduction to each tool used in this exercise is provided before its a
 
 ## Background
 
-This week’s theme is fuzz testing. Tasks are designed to be done with the provided Arch Linux virtual machine, see the [course practical assignments page]([https://github.com/ouspg/CompSec](https://moodle.oulu.fi/course/view.php?id=18470&section=3#tabs-tree-start)) for instructions on how to run the virtual machine (VM). The provided Arch VM has most of the required tools preinstalled, but if you have your own computer with some other Linux distribution, you are free to use it, just install all the required tools.
+This week’s theme is fuzz testing. 
+You will need a Unix-based system - e.g. Linux or macOS will do it.
+We offer Arch Linux virtual machine as pre-defined environment, which should get you started.
 
 
 ## Grading
@@ -73,7 +75,7 @@ The programs that are used to perform fuzz testing are commonly called "fuzzers"
 Example of Resource Exhaustion with Fuzzing: Fuzzing can be used to send a large volume of specially crafted inputs to a target application, overwhelming its resources. As an example, an HTTP server could be bombarded with a flood of excessively long or malformed requests, causing it to consume excessive memory or CPU cycles, ultimately leading to a denial of service condition.
 
 In this exercise you will learn:
-- Basic usage of cargo-fuzz tool to fuzz RUST libraries (known as crates)
+- Basic usage of cargo-fuzz tool to fuzz Rust libraries (known as crates)
 - Fuzzing with American Fuzzy Lop (AFL)
 - Working with AddressSanitizer, a memory error detection tool, and
 - Valgrind, a debugging tool (can detect memory errors as well). This tool is often used alongside other fuzzers.
@@ -83,13 +85,13 @@ In this exercise you will learn:
 
 ## Task 1
 
-### Fuzzing a RUST library with cargo-fuzz
+### Fuzzing a Rust library with `cargo fuzz`
 
-[LibFuzzer](https://llvm.org/docs/LibFuzzer.html) is a powerful in-process fuzzer that automatically generates test cases for C/C++ libraries, aiming to expose potential bugs by systematically mutating inputs. It works by integrating directly with the code under test, enabling the detection of various types of vulnerabilities, such as buffer overflows and memory leaks. Cargo-fuzz acts as a convenient tool for Rust developers to leverage libFuzzer, providing an easy interface to run fuzzing tests on Rust code. In this task, you will be using cargo-fuzz tool to invoke libFuzzer on a RUST library.
+[LibFuzzer](https://llvm.org/docs/LibFuzzer.html) is a powerful in-process fuzzer that automatically generates test cases for C/C++ libraries, aiming to expose potential bugs by systematically mutating inputs. It works by integrating directly with the code under test, enabling the detection of various types of vulnerabilities, such as buffer overflows and memory leaks. `cargo fuzz` acts as a convenient tool for Rust developers to leverage libFuzzer, providing an easy interface to run fuzzing tests on Rust code. In this task, you will be using `cargo fuzz` tool to invoke libFuzzer on a Rust library.
 
-Libraries in RUST are called crates and can be accessed via official site: https://crates.io/
+Libraries in Rust are often referred as crates and can be accessed via official package registry: https://crates.io/
 
-### A) Make yourself familiar with [cargo-fuzz](https://rust-fuzz.github.io/book/cargo-fuzz/tutorial.html). Setup the tool and start fuzzing the [yaml-rust](https://crates.io/crates/yaml-rust) parser crate.
+### A) Make yourself familiar with [cargo fuzz](https://rust-fuzz.github.io/book/cargo-fuzz/tutorial.html). Setup the tool and start fuzzing the [yaml-rust](https://crates.io/crates/yaml-rust) parser crate.
 
 Fuzzing a library is one of the easiest target to fuzz, so we start the exercise from this. In this task, you will fuzz a parser library known as [yaml-rust](https://crates.io/crates/yaml-rust) from [crates.io](https://crates.io/) registry. In Rust, which emphasizes memory safety and concurrency, parsers are critical components that can benefit from fuzzing to ensure robustness and security.
 
@@ -103,7 +105,7 @@ Follow installation instructions and install necessary dependencies.
 
 yaml-rust is a YAML 1.2 parser implemented in Rust. YAML is often used for configuration files, and secure parsing of YAML is crucial for preventing configuration injection attacks.
 
-3. **Initialize** the cargo-fuzz inside the repository
+3. **Initialize** the `cargo fuzz` inside the repository
 
 **Provide command used to initialize the tool**
 
@@ -186,27 +188,27 @@ __Note:__ Be careful on file paths. Keep in mind that unrtf file is actually unr
 
 2. **Configure** it to use AFL's wrappers:
     ```shell
-    ~$ ./configure CC="<Path_to_afl-wrapper>" --prefix=$HOME/unrtf
+    ./configure CC="<Path_to_afl-wrapper>" --prefix=$HOME/unrtf
     ```
     The ```--prefix=$HOME/unrtf``` flag sets the installation location of the binary file to be your home directory. This is recommended, so you don't have to give it access to the root directory.
 
 3. **Compile and build** the program:
     ```shell
-    ~$ make
-    ~$ make install
+    make
+    make install
     ```
 
     __Hint__: See AFL [documentation](http://lcamtuf.coredump.cx/afl/README.txt) to learn about instrumenting programs to use AFL compilers.
 
 4. Use AFL's example *.rtf* file located at ```/usr/share/doc/afl++-doc/afl/testcases/others/rtf/small_document.rtf``` to test that your UnRTF works by converting it to HTML:
     ```shell
-    ~$ ~/unrtf/bin/unrtf --html /<path>/<to>/<testfile>
+    ~/unrtf/bin/unrtf --html /<path>/<to>/<testfile>
     ```
 
 5. Create two folders, one for input files and one for result output. Copy the ```small_document.rtf``` into your input folder.
     ```
-    ~$ mkdir <input_folder> <output_folder>
-    ~$ cp /<path>/<to>/<testfile> /<path>/<to>/<input_floder>
+    mkdir <input_folder> <output_folder>
+    cp /<path>/<to>/<testfile> /<path>/<to>/<input_floder>
     ```
 
 
@@ -245,16 +247,21 @@ Run UnRTF with this file under Valgrind:
 __Hint__: Make sure that you are actually running the UnRTF with a crash file! If you get "Error: Cannot open input file" before Valgrind's actual memory analysis output, you are trying to run the program without any input. See the Valgrind [documentation](http://valgrind.org/docs/manual/quick-start.html) for help.
 
 > [!NOTE]
-> If valgrind is not installed on your virtual machine, you can install it with: "sudo apt install valgrind" on Kali Linux and "sudo pacman -S valgrind" on Arch Linux
+> If Valgrind is not installed on your virtual machine, you can install it with: `sudo apt install valgrind` on Kali Linux and `sudo pacman -S valgrind` on Arch Linux
 > You also need to install dependencies for it to work:
 
-> o Kali Linux:
-> sudo apt update
+> on Kali Linux:
 
-> sudo apt install valgrind automake autoconf libc6-dbg
+ ```
+ sudo apt update
+ sudo apt install valgrind automake autoconf libc6-dbg
+ ```
 
-> o Arch linux:
-> sudo pacman -Syu valgrind automake autoconf glibc
+
+> on Arch linux:
+```
+sudo pacman -Syu valgrind automake autoconf glibc
+```
 
 **Take a screenshot of the Valgrind result after running the program**
 
@@ -276,20 +283,20 @@ Your task is to do the following:
 * **Download and extract the source code** for [OpenSSL 1.0.1f](misc/openssl-1.0.1f.tar.xz).
 * **Instrument, compile and build OpenSSL and enable the AddressSanitizer**:
     ```shell
-    ~$ AFL_USE_ASAN=1 CC=afl-clang-fast CXX=afl-clang-fast++ ./config -d -g
-    ~$ make
+    AFL_USE_ASAN=1 CC=afl-clang-fast CXX=afl-clang-fast++ ./config -d -g
+    make
     ```
 * **Instrument and compile the fuzzing target** and enable AddressSanitizer:
     ```shell
-    ~$ AFL_USE_ASAN=1 afl-clang-fast target.c -o target openssl/libssl.a openssl/libcrypto.a -I openssl/include -ldl
+    AFL_USE_ASAN=1 afl-clang-fast target.c -o target openssl/libssl.a openssl/libcrypto.a -I openssl/include -ldl
     ```
 * **Create a dummy certificate**. Use OpenSSL to create for example a 512 bit RSA key. The certificate is only used during fuzzing, so it doesn't matter how secure it is:
     ```
-    ~$ openssl req -x509 -newkey rsa:512 -keyout server.key -out server.pem -days 365 -nodes -subj /CN=a/
+    openssl req -x509 -newkey rsa:512 -keyout server.key -out server.pem -days 365 -nodes -subj /CN=a/
     ```
 * After you have tested that the target program works, **start fuzzing the target program** with AFL:
     ```shell
-    ~$ afl-fuzz -i in -o out -m none -t 5000 ./target
+    afl-fuzz -i in -o out -m none -t 5000 ./target
     ```
     The bug is rather easy to find, so you should be able to find a crash in less than 10 minutes. Use the ```clienthello``` file as seed for AFL. The file is just a standard SSL hello message that the client sends to the server to initialize a secure session. Create an input folder for AFL and place the file there. Download ([clienthello](misc/clienthello)) from this repository. TLS/SSL handshake takes longer than just reading input from stdin, so raise the memory limit with ```-m none``` and the timeout limit with ```-t 5000``` just in case.
 * **Run the target program with the crash file** you got from the AFL:
@@ -298,7 +305,7 @@ Your task is to do the following:
     ```
 * To see more clearly why the crash occurred, convert the crash file into a *.pcap* file using ```od``` and Wireshark's ```text2pcap```:
     ```shell
-    ~$ od -A x -t x1z -v <input_file> | text2pcap -T 443,443 - <output_file>
+    od -A x -t x1z -v <input_file> | text2pcap -T 443,443 - <output_file>
     ```
     This command can also be used to convert ```clienthello``` to *.pcap*.
 
