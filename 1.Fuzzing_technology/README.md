@@ -203,6 +203,14 @@ __Note:__ Be careful on file paths. Keep in mind that unrtf file is actually unr
 
     __Hint__: See AFL [documentation](http://lcamtuf.coredump.cx/afl/README.txt) to learn about instrumenting programs to use AFL compilers.
 
+    If you have a recent compiler and you are having issues, it is likely that you need to modify file `src/convert.c` to include explicit types, since latest compilers require them:
+
+    ```sh
+    sed -i.bak -e 's/static char \*cptoencoding(parm)/static char *cptoencoding(int parm)/' \
+    -e '1i\
+    void attr_find_pop(int);\' src/convert.c
+    ```
+
 4. Use AFL's example *.rtf* file located at ```/usr/share/doc/afl++-doc/afl/testcases/others/rtf/small_document.rtf``` to test that your UnRTF works by converting it to HTML:
     ```shell
     ~/unrtf/bin/unrtf --html /<path>/<to>/<testfile>
