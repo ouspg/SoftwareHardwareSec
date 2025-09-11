@@ -290,8 +290,21 @@ In 2014, a buffer over-read vulnerability [CVE-2014-0160](https://nvd.nist.gov/v
 Since this vulnerability is caused by a memory handling-related bug, it is possible to find it using fuzzing tools like AddressSanitizer and AFL.
 To fuzz test the OpenSSL library, we have to have a binary file that uses the library as a fuzzing target. For that, we are going to use the provided [target.c](misc/target.c), which uses OpenSSL to simulate a server-client TLS handshake.
 
+> [!NOTE]  
+> When building the software on this task, some latest Linux distributions may have too old glibc  - you can alternatively build it in the Docker container: 
+
+Run, for example, Debian distribution, and mount the current working directory into `/data` folder:
+
+```bash
+docker run -v $(pwd):/data -it debian:stable /bin/bash
+# Then install required packages to compile
+apt-get update && apt-get install -y make clang afl++
+cd /data
+```
+
 Your task is to do the following:
 * **Download and extract the source code** for [OpenSSL 1.0.1f](misc/openssl-1.0.1f.tar.xz).
+
 * **Instrument, compile and build OpenSSL and enable the AddressSanitizer**:
     ```shell
     AFL_USE_ASAN=1 CC=afl-clang-fast CXX=afl-clang-fast++ ./config -d -g
@@ -310,6 +323,9 @@ Your task is to do the following:
     afl-fuzz -i in -o out -m none -t 5000 ./target
     ```
     The bug is rather easy to find, so you should be able to find a crash in less than 10 minutes. Use the ```clienthello``` file as seed for AFL. The file is just a standard SSL hello message that the client sends to the server to initialize a secure session. Create an input folder for AFL and place the file there. Download ([clienthello](misc/clienthello)) from this repository. TLS/SSL handshake takes longer than just reading input from stdin, so raise the memory limit with ```-m none``` and the timeout limit with ```-t 5000``` just in case.
+
+    When working inside container, you must adjust the kernel parameters in the host machine, if afl asks about them. 
+
 * **Run the target program with the crash file** you got from the AFL:
     ```shell
     ./target < <crash_file>
