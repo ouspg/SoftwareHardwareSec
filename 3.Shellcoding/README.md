@@ -47,14 +47,12 @@ It is estimated that you can do Tasks 1 & 2 during the lab session (4 hours).
 
 Tasks 3 & 4 are more advanced than earlier ones. Implementation will very likely take much more time.
 
-Task|Grade/Level|Description|
+Task|Points|Description|
 ----|:---:|-----------|
 [Task 1](#task-1-basics-of-buffer-overflows "Task 1 : Basics of buffer overflows") | 1 |  Analyzing buffer overflow and changing execution flow
-[Task 2](#task-2-arbitrary-code-execution "Task 2 : Arbitrary code execution") | 2 - 3| Arbitrary code execution in the vulnerable program
-[Task 3](#task-3-defeating-no-execute "Task 3 : Defeating No-eXecute") | 4 | Code reuse attack techniques: ret2libc & ROP
-[Task 4](#task-4-a-bit-more-advanced-rop-implementation "Task 4 : A bit more advanced ROP implementation") | 5 | A bit more advanced ROP implementation
-
-By completing Task 1, grade 1 can be achieved.
+[Task 2](#task-2-arbitrary-code-execution "Task 2 : Arbitrary code execution") | 2 | Arbitrary code execution in the vulnerable program
+[Task 3](#task-3-defeating-no-execute "Task 3 : Defeating No-eXecute") | 1 | Code reuse attack techniques: ret2libc & ROP
+[Task 4](#task-4-a-bit-more-advanced-rop-implementation "Task 4 : A bit more advanced ROP implementation") | 1 | A bit more advanced ROP implementation
 
 By doing only Task 2 A, your work compensates 0,5 points.
 The B part is worth 1,5 points from the total of 2.
