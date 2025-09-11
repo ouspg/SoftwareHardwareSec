@@ -159,6 +159,7 @@ The first target could be a optimized deserializer that also tries to access the
   - Access different fields based on the header type (`CHAT_MESSAGE`, `USER_INFO`, `FILE_CHUNK`) (can also trigger bugs)
 
 E.g. the initial goal is to feed data for :
+
 ```cpp
 Message* msg = Serializer::deserialize(data, size);
 ```
@@ -173,6 +174,7 @@ Message* roundtrip = Serializer::deserialize(serialized.data(), serialized.size(
 // Compare original vs roundtrip for data integrity
 ```
 The parsing does not use deserialize here at first, rather it casts the data, for example:
+
 ```cpp
 // Create username and email by taking length from the data and using data by length
 size_t username_len = std::min((size_t)data[0], size / 4);
@@ -194,6 +196,15 @@ The fuzzer will mutate these seeds to explore edge cases and discover bugs that 
 In this case, the project isn't that complex, so just adding a round-trip loop where you deserialize first may find the most bugs already, but we can practice much more.
 
 See also Google's post about [What makes a good fuzz target?](https://github.com/google/fuzzing/blob/master/docs/good-fuzz-target.md).
+
+If you use the sample file names from the project structure for fuzzing, the Makefile already has sections for building the fuzzing targets and running one of them, if you uncomment the code:
+
+```
+# To build
+make fuzz-build
+# To run fuzz_deserialize target
+make fuzz-run
+```
 
 **What to return?**
 > Once you find a bug, you need to fix it so that the current unit tests still work. Most time will likely go toward figuring out where the bug is. Add a new test based on the crashing data so we can prevent regression.
