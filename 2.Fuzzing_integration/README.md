@@ -24,6 +24,7 @@ When a new branch is detected as a result of input mutation, the input data is s
 Sometimes, API interfaces may require additional input translation to achieve more efficient testing.
 There can also be multiple different interfaces available, where testing can be more efficient when compared to higher-level abstractions (e.g., testing through direct API calls versus testing only through a CLI interface).
 
+The work on this week is more about using `libFuzzer`, creating the fuzzing harness and finally integrating the fuzzing in the CI/CD pipeline.
 
 ## Grading
 
@@ -39,13 +40,15 @@ Total points accumulated by doing the exercises reflect the overall grade.
 # Task 1: In-depth fuzzing integration (3p+)
 
 We go slightly futher with integrating the fuzzing for the potential software project.
-On this case, We have a simple C++ project demonstrating a custom binary protocol with intentional memory safety bugs for educational purposes.
+On this case, we have a simple C++ project demonstrating a custom binary protocol with intentional memory safety bugs for educational purposes.
 
-At a high level, it implements a messaging protocol where users can send text messages to each other and transfer files through binary chunks. The implementation is deliberately simplified to focus on common vulnerability patterns.
+At a high level, it implements a messaging protocol where users can send text messages to each other and transfer files through binary chunks.
+The implementation is deliberately simplified to focus on common vulnerability patterns.
 We assume that you have some level knowledge of C/C++ programming languages.
 You are required to briefly understand the code on this project as you need to describe the vulnerability and make a fix for it.
 
-The project uses older C++ idioms that are prone to memory safety and integer-related bugs. While C++ is statically typed, it allows implicit conversions between different data types and provides manual memory management, both of which are common sources of security vulnerabilities in real-world systems.
+The project uses older C++ idioms that are prone to memory safety and integer-related bugs.
+While C++ is statically typed, it allows implicit conversions between different data types and provides manual memory management, both of which are common sources of security vulnerabilities in real-world systems.
 For these reasons, C++ is sometimes described as having weak type safety despite being statically typed.
 However, modern C++ provides strongly-typed alternatives and safer abstractions that address many of these issues, such as smart pointers (unique_ptr, shared_ptr) and stricter type checking features.
 
