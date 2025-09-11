@@ -84,7 +84,7 @@ The implementation contains several intentional memory safety bugs that current 
 
 ## Building
 
-We assume that you are using Linux-based system, which has `llvm` and `clang++` installed.
+We assume that you are using Linux-based system, which has `llvm`, `make`, `cmake` and `clang++` installed.
 
 Build the demo and tests.
 
