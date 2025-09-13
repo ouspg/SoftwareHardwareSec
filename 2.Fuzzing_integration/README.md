@@ -84,7 +84,7 @@ The implementation contains several intentional memory safety bugs that current 
 
 ## Building
 
-We assume that you are using Linux-based system, which has `llvm`, `make`, `cmake` and `clang++` installed.
+We assume that you are using Linux-based system, which has `llvm`, `make`, `cmake`, `afl++`, and `clang++` installed.
 
 Build the demo and tests.
 
@@ -123,7 +123,7 @@ valgrind --leak-check=full ./build/demo
 ```
 
 
-### Task 1A) Fuzzing with `libFuzzer` and creating fixes (2p)
+### Task 1A: Fuzzing with `libFuzzer` and creating fixes (2p)
 
 > To get started - read the files in [lib](lib) folder and see the demo file [examples/demo.cpp](examples/demo.cpp) and test file [tests/test_protocol.cpp](tests/test_protocol.cpp) to get basic understanding of the protocol.
 
@@ -206,11 +206,42 @@ make fuzz-build
 make fuzz-run
 ```
 
-**What to return?**
+### There is a crash - now what?
+
+After finding a crashing input or memory violation in your program, understanding the root cause is usually the most time-consuming part.
+Once identified, implementing the fix is typically straightforward.
+
+Many bugs are already hinted at in the source code - we just need to trigger them with fuzzing.
+
+Several steps can make debugging easier:
+- First, minimize the test case that causes the crash.
+    You can build the fuzzer with the `-minimize_crash=1` flag and let it try that automatically. More details are [here](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md#minimizing-a-reproducer).
+- Next, create a minimal unit test that uses the data from the crash file to run the program.
+E.g. read raw bytes from the crash file and pass them to the same function than in fuzzing process.
+- Run the program with a debugger (or if necessary, using print statements) to understand where the crash happens and identify which specific byte patterns trigger the initial failure.
+- Finally, analyze the protocol specification, determine the expected behavior, and verify if the input exceeds the protocol's defined boundaries. If it does, check whether the implementation properly handles these edge cases.
+
+### **What to return?**
+> We assume that you copy the C++ project from here and work with that in your private GitHub repository.
+
 > Once you find a bug, you need to fix it so that the current unit tests still work. Most time will likely go toward figuring out where the bug is. Add a new test based on the crashing data so we can prevent regression.
 Classify each bug with a CWE marking, e.g. is it [CWE-416 Use After Free](https://cwe.mitre.org/data/definitions/416.html)?
 
-For a simpler fixes, you can create also a [git `.patch` file](https://stackoverflow.com/questions/5159185/how-to-create-a-git-patch-from-the-uncommitted-changes-in-the-current-working-di) into `patches/` directory. This makes it easy to test how patches fix or add new bugs.
+For learning purposes, you can create patch files in the `patches/` directory to track your fixes and understand their impact. This helps demonstrate how each change affects the codebase and potentially introduces new bugs.
+
+You can create [git patch files](https://stackoverflow.com/questions/5159185/how-to-create-a-git-patch-from-the-uncommitted-changes-in-the-current-working-di) before committing changes:
+```bash
+# Create a patch from unstaged changes
+git diff > patches/001-fix-description.patch
+# Create a patch from staged changes
+git diff --cached > patches/001-fix-description.patch
+```
+
+This approach lets you:
+- Document each fix separately
+- Test fixes in isolation
+- Observe if fixes introduce new issues
+- Learn from the debugging process
 
 Apply patches with e.g.:
 ```bash
@@ -220,7 +251,7 @@ git apply patches/001-fix-uaf.patch
 Write also a summary of the process - how hard it is to find the bugs, what bugs you found and other overall experiences.
 If you don't find new bugs with either of the fuzz targes (e.g for 10 minutes), you are likely done with this exercise.
 
-## Task 1B) Integrating `libFuzzer` with ClusterFuzzLite (1p+)
+## Task 1B: Integrating `libFuzzer` with ClusterFuzzLite (1p+)
 
 > 1 bonus point available from extra work, see the task ending.
 
