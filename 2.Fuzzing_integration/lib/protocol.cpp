@@ -197,7 +197,7 @@ Message::Message(const Message& other) : header(other.header) {
 // INTENTIONAL BUGS: Many
 Message& Message::operator=(const Message& other) {
     if (this != &other) {
-        // Bug 3: Not cleaning up existing resources before assignment
+        // Bug: Not cleaning up existing resources before assignment?
         header = other.header;
 
         switch (header.type) {
@@ -354,7 +354,7 @@ Message* Serializer::deserialize(const uint8_t* data, size_t length) {
             memcpy(&msg->chat->priority, data + offset, sizeof(uint8_t));
             offset += sizeof(uint8_t);
 
-            // Bug 6: No bounds checking in read_string
+            // Bug: No bounds checking in read_string?
             offset += read_string(data + offset, length - offset, msg->chat->username);
             offset += read_string(data + offset, length - offset, msg->chat->message);
             break;
@@ -375,7 +375,7 @@ Message* Serializer::deserialize(const uint8_t* data, size_t length) {
             offset += read_string(data + offset, length - offset, msg->user_info->username);
             offset += read_string(data + offset, length - offset, msg->user_info->email);
 
-            // Bug 7: No validation of tag_count - could be huge
+            // Bug: No validation of tag_count - could be huge?
             if (msg->user_info->tag_count > 0) {
                 msg->user_info->tags = new ProtocolString[msg->user_info->tag_count];
                 for (uint16_t i = 0; i < msg->user_info->tag_count; i++) {
@@ -400,7 +400,7 @@ Message* Serializer::deserialize(const uint8_t* data, size_t length) {
             offset += read_string(data + offset, length - offset, msg->file_chunk->filename);
 
             if (msg->file_chunk->chunk_size > 0) {
-                // Bug 8: No bounds checking for chunk data
+                // Bug: No bounds checking for chunk data?
                 msg->file_chunk->data = new uint8_t[msg->file_chunk->chunk_size];
                 memcpy(msg->file_chunk->data, data + offset, msg->file_chunk->chunk_size);
             }
@@ -418,7 +418,7 @@ Message* Serializer::deserialize(const uint8_t* data, size_t length) {
 // INTENTIONAL BUG: Space?
 // Returns number of bytes written
 size_t Serializer::write_string(uint8_t* buffer, const ProtocolString& str) {
-    // Bug 9: Buffer could be null, no size checking
+    // Bug: Buffer could be null, no size checking?
     memcpy(buffer, &str.length, sizeof(uint16_t));
     if (str.length > 0 && str.data) {
         memcpy(buffer + sizeof(uint16_t), str.data, str.length);

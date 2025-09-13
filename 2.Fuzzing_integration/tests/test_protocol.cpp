@@ -2,10 +2,10 @@
  * Basic unit tests for our protocol
  *
  * PURPOSE: These tests verify basic functionality but are intentionally LIMITED.
- * They test the "happy path" scenarios where everything works correctly.
+ * They test the "happy path" scenarios where everything works correctly. Note the contrast for negative testing.
  *
  * This demonstrates why unit tests alone are insufficient
- * for memory safety. These tests will all pass even though the code contains
+ * for memory safety, if you don't properly note the negative testing (if you even can). These tests will all pass even though the code contains
  * serious memory bugs that can cause crashes, data corruption, and security
  * vulnerabilities.
  *
@@ -112,7 +112,7 @@ void test_file_chunk_basic() {
 }
 
 // Tests ProtocolString operations - but won't catch memory management bugs
-// These operations look correct but have hidden memory safety issues
+// These operations look correct but have hidden memory safety issues, if you try more complex scenarios
 void test_string_operations() {
     std::cout << "Testing string operations..." << std::endl;
 
@@ -121,12 +121,9 @@ void test_string_operations() {
     assert(str1.to_string() == "test string");
     assert(str1.length == 11);
 
-    // Test copy constructor - LOOKS correct but has memory safety bug
     ProtocolString str2(str1);
     assert(str2.to_string() == "test string");
 
-    // Test assignment operator - LOOKS correct but leaks memory
-    // Memory leak happens here but won't be detected by this test
     ProtocolString str3;
     str3 = str1;
     assert(str3.to_string() == "test string");
