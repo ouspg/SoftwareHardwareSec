@@ -129,14 +129,6 @@ Download (link in Moodle) and start virtual machine and connect localhost:8888 w
 
 * If your connection fails when you try to connect your board first time, you may have to download and install VirtualBox extensions to make USB connection to work. 
 
-### Clear VirtualBox machine
-
-You can use clear virtual machine from ChipWhisperer GitHub too. Download virtual machine from [GitHub](https://github.com/newaetech/chipwhisperer/releases/tag/5.2.1)
-and run it (you may have to set up password yourself on first startup). New version (5.3) is released, but take version 5.2.1. Login to virtual machine (user/password: vagrant/vagrant),
-setup Jupyter password and reboot. Connect localhost:8888 with your web browser.
-
-* If your connection fails when you try to connect your board first time, you may have to download and install VirtualBox extensions to make USB connection to work. 
-
 ### Other
 
 If you already have instance of Jupyter Notebook running on your system, then feel free just to install ChipWhisperer software on it.
