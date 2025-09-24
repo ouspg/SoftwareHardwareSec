@@ -54,7 +54,7 @@ https://mohit.io/blog/gdb-assembly-language-debugging-101/
 **The following examples uses Python 2, which does not encode the strings to UTF-8. If you use Python 3, you must replace the `print` with writing raw bytes.**
 
 ```shell
-python -c 'import sys; sys.stdout.buffer.write("data")'
+python -c 'import sys; sys.stdout.buffer.write(b"data")'
 ```
 
 
@@ -62,10 +62,10 @@ python -c 'import sys; sys.stdout.buffer.write("data")'
 # gcc -o Overflow -fno-stack-protector Overflow.c
 # gdb -q Overflow
 Reading symbols from test...(no debugging symbols found)...done.
-(gdb) r "$(python -c 'print("A" * 9)')"
+(gdb) r $(python -c 'print("A" * 9)')
 Starting program: /root/Overflow "$(python -c 'print("A" * 9)')"
 [Inferior 1 (process 9552) exited normally]
-(gdb) r "$(python -c 'print("A" * 10)')"
+(gdb) r $(python -c 'print("A" * 10)')
 Starting program: /root/Overflow "$(python -c 'print("A" * 10)')"
 
 Program received signal SIGSEGV, Segmentation fault.
