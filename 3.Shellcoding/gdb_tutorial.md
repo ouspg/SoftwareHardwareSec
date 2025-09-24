@@ -63,10 +63,10 @@ python -c 'import sys; sys.stdout.buffer.write(b"data")'
 # gdb -q Overflow
 Reading symbols from test...(no debugging symbols found)...done.
 (gdb) r $(python -c 'print("A" * 9)')
-Starting program: /root/Overflow "$(python -c 'print("A" * 9)')"
+Starting program: /root/Overflow $(python -c 'print("A" * 9)')
 [Inferior 1 (process 9552) exited normally]
 (gdb) r $(python -c 'print("A" * 10)')
-Starting program: /root/Overflow "$(python -c 'print("A" * 10)')"
+Starting program: /root/Overflow $(python -c 'print("A" * 10)')
 
 Program received signal SIGSEGV, Segmentation fault.
 0x0000004000000100 in ?? ()
