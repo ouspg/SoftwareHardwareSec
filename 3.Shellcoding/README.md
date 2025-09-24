@@ -370,6 +370,12 @@ To ensure that this address is accurately targeted through buffer overflow, it's
 By overflowing the buffer with the right amount of padding and inserting the correct memory address, you can redirect the program's execution flow to jump to the specified memory location.
 Increment the padding incrementally to fine-tune this process.
 
+**The following example uses Python 2, which does not encode the strings to UTF-8. If you use Python 3, you must replace the `print` with writing raw bytes. Go through the tutorial presented [here](gdb_tutorial.md) to get a better understanding**
+
+```shell
+python -c 'import sys; sys.stdout.buffer.write(b"data")'
+```
+
 An example scenario would be something like this.
 The function which is never actually called, is printing something and opening the shell:
 
