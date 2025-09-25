@@ -195,7 +195,7 @@ Links to devices and/or screenshot of mobile applications is enough. Write a sma
 
 ## Task 2
 
-For task 2 you can choose to do either A or B both earn you the point. Note that you can use the Phone NFC reader prerequisite for also the task 4 implementation.
+For task 2 you can choose to do either A or B both earn you the point.
 
 ## A) Phone NFC reader
 
