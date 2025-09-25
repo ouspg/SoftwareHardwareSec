@@ -50,8 +50,8 @@ Task of this lab are divided to 4 different tasks which have corresponding grade
 
 Task| Grade/Level | Description | Good-to-have skills
 --|:--:|--|--
-1|1|Getting familiar with flipper zero, understanding initial setup, reading and understanding technical articles about flipper and RFID access system | Article reading, Radio-frequency technology
-2|3|NFC Card emulation with flipper zero and gaining access control. Mifare classic and infraded module | Knowing how to use flipper zero 
+1|2|Getting familiar with flipper zero, understanding initial setup, using flipper zero for reading and understanding technical articles about flipper and RFID access system | Article reading, Radio-frequency technology
+2|3|NFC Card emulation with flipper zero and gaining access control. Mifare classic | Knowing how to use flipper zero 
 3|4|Engineering a BadUSB attack with flipper zero | Ducky scripting language, Linux, Powershell
 4|5|Several alternatives for advanced experimenting with flipper zero based on your interest | Arduino, Hardware integration, Command-line interface
 
@@ -129,20 +129,48 @@ Tasks 3 and 4 are more laborious and it is likely that those can not be done in 
 
 Task 1 tasks are meant to be relatively simple tasks to help you understand what is the Flipper Zero device and what can be done with it. You will return answers to theoretical questions.
 
+Flipper zero can read and save information of many RFID tags and cards operating on low and high frequencey. Furthermore, these cards can be emulated by flipper zero. This bypasses the need to use those cards at all.
+
+In this task you will learn basic usage of flipper device to read NFC cards, RFID tags and store them. Later, you will download saved files information and inspect them.
+
 Read the section [Deep Dive into Flipper Zero](#Deep-Dive-into-Flipper-Zero) before starting this task.
 
-## A) Getting started with a brand new device
+## A) Getting started with the device
 
-Assuming you get your hands on a brand new flipper zero, describe the steps you would take to make your device ready for hardware pentesting and hacking.
-Include details about connecting flipper with a computer and how files can be transferred.
+Easiest way to get working on FlipperZero is to
+1. format the SD memory card using the FlipperZero Main Menu -> Settings -> Storage -> Format SD card
+2. Download the latest firmware as instructed above using Qflipper
 
-**Write your answer in a step-by-step guide indicating what should be done**
+## B) Testing FlipperZero on RFID and infrared hardware
 
+In this task you have to use FlipperZero to read and save data from each three different hardware / device using the following technology / signal.
 
+* High-frequency RFID / NFC (Car keys, Contactless Credit cards, Public transit cards, etc. — these are often cryptographically protected.)
+* Low frequency RFID (Access keyfobs, old cards and passes, Pet microchips)
+* Infrared (Different kinda remotes: tv, audio system, toys, lamps)
 
+After you have read and saved the different signals you can try to emulate them using the FlipperZero.
 
+**For each technology mentioned above answer the following questions**
 
-## B) Understanding RFID and how flipper interacts with it
+**What device/hardware did you read?**
+
+**What protocol/standard does it use?**
+
+**Is the data Encrypted? If so, what type of encryption does it use (or your best guess)?**
+
+**What information can be extracted from the signal and how it could be miss used? You can open the saved data on computer in text editor**
+
+**Were you able to emulate the read signal? If yes, describe how well it worked; if not, explain why it might have not worked.**
+
+**You can also include a video as proof**
+
+>[!IMPORTANT]
+>_Blur or remove any personal information._
+> _Remember to delete all saved files from flipper before you return them._
+---
+
+## C) Understanding RFID and how flipper interacts with it
 
 This task has three sub-questions and you are expected to carry out your research by surfing the internet or watching videos about flipper. Answer the following three questions
 
@@ -167,43 +195,39 @@ Links to devices and/or screenshot of mobile applications is enough. Write a sma
 
 ## Task 2
 
-Flipper zero can read and save information of many RFID tags and cards operating on low and high frequencey. Furthermore, these cards can be emulated by flipper zero. This bypasses the need to use those cards at all.
+For task 2 you can choose to do either A or B both earn you the point. Note that you can use the Phone NFC reader prerequisite for also the task 4 implementation.
 
-In this task you will learn basic usage of flipper device to read NFC cards, RFID tags and store them. Later, you will download saved files information and inspect them.
+## A) Phone NFC reader
 
-In the last part of this task, you'll familiarize yourself with Mifare Classic technology and explore infrared module of flipper zero.
+Most modern mobile phones (Android 2010 and later, Apple 2014 and later) come with a NFC reader that can be used for reading/writing NFC Data Exchange Format (NDEF) messages, contactless payments and card emulation (HCE). However the NFC reader can be used to read NFC tags to do most of the following actions with unencrypted NDEF Actions. (Encrypted NDEF needs a specific app for reading the content). Phones generally prompted before doing the NDEF action.
 
+1. Connect to Wi-Fi using SSID, password, and encryption type.
 
+2. Open a URL / website
 
-## A) Reading cards and key tags
+3. Share / save contact information (vCard)
 
-**First task is to read and save different cards, key tags and inspect saved files**. In this tutorial you will learn to read access control cards and tags.
+4. Call or send SMS
 
-Task is rather straightforward and requires you to put card/key at the back of flipper and executing correct module on device.
+5. Send an email
 
-You are asked to read and inspect following cards and key tags:
-* blank card (contact lab assistant to receive this)
-* student card
-* bus card
-* blue key (contact lab assistant to receive this)
-* sticker key (contact lab assistant to receive this)
-* A card/key of your own choice (for example, gym key)
+6. Launch installed apps via URL schemes / Open images
 
-Each smart card contains an integrated chip with a unique permanent identification (UID) number burned-in during the manufacturing process. This UID is often referred to as the Card Serial Number (CSN). The card serial number is not encrypted and any reader that is ISO compliant can read the card serial number. 
+7. Trigger / change basic phone settings
 
-**For each of the 6 cards/keys mentioned above, return answer to following questions**
+8. Display text
 
-**What kind of card/key is it? Is it 125kHz or NFC**
+Your task is to try to create NDEF protocol message NFC tag for the FlipperZero that a phone can read to execute any of the above actions. You can use nfcpy python library for writing the message.
 
-**What is the UID of card/key?**
+**Write a report on how you did the exercise**
 
-**Can this card/key be emulated by flipper zero?**
+**What action did you create?**
 
-**Transfer one of the saved card/key files to your computer and open it with text editor. What do you see? Paste screenshot**
+**Return the NDEF message you used and possible demo video**
 
 >[!IMPORTANT]
->_Blur or remove any personal information from screenshots of your card/key text files._
-> _Remember to delete all saved files from flipper once you've transferred them to your system._
+>_ Again Blur or remove any personal information given in the report._
+> _Remember to delete all saved files that may contain personal information from flipper before you return them._
 ---
 
 ## B) Breaking into Mifare Classic Cards
@@ -221,27 +245,9 @@ MIFARE Classic cards come in various memory capacities, such as 1KB or 4KB, and 
 
 __NOTE__: Carry out your own study about Mifare Classic and generate a report detailing how to break this technology. A well documented report would comment on reader module as well
 
-> This sub-part is worth 1 point alone!
-
----
-
-## C) Infrared Module
-
-![image](https://github.com/asadhasan73/temp_comp_sec/assets/113350302/195ed230-88ee-404e-ba64-bd75c26256b2)
-
-Majority of electronic devices nowdays operate on infrared technology. Flipper zero comes with the infrared transmitter that can transmit signals to control electronics such as TVs, air conditioners, stereo systems and more. The device also has an IR receiver that can receive signals and save them to the library, so you can store any of your existing remotes to transmit commands later, and upload to the public IR Remote database to share with other Flipper users.
-
-**In this task you will use flipper zero device to control an electronic device of your choice and record a small video of successful experiment**
-
-**Which IR operated device did you operate with flipper?**
-
-**Did you record video of experiment?**
-
-If you recorded video, upload it to moodle with your report submission.
 
 
 
----
 ## Task 3
 ### Design a Bad USB attack to steal password by plugging in flipper zero, and sending them over email
 
