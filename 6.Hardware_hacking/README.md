@@ -119,52 +119,50 @@ Moreover, high frequency tags support encryption, authentication and cryptograph
 
 
 
-
 # Tasks
 
-Start your work from Task 1 and proceed to harder ones. Every task is designed to require more skills and amount of work than previous one.
+Start with Task 1 and proceed to the harder ones. Each task is designed to require more skills and effort than the previous one.
 
-Task 1 and 2 together are designed to take about 3-4 hours to complete. Try to finish those at lab session. You can borrow equipment if you want to continue working with those tasks at home.
+Tasks 1 and 2 together are designed to take about 3–4 hours to complete. Try to finish them during the lab session. You can borrow equipment if you want to continue working on them at home.
 
-Tasks 3 and 4 are more laborious and it is likely that those can not be done in time limit of single lab session. You must discuss about borrowing equipment with lab assistants if you want to do those tasks.
+Tasks 3 and 4 are more laborious, and it is likely they cannot be completed within a single lab session. Discuss borrowing equipment with the lab assistants if you want to work on these tasks.
 
+> Some tasks require you to create videos and write reports. Video naming format: <task#_video>, for example <task2C_video>.
+>
+> Compress the videos into an archive and upload it to the Moodle return box alongside your answer template.
 
-> Some tasks require you to make videos and write reports. Videos naming format: <task#_video> for example <task2C_video>
-
-> Compress videos into an archive and upload to Moodle return box alongside your answer return template.
-
-**If you are doing this work in group, remember answers to theoretical questions must be individual. You are encouraged to research and discuss together but write answers in your OWN WORDS**
+**If you are working in a group, remember that answers to theoretical questions must be individual. You are encouraged to research and discuss together, but write answers in your OWN WORDS.**
 
 ## Task 1
 
-Task 1 tasks are meant to be relatively simple tasks to help you understand what is the Flipper Zero device and what can be done with it.
-You will return answers to theoretical questions.
+Task 1 is meant to be relatively simple to help you understand what the Flipper Zero is and what can be done with it.
+You will submit answers to theoretical questions.
 
-Flipper zero can read and save information of many RFID tags and cards operating on low and high frequencey. Furthermore, these cards can be emulated by flipper zero. This bypasses the need to use those cards at all.
+Flipper Zero can read and save information from many RFID tags and cards operating at low and high frequencies. Furthermore, these cards can be emulated by the Flipper Zero. This can eliminate the need to use the physical cards.
 
-In this task you will learn basic usage of flipper device to read NFC cards, RFID tags and store them. Later, you will download saved files information and inspect them.
+In this task, you will learn the basics of using the device to read NFC cards and RFID tags and to store them. Later, you will download the saved files and inspect them.
 
-Read the section [Deep Dive into Flipper Zero](#Deep-Dive-into-Flipper-Zero) before starting this task.
+Read the section [Deep-Dive into Flipper Zero](#Deep-Dive-into-Flipper-Zero) before starting this task.
 
 ## A) Getting started with the device
 
-The easiest way to get started with Flipper Zero is to:
-1. Format the SD memory card by going to Main Menu -> Settings -> Storage -> Format SD card
-2. Download the latest firmware using Qflipper as instructed above
+The easiest way to get started with the Flipper Zero is to:
+1. Format the SD card by going to Main Menu → Settings → Storage → Format SD card.
+2. Download the latest firmware using qFlipper as instructed above.
 
-## B) Testing Flipper Zero on RFID and infrared hardware
+## B) Testing the Flipper Zero on RFID and Infrared hardware
 
-> We assume that you or one of your group members have at least some relevant devices or cards.
-> If you don't have any, you can ask course staff.
+> We assume that you or one of your group members has at least some relevant devices or cards.
+> If you don't have any, you can ask the course staff.
 
-In this task, you need to use FlipperZero to read and save data from three different hardware devices using the following technologies/signals:
+In this task, you need to use the Flipper Zero to read and save data from three different hardware devices using the following technologies/signals:
 
-* High-frequency RFID / NFC (Car keys, contactless credit cards, public transit cards, etc. — these are often cryptographically protected)
-* Low frequency RFID (Access keyfobs, old cards and passes, pet microchips)
-* Infrared (Different types of remotes: TV, audio system, toys, lamps)
+* High-frequency RFID/NFC (car keys, contactless credit cards, public transit cards, etc. — these are often cryptographically protected)
+* Low-frequency RFID (access key fobs, old cards and passes, pet microchips)
+* Infrared (different types of remotes: TV, audio systems, toys, lamps)
 
 After reading and saving the different signals, try to emulate them using the Flipper Zero.
-For example, most university access cards do not have proper protection, and they can be cloned and emulated without a problem.
+For example, some university access cards may lack proper protection and can be cloned or emulated.
 
 **For each technology mentioned above answer the following questions**
 
@@ -293,7 +291,7 @@ Previously created `.nfc` files represent data which can be found from actual ch
 TBA
 
 ---
-## Task 3
+## Task 4
 ### Design a Bad USB attack to steal password by plugging in flipper zero, and sending them over email
 
 In this task, you will learn how to use the badUSB module in flipper and convert it into a powerful badUSB for pentesting attacks.
@@ -426,7 +424,7 @@ You must return next 2 items to return template to gain points from this task:
 
 
 ---
-## Task 4
+## Task 5
 
 Still want something more complex? You are freely encouraged to dive into your creativity to come up with a possible experiment. Sample options are given as a reference only. You can come up with your own and write a report about it.
 
