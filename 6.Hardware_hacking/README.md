@@ -56,7 +56,7 @@ The lab consists of four tasks. Their points are summarized below. “Good-to-ha
 Task | Points | Description | Good-to-have skills
 --|:--:|--|--
 1 | 1 | Familiarization with the Flipper Zero: initial setup, reading/saving basic tags, and reviewing technical articles on the device and RFID access systems | Article reading, RF fundamentals
-2 | 1 | NFC card emulation and basic access control experiments (including MIFARE Classic) using the Flipper Zero | Basic Flipper Zero operation, NFC standards
+2 | 1 | NDEF message creation and NFC reading with phone | Basic Flipper Zero operation, NFC standards
 3 | 1 | Morse code (and disco lights) with infrared | Basic Flipper Zero operation
 4 | 1 | Engineering a BadUSB attack with the Flipper Zero | Ducky Script, Linux, PowerShell
 5 | 1 | Advanced experimentation (e.g., GPIO, Arduino integration, CLI, other modules) based on interest | Arduino, Hardware integration, CLI
@@ -164,6 +164,7 @@ In this task, you need to use FlipperZero to read and save data from three diffe
 * Infrared (Different types of remotes: TV, audio system, toys, lamps)
 
 After reading and saving the different signals, try to emulate them using the Flipper Zero.
+For example, most university access cards do not have proper protection, and they can be cloned and emulated without a problem.
 
 **For each technology mentioned above answer the following questions**
 
@@ -250,6 +251,7 @@ Then emulation should be based on NTAG/Ultralight format.
 In order to do that, open NFC app from the Flipper and create new tag template manually, by choosing the NTAG215 option.
 Connect Flipper to computer, and use `qFlipper` to download the `.nfc` file on your local computer.
 We need to modify the .nfc file to inject the NDEF payload into the data pages. The pages begin as shown below; we will place the payload starting at Page 4 and onward, using the TLV (Type-Length-Value) structure.
+The following information is mostly obtained from NTAG215 [datasheet](https://www.nxp.com/docs/en/data-sheet/NTAG213_215_216.pdf), but you shouldn't need it.
 
 ```
 Page 0: 04 CF 5A 19 - 3 first UUID bytes + BCC0 (BCC0 = 0x88 ⊕ UID0 ⊕ UID1 ⊕ UID2)
@@ -258,6 +260,9 @@ Page 2: CC 48 00 00 - BCC1 = UID3 ⊕ UID4 ⊕ UID5 ⊕ UID6 + internal byte + l
 Page 3: E1 10 3E 00 - E1 (NFC Compliant), 10 (NFC 1.0 support), 3E (496 bytes in data memory area), 00 (not write protected)
 Page 4: 03 00 FE 00 - empty NDEF message
 ```
+
+If you're interested, NDEF is highly backward compatible. You can consult the original 1.0 standard from 2006—publicly available [here](https://freemindtronic.com/wp-content/uploads/2022/02/NFC-Data-Exchange-Format-NDEF.pdf)—to examine NDEF at the byte level. Using a library will generate the correct bytes.
+
 In order to make compatible NDEF payload, it must meet the following when filling pages, starting from page 4:
 
 1. The first byte 0x03 stands for NDEF type.
@@ -266,7 +271,6 @@ In order to make compatible NDEF payload, it must meet the following when fillin
 
 After the modifications, upload `.nfc` file back to Flipper. In NFC app, you can read the info part from the tag, and see if it correctly has NDEF data. 
 
-If you are interested, NDEF protocol is very backwards compatible, and you can use the original 1.0 standard version from 2006, which is publicly available [here](https://freemindtronic.com/wp-content/uploads/2022/02/NFC-Data-Exchange-Format-NDEF.pdf), for example, to see what happens on NDEF in byte level.
 
 ### Return:
 1. A short report describing how you performed the exercise (including code)
@@ -279,7 +283,8 @@ If you are interested, NDEF protocol is very backwards compatible, and you can u
 > Delete all saved files on the Flipper Zero that may contain personal information before returning the device.
 > At least on iPhone, reading the NFC tag must happen exactly on the correct place.
 
-We didn't do any "real" hacking on this task, but security has relied too much for obscurity in the past. You may now get started with NFC to do something more.
+We didn't do any "real" hacking on this task, but security has relied too much for obscurity in the past. You may now get started with NFC to do something more!
+Previously created `.nfc` files represent data which can be found from actual chips.
 
 ---
 
