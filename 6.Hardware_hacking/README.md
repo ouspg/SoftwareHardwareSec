@@ -15,6 +15,7 @@ Software & Hardware Security Lab 6: Flipper Zero
   * [Task 2](#Task-2)
   * [Task 3](#Task-3)
   * [Task 4](#Task-4)
+  * [Task 5](#Task-5)
 
 # Preliminary tasks
 
@@ -51,15 +52,18 @@ Number of devices are limited which causes some difficulties to arrangements.
 
 ## Grading
 
-The lab consists of four tasks. Their points are summarized below. “Good-to-have skills” are indicative only.
+The lab consists of five tasks. Their points are summarized below. "Good-to-have skills" are indicative only.
+We assume that you work with groups, so the workload is adjusted based on that.
+
+**You don't have to do tasks in order, but workload likely increases towards the end.**
 
 Task | Points | Description | Good-to-have skills
 --|:--:|--|--
 1 | 1 | Familiarization with the Flipper Zero: initial setup, reading/saving basic tags, and reviewing technical articles on the device and RFID access systems | Article reading, RF fundamentals
 2 | 1 | NDEF message creation and NFC reading with phone | Basic Flipper Zero operation, NFC standards
-3 | 1 | Morse code (and disco lights) with infrared | Basic Flipper Zero operation
-4 | 1 | Engineering a BadUSB attack with the Flipper Zero | Ducky Script, Linux, PowerShell
-5 | 1 | Advanced experimentation (e.g., GPIO, Arduino integration, CLI, other modules) based on interest | Arduino, Hardware integration, CLI
+3 | 1 | Engineering a BadUSB attack with the Flipper Zero | Ducky Script, Linux, PowerShell
+4 | 1-2 | Morse code application with infrared | Advanced Flipper Zero usage, C programming
+5 | 1+ | Advanced experimentation (e.g., GPIO, Arduino integration, CLI, other modules) based on interest | Arduino, Hardware integration, CLI
 
 ---
 
@@ -121,9 +125,9 @@ Moreover, high frequency tags support encryption, authentication and cryptograph
 
 # Tasks
 
-Start with Task 1 and proceed to the harder ones. Each task is designed to require more skills and effort than the previous one.
+You are recommended to start with Task 1 and proceed to the harder ones. Each task is designed to require more skills and effort than the previous one.
 
-Tasks 1 and 2 together are designed to take about 3–4 hours to complete. Try to finish them during the lab session. You can borrow equipment if you want to continue working on them at home.
+Tasks 1, 2 and 3 together are designed to take about 4 hours to complete, depending on your background. Try to finish them during the lab session. You can borrow equipment if you want to continue working on them at home.
 
 Tasks 3 and 4 are more laborious, and it is likely they cannot be completed within a single lab session. Discuss borrowing equipment with the lab assistants if you want to work on these tasks.
 
@@ -205,7 +209,8 @@ You can also try to search what rooted Android can be capable of.
 
 ---
 
-## Task 2: NDEF message creation and NFC reading with phone
+## Task 2:
+### NDEF message creation and NFC reading with phone
 
 
 Most modern smartphones (Android ~2010+ and iPhone ~2014+) include NFC hardware that can read and write NDEF (NFC Data Exchange Format) messages, support contactless payments, and perform host card emulation (HCE).
@@ -233,7 +238,7 @@ You should try and document at least two different functionalities as described 
 > You may use existing libraries only to validate your handcrafted NDEF message before loading it onto the Flipper Zero.
 
 
-You can use Python to write files, and, for example, the [ndeflib](https://github.com/nfcpy/ndeflib) Python library generate and validate the  tags.
+You can use Python to write files, and, for example, the [ndeflib](https://github.com/nfcpy/ndeflib) Python library generate and validate the  messages.
 See the [relevant docs part, which also describes known record types.](https://ndeflib.readthedocs.io/en/stable/records.html)
 
 
@@ -286,37 +291,30 @@ Previously created `.nfc` files represent data which can be found from actual ch
 
 ---
 
-## Task 3: Infrared Module
+## Task 3
+### Design a BadUSB attack to steal passwords by plugging in a Flipper Zero and sending them via email
 
-TBA
+In this task, you will learn how to use the BadUSB module in the Flipper Zero and use it as a powerful BadUSB for penetration testing.
 
----
-## Task 4
-### Design a Bad USB attack to steal password by plugging in flipper zero, and sending them over email
+BadUSB attacks exploit the inherent trust computers place in USB devices. These attacks typically involve reprogramming a USB device (such as a flash drive or a seemingly harmless device like a keyboard) to act as a malicious device that can execute various actions.
 
-In this task, you will learn how to use the badUSB module in flipper and convert it into a powerful badUSB for pentesting attacks.
+For example, a BadUSB device might present itself as a keyboard and start typing a series of commands on the target system. These commands could include downloading and executing scripts that attempt to extract sensitive information, such as Wi‑Fi credentials.
 
-BadUSB attacks involve exploiting the inherent trust that USB devices have with computers. These attacks typically involve reprogramming a USB device (such as a flash drive or even a seemingly harmless device like a keyboard) to act as a malicious device, which can then execute various harmful actions.
+Because Wi‑Fi credentials are often stored to enable automatic connections, a BadUSB attack could target relevant configuration files or use other methods to access them. The extracted credentials can then be exfiltrated, for example via a PowerShell script sent over email.
 
-For example, a BadUSB attack might involve creating a USB device that, when plugged into a computer, presents itself as a keyboard and starts typing out a series of commands to the operating system. These commands could include downloading and executing malicious scripts that attempt to extract sensitive information like WiFi credentials from the system.
+### Getting Familiar with Ducky Script
 
-Since WiFi credentials are often stored on a computer to allow automatic connections to networks, a BadUSB attack could potentially target the relevant configuration files or use other methods to access and steal these credentials. These credentials can then be exported via email using powershell script.
+## A) Writing a script to open a shell on Linux
 
+In this task, you will practice writing scripts that open a shell.
 
+Ducky Script tutorial: https://web.archive.org/web/20220816200129/http://github.com/hak5darren/USB-Rubber-Ducky/wiki/Duckyscript
 
+If you are interested in BadUSB scripts for the Flipper Zero, you can find many examples on the internet (GitHub). For example:
+- https://web.archive.org/web/20231218132739/https://github.com/UNC0V3R3D/Flipper_Zero-BadUsb
+- https://github.com/I-Am-Jakoby/Flipper-Zero-BadUSB
 
-### Getting familiar with Ducky Script
-
-## A) Writing a script to open shell on linux
-
-In this task you will get familiar with writing scripts that can open shell.
-
-Ducky Script Tutorial: [link](https://web.archive.org/web/20220816200129/http://github.com/hak5darren/USB-Rubber-Ducky/wiki/Duckyscript)
-
-if you're interested to look for BadUsb scripts for flipper, you can find many examples on internet (github). For example [this](https://web.archive.org/web/20231218132739/https://github.com/UNC0V3R3D/Flipper_Zero-BadUsb) and [this](https://github.com/I-Am-Jakoby/Flipper-Zero-BadUSB)
-
-
-Take a look at code below which opens a powershell on windows platform.
+See the code below, which opens PowerShell on Windows.
 
 ```shell
 DELAY 100
@@ -325,18 +323,15 @@ DELAY 100
 STRING powershell
 DELAY 100
 ```
+**Write a script to open a shell on Linux. Paste your script below.**
 
-**Write a script to open a shell on linux. Paste your script below**
+NOTE: You can test your script only on USB Rubber Ducky compatible devices. These tools emulate a keyboard and execute scripts on a target computer.
 
+HINT: To test your solution, copy and paste it into the Flipper Zero’s `badusb` folder. Connect it to a PC and run the script from your device.
 
-__NOTE__: You can test your script only on Rubber Ducky USB compatible devices. These hardware tools are specifically designed to emulate a keyboard and execute scripts on a target computer.
+## B) Engineering a complete script to steal a password from a text file and send it over email
 
-__HINT__: If you need to test your solution, copy paste it to flipper zero's badusb folder. Connect it with pc and run the script from your device!
-
-
-## B) Engineering a complete script to steal password from a text file and send it over email
-
-Before proceeding with this task, you'll need to install Powershell on your virtual machine. Install instructions are given below for arch linux [reference guide](https://ephos.github.io/posts/2018-9-17-Pwsh-ArchLinux)
+Before proceeding with this task, you’ll need to install PowerShell on your virtual machine. Installation instructions are provided here for Arch Linux (reference guide): https://ephos.github.io/posts/2018-9-17-Pwsh-ArchLinux
 
 ```shell
 # POWERSHELL INSTALL SCRIPT FOR ARCH LINUX
@@ -354,16 +349,13 @@ makepkg -si
 ```
 
 
-You are given a sample network file called [networkfile.nmconnection](misc/networkfile.nmconnection) which contains Wifi credentials for a network called 'Cross'.
-Now that you're familiar with ducky scripts, your end goal is a script which automatically extracts whole password and SSID for you from this file. Afterwards, it should send this password and SSID
-over email to win10_9121@outlook.com!
+You are given a sample network file called [networkfile.nmconnection](misc/networkfile.nmconnection) that contains Wi‑Fi credentials for a network named "Cross." Now that you are familiar with Ducky Script, your goal is to write a script that automatically extracts the full password and SSID from this file and then emails them to win10_9121@outlook.com.
 
-To aid you in this task, flipper zero comes with a sample Wi-Fi credentials stealing script written in ducky language in following directory: _SD Card/badusb/Wifi-Stealer_ORG.txt_
-The filename is: Wifi-Stealer_ORG.txt
+To aid you in this task, Flipper Zero includes a sample Wi‑Fi credential‑stealing script written in Ducky Script in the following directory: _`SD Card/badusb/Wifi-Stealer_ORG.txt`_ (filename: Wifi-Stealer_ORG.txt).
 
-However, this script is written for windows and does not have automated email sending component using powershell.
+However, this script targets Windows and does not include an automated email‑sending component using PowerShell.
 
-Contents of the file are shared below for your reference:
+The contents of the file are provided below for reference:
 
 ```shell
 REM Title: Wifi Stealer
@@ -380,28 +372,20 @@ DELAY 500
 STRING cd C:\Users\$env:UserName\Desktop; netsh wlan export profile key=clear; Select-String -Path WiFi-* -Pattern 'keyMaterial' | % { $_ -replace '</?keyMaterial>', ''} | % {$_ -replace "C:\\Users\\$env:UserName\\Desktop\\", ''} | % {$_ -replace '.xml:22:', ''} > 0.txt; del WiFi-*;exit
 ENTER
 ```
-**Your job is to first download given configuration file ([download link](misc/networkfile.nmconnection)) on your virtual linux. Use ducky script to come up with an attack that:**
+First, download the provided configuration file ([download link](misc/networkfile.nmconnection)) to your virtual Linux machine. Using Ducky Script, craft an attack that:
 
-i) finds the downloaded configuration file
+i) Finds the downloaded configuration file  
+ii) Extracts the Wi‑Fi password and SSID from it  
+iii) Sends the password and SSID to the following email address as plain text in the email body: win10_9121@outlook.com
 
-ii) extracts Wifi password & SSID from it
+Recommended steps:
 
-iii) sends password & SSID to following email: win10_9121@outlook.com as plain body text
-
-
-**Recommended way to proceed:**
-
-**i.**	Download wifi credentials file on your machine.
-
-**i.**	Write ducky script on your machine. Save file
-
-**ii.**	Transfer to flipper device badusb folder using qFlipper app
-
-**iii.** Connect flipper with a virtual linux VM
-
-**iV.**	Run your script from flipper for testing
-
-**v.** Repeat if no success with correct results
+i. Download the Wi‑Fi credentials file to your machine.  
+ii. Write a Ducky Script on your machine and save the file.  
+iii. Transfer it to the Flipper Zero `badusb` folder using the qFlipper app.  
+iv. Connect the Flipper Zero to a virtual Linux VM.  
+v. Run your script from the Flipper Zero for testing.  
+vi. Repeat until the results are correct.
 
 
 __HINT__: You should place your script in following directory of flipper: _SD Card/badusb/<your_script>_
@@ -421,10 +405,181 @@ You must return next 2 items to return template to gain points from this task:
 >[!NOTE]
 > Replace your SMTP email and password with dummy when submitting script. You could replace your authentication email with email@gmail.com, and password with abc1234 for example
 
+---
+## Task 4
+### Getting started with app building and infrared module
 
+> We hope that your group has at least one device that can receive infrared signals, and there is a way to demonstrate that the signal was successfully transmitted.
+> You can also complete the task using pre-recorded signals and demonstrate your work during the lab session.
+
+> [!NOTE]
+> **You can combine** this task with the task 5 if you create a more sophisticated application. Fulfilling only the minimum from below is worth of 1 point.
+
+Flipper Zero provides many powerful features out of the box, but how can we implement some of them ourselves? A key distinction between a "script kiddie" and an engineer is the ability to build rather than simply reuse others' work. In this task, you will create a minimal Flipper Zero application to learn the basic development workflow.
+
+There are two common ways to build an application for Flipper Zero: with the C language by creating [FAPs](https://developer.flipper.net/flipperzero/doxygen/apps_on_sd_card.html) or by using the [JavaScript engine](https://developer.flipper.net/flipperzero/doxygen/js.html).
+The advantage of the C approach is the precise control and full capabilities, but the app must be compiled and linked against every firmware version.
+By using the JavaScript engine, you don't need to compile the code every time, and the only requirement is API compatibility against the currently used JavaScript SDK version.
+
+Unfortunately, the JavaScript engine of the official firmware does not support the infrared features yet - so we are going to try some C programming.
+
+### Initial development environment setup
+
+Before you begin, you'll need to set up the Flipper Zero development environment. This includes:
+- Getting the Flipper Zero firmware source code
+- Setting up the build toolchain
+- Understanding the application structure and APIs
+
+Flipper Zero has a build tool [`uFBT`](https://github.com/flipperdevices/flipperzero-ufbt) (minimal version from the whole Flipper build tool) which does most of the job already.
+
+After installation, you can create the bootstrap code with command `ufbt create APPID=<fancy_app>` in your chosen directory which downloads necessary dependencies and sets the build chain.
+To see the metadata of the initial project, see file `application.fam`. 
+
+To get VSCode development integration, run `ufbt vscode_dist`.
+
+> [!NOTE]
+> From this point forward, you should connect Flipper with USB for the same computer, so that we can upload the build files.
+
+You can try the template project (see `template.c`) by compiling it with the `ufbt` command, and then launching it on the Flipper with the command `ufbt launch`.
+For more information, see the project's main README.
+
+The default template simply prints some data to the log.
+You can observe this by starting the Flipper CLI with the command `ufbt cli` and typing `log`, which shows all ongoing logging messages.
+The template app is in the `Apps -> Examples` location. If you run the app, you can see logging prints from the original source code.
+
+You can also try a more concrete example which prints `Hello, Flipper!` on the Flipper's screen:
+
+```c
+#include <furi.h>
+#include <gui/gui.h>
+
+/* generated by fbt from .png files in images folder */
+#include <template_icons.h>
+
+// This is the function that will be called to draw on the screen
+static void app_draw_callback(Canvas* canvas, void* context) {
+    UNUSED(context);
+
+    // Clear the screen before drawing
+    canvas_clear(canvas);
+    // Set the font we want to use
+    canvas_set_font(canvas, FontPrimary);
+    // Draw the string on the canvas at coordinate (2, 22)
+    canvas_draw_str(canvas, 2, 22, "Hello, Flipper!");
+}
+
+// Main application entry point
+// This must be same as the entrypoint in application.fam
+int32_t template_app(void* p) {
+    UNUSED(p);
+    FURI_LOG_I("TEST", "Starting application...");
+
+    // Create a ViewPort. This is our drawing canvas.
+    ViewPort* view_port = view_port_alloc();
+    // Set the function that will be used for drawing
+    view_port_draw_callback_set(view_port, app_draw_callback, NULL);
+    // Get the GUI service and add our ViewPort to it to make it visible
+    Gui* gui = furi_record_open(RECORD_GUI);
+    gui_add_view_port(gui, view_port, GuiLayerFullscreen);
+    // Keep the application running for 5 seconds
+    furi_delay_ms(5000);
+    // Clean up before exiting: remove the ViewPort and free the memory
+    gui_remove_view_port(gui, view_port);
+    view_port_free(view_port);
+    furi_record_close(RECORD_GUI);
+    FURI_LOG_I("TEST", "Ending application...");
+
+    return 0;
+}
+```
+### Trying out infrared module with morse code 
+
+**Your job is to expand the previous code to send IR signals.**
+Adding any GUI functionality is not required, while not forbidden. 
+The idea is to use something binary (like light going on/off) to transfer a morse code message.
+See [international morse code](https://en.wikipedia.org/wiki/Morse_code).
+
+You have two options:
+
+#### Option 1: IR controllable led lamp
+
+We have pre-captured existing IR signals and you should create a program to use them. You would need to test *the application in the lab session*. See files [lamp.ir](lamp.ir) and [lamp_ir_constants.h](lamp_ir_constants.h). The LED lamp uses the `NECext` protocol. Before coming to the lab session, you can verify with a phone camera that IR lights are blinking on the Flipper.
+Optionally, you can also add support for blinking Flipper's led lights at the same time.
+
+![A red lamp](lamp.jpg)
+
+#### Option 2: Something you own
+
+Alternatively, you can use your own device. You must capture the signals yourself with the infrared module and use them here. You can find the `.ir` data files when you use `qFlipper`; they are located in the `infrared` folder on the SD Card.
+
+#### Development process
+
+Get used for the iteration process of the sample application. Basically, use `ufbt launch` to build and launch the app in Flipper. If you need to see the log files, find the app from Flipper, and run it while you are listening logs with `ufbt cli` with `log debug` command.
+
+Then, the overall process for both cases is like following:
+ 1. Capture the IR signals and create header file for the protocol (like [lamp_ir_constants.h](lamp_ir_constants.h), not needed for option 1)
+ 2. See the infrared APIs listed below on how to construct message and send it with IR. Friendly LLM may help.
+ 3. For the option 1, you can send morse code by blinking lamp on/off or changing colors. Or use imagination.
+
+#### More material 
+
+See infrared [file format](https://developer.flipper.net/flipperzero/doxygen/infrared_file_format.html).
+You mainly need this if you use your own device and you are trying to transfer the data for C application. Use the lamp's sample files as an example.
+
+API functions for sending signal with hardware are available [here](https://developer.flipper.net/flipperzero/doxygen/infrared__transmit_8h_source.html).
+
+The API functions of lower-level the `infrared.h` is available [here](https://developer.flipper.net/flipperzero/doxygen/infrared_8h_source.html). Needed for message format and raw signals.
+
+The best way to read these docs is to include them in your source file, then right-click in VSCode and select "Go to Definition".
+
+
+If you want to use leds, see [notification.h](https://developer.flipper.net/flipperzero/doxygen/notification_8h_source.html) and overall [Notification module](https://developer.flipper.net/flipperzero/doxygen/dir_4da8169f4b01534df2bf9de29542a49e.html).
+
+For example, vibrating Flipper could look like (truncated):
+```c
+#include <notification/notification_messages.h>
+#include <notification/notification.h>
+// Get notification service for vibration
+NotificationApp* notifications = furi_record_open(RECORD_NOTIFICATION);
+
+// Following sequences are defined in notification_messages.h
+
+// Single vibration
+notification_message(notifications, &sequence_single_vibro);
+furi_delay_ms(500);
+
+// Double vibration
+notification_message(notifications, &sequence_double_vibro);
+furi_delay_ms(1000);
+
+// Success vibration
+notification_message(notifications, &sequence_success);
+
+// Clean up notification service
+furi_record_close(RECORD_NOTIFICATION);
+```
+
+
+For many more Flipper examples, see: https://github.com/flipperdevices/flipperzero-firmware/tree/dev/applications/examples
+
+
+https://instantiator.dev/post/flipper-zero-app-tutorial-01/
+
+https://instantiator.dev/post/flipper-zero-app-tutorial-02/
+
+
+### What to return
+
+**The workload here isn't actually that much** - you only need to construct correct message types and use a few function calls, if the protocol is already supported by Flipper!
+With correct timing, map the possible alphabet against morse code, and use some functionality on the target device that can show binary information.
+Optionally, add visual feedback using the device's screen or LEDs.
+
+> You should return the source code, IR files if you used your own device, and with your own device, you should also return a short demo video.
+> Also include a short description of what you did and whether you had any challenges.
 
 ---
 ## Task 5
+> If you put in a lot of work on this task, you can earn more than one point. Use your imagination with real-life systems you have permission to access!
 
 Still want something more complex? You are freely encouraged to dive into your creativity to come up with a possible experiment. Sample options are given as a reference only. You can come up with your own and write a report about it.
 
