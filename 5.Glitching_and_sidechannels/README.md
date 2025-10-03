@@ -65,12 +65,12 @@ More information about principles of power analysis can be found from [Wikipedia
 
 Task of this lab are divided to 4 different tasks which have corresponding grades in table below. Notice that *Good-to-have skills* are only directional descriptions about required skill levels.
 
-Task| Grade/Level | Description | Good-to-have skills
+Task| Points | Description | Good-to-have skills
 --|:--:|--|--
 1|2|Getting started with ChipWhisperer, inspecting power traces and breaking AES|Basic understanding of C and Assembly code, reading and understanding technical articles, basic understanding of statistics
-2|3|Password bypass with timing attack and breaking RSA with power and timing analysis|Simple Python coding
-3|4|Glitching|Python skills, patience, C and Assembly
-4|5|Several alternatives for advanced experimenting|Different advanced skills depending on your project
+2|1|Password bypass with timing attack and breaking RSA with power and timing analysis|Simple Python coding
+3|1|Glitching|Python skills, patience, C and Assembly
+4|1|Several alternatives for advanced experimenting|Different advanced skills depending on your project
 
 ---
 
