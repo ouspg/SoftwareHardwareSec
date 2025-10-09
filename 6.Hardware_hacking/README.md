@@ -294,7 +294,7 @@ Previously created `.nfc` files represent data which can be found from actual ch
 ## Task 3
 ### Design a BadUSB attack to steal passwords by plugging in a Flipper Zero and sending them via email
 
-In this task, you will learn how to use the BadUSB module in the Flipper Zero and use it as a powerful BadUSB for penetration testing.
+In this task, you will learn how to use the [BadUSB module](https://docs.flipper.net/bad-usb) in the Flipper Zero and use it as a powerful BadUSB for penetration testing.
 
 BadUSB attacks exploit the inherent trust computers place in USB devices. These attacks typically involve reprogramming a USB device (such as a flash drive or a seemingly harmless device like a keyboard) to act as a malicious device that can execute various actions.
 
