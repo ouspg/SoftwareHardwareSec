@@ -314,6 +314,8 @@ If you are interested in BadUSB scripts for the Flipper Zero, you can find many 
 - https://web.archive.org/web/20231218132739/https://github.com/UNC0V3R3D/Flipper_Zero-BadUsb
 - https://github.com/I-Am-Jakoby/Flipper-Zero-BadUSB
 
+For full Flipper BadUSB file format reference, see [here.](https://developer.flipper.net/flipperzero/doxygen/badusb_file_format.html)
+
 See the code below, which opens PowerShell on Windows.
 
 ```shell
