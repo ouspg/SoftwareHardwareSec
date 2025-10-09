@@ -353,7 +353,7 @@ makepkg -si
 
 You are given a sample network file called [networkfile.nmconnection](misc/networkfile.nmconnection) that contains Wi‑Fi credentials for a network named "Cross." Now that you are familiar with Ducky Script, your goal is to write a script that automatically extracts the full password and SSID from this file and then emails them to win10_9121@outlook.com.
 
-To aid you in this task, Flipper Zero includes a sample Wi‑Fi credential‑stealing script written in Ducky Script in the following directory: _`SD Card/badusb/Wifi-Stealer_ORG.txt`_ (filename: Wifi-Stealer_ORG.txt).
+To aid you in this task, see Ducky script file [misc/Wifi-Stealer_ORG.txt](misc/Wifi-Stealer_ORG.txt), which uses to be an example in Flipper Zero. 
 
 However, this script targets Windows and does not include an automated email‑sending component using PowerShell.
 
