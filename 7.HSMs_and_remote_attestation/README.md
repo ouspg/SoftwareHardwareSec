@@ -172,7 +172,7 @@ In this case, it is just random bytes from TPM.
 
 If you haven't developed much with Go, you can get the development environment running rather fast.
 Install VSCode if you haven't already, and the following extensions:
-  * [`Dev Containers`](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) (To attach TPM container)
+  * [`Container Tools`](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-containers) (To attach TPM container)
   * When you have run the compose file, attach either `tmp2fun_1` or `tmp2fun_2` container, and open `/data` directory.
   * Once attached to the container, install `Go by Go Team in Google` extension (install also popups)
 
