@@ -171,14 +171,16 @@ In the following task, you will be using [AFL++](https://aflplus.plus/) to fuzz 
 AFL++ can be installed using your package manager:
 
 - On Kali Linux / Debian / Ubuntu / WSL: `sudo apt install afl++ afl++-doc`
-- On Arch Linux: `sudo pacman -S aflplusplus`
+- On Arch Linux: `sudo pacman -S afl++`
 
 The target program's source code is included in this repository ([unrtf-0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)).
 
-When the source code is available, you should instrument the program by using AFL++'s compiler wrappers that work as drop-in replacements for **gcc** and **clang** (such as `afl-clang-fast`, `afl-clang-lto`, `afl-gcc`, or the unified wrapper `afl-cc`).
+When the source code is available, you should instrument the program by using AFL++'s compiler wrappers that work as drop-in replacements for **gcc** and **clang** (such as `afl-clang-fast`, `afl-clang-lto`, `afl-gcc-fast`, or the unified wrapper `afl-cc`).
 
 **Note:** AFL++ provides its own modified versions of the gcc and clang compilers.
 These wrappers serve as drop-in replacements for the regular compilers and are specifically tailored to work with AFL++'s instrumentation and fuzzing techniques.
+For `afl-gcc-fast` to work, you need to install additional plugin, see [here.](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.gcc_plugin.md)
+Plugins must be binary compatible - if you have challenges, prefer `clang` versions.
 
 So, here's what you need to do:
 
