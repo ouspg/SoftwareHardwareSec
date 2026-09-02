@@ -9,13 +9,13 @@ Software and Hardware Security Lab 1: Introduction to Software and Fuzz Testing
 
 ## Prerequisites
 
-A basic understanding of the Python, Rust and C programming language is required.
-We assume that you have made fuzz testing earlier, e.g in the course "Introduction to Cyber Security Testing" or "Cyber Security II: Cloud and Network Security".
+A basic understanding of the Python, Rust and C programming languages is required.
+We assume that you have done fuzz testing earlier, e.g in the course "Introduction to Cyber Security Testing" or "Cyber Security II: Cloud and Network Security".
 
 A small introduction to each tool used in this exercise is provided before its actual task. However, you need to make yourself familiar with their usage:
 
 - **cargo-fuzz** - https://rust-fuzz.github.io/book/cargo-fuzz.html
-- **AFL** (American Fuzzy Lop) - http://lcamtuf.coredump.cx/afl/
+- **AFL++** (American Fuzzy Lop++) - https://aflplus.plus/
 - **AddressSanitizer** (ASan) - https://github.com/google/sanitizers/wiki/AddressSanitizer
 - **Valgrind** - http://valgrind.org/docs/manual/quick-start.html
 - **Radamsa** - https://gitlab.com/akihe/radamsa
@@ -23,28 +23,27 @@ A small introduction to each tool used in this exercise is provided before its a
 ## About the lab
 
 - This document contains task descriptions and theory for the fuzz testing lab.
-- This lab has been made to be completed in a Linux environment and tested to work in the provided Arch Linux virtual machine.
+- This lab has been made to be completed in a Linux environment (including WSL) and tested to work with Kali Linux and Arch Linux.
 - **Upper scores for this assignment require that all previous tasks in this assignment have been done as well**, so e.g. to get the fourth point you will have to complete tasks 1, 2, 3 & 4.
 - Check the deadline from Moodle and **remember that you have to return your name (and possibly people you worked together with) and GitHub repository information to Moodle before the deadline.**
 
 ## Background
 
 This week’s theme is fuzz testing.
-You will need a Unix-based system - e.g. Linux or macOS will do it.
-We offer Arch Linux virtual machine as pre-defined environment, which should get you started.
+You will need a Unix-based system - e.g. Linux or macOS will do it. With Windows you can use Windows Subsystem for Linux.
 
 ## Grading
 
 <!-- <details><summary>Details</summary> -->
 
-| Task # | Points | Description                                                        |
-| ------ | :----: | ------------------------------------------------------------------ |
-| Task 1 |   1    | Fuzzing a Rust library with cargo-fuzz                             |
-| Task 2 |   1    | Analyzing a C-program with AddressSanitizer, fuzz testing with AFL |
-| Task 3 |   1    | Library fuzzing                                                    |
-| Task 4 |   2    | Creating your own fuzzer and fuzz test it                          |
+| Task # | Points | Description                                                          |
+| ------ | :----: | -------------------------------------------------------------------- |
+| Task 1 |   1    | Fuzzing a Rust library with cargo-fuzz                               |
+| Task 2 |   1    | Analyzing a C-program with AddressSanitizer, fuzz testing with AFL++ |
+| Task 3 |   1    | Library fuzzing                                                      |
+| Task 4 |   2    | Creating your own fuzzer and fuzz testing with it                    |
 
-Total points accumulated by doing the exercises reflect the overall grade. You can acquire upto 5 points per exercise.
+Total points accumulated by doing the exercises reflect the overall grade. You can acquire up to 5 points per exercise.
 <!-- </details> -->
 
 ---
@@ -58,7 +57,7 @@ Fuzzing is a process of feeding malformed, mutated or unexpected inputs to a pro
 The motivation behind this kind of testing is to discover bugs, vulnerabilities and memory leaks in a software (device or a system) for exploitation or quality improvement.
 While fuzzing is primarily used to discover and fix bugs, it can potentially be used in denial of service (DoS) attacks if certain conditions are met.
 
-The main goal of fuzzing is to make the target system behave _unexpectedly_. Is there a state in the program that isn't handled properly or leads into unintended behavior?
+The main goal of fuzzing is to make the target system behave _unexpectedly_. Is there a state in the program that isn't handled properly or leads to unintended behavior?
 
 From the security perspective, the goal is to find and analyze those unexpected behaviors for possible exploits and figure out how to fix them.
 The programs that are used to perform fuzz testing are commonly called "fuzzers".
@@ -68,9 +67,8 @@ Example of Resource Exhaustion with Fuzzing: Fuzzing can be used to send a large
 In this exercise you will learn:
 
 - Basic usage of cargo-fuzz tool to fuzz Rust libraries (known as crates)
-- Fuzzing with American Fuzzy Lop (AFL)
-- Working with AddressSanitizer, a memory error detection tool, and
-- Valgrind, a debugging tool (can detect memory errors as well). This tool is often used alongside other fuzzers.
+- Fuzzing with AFL++ (American Fuzzy Lop plus plus)
+- Working with AddressSanitizer (a memory error detection tool) and Valgrind (a debugging tool often used alongside fuzzers)
 - Making your own fuzzer in Jupyter Notebook and fuzzing it
 
 ---
@@ -81,17 +79,17 @@ In this exercise you will learn:
 
 [LibFuzzer](https://llvm.org/docs/LibFuzzer.html) is a powerful in-process fuzzer that automatically generates test cases for C/C++ libraries, aiming to expose potential bugs by systematically mutating inputs. It works by integrating directly with the code under test, enabling the detection of various types of vulnerabilities, such as buffer overflows and memory leaks. `cargo fuzz` acts as a convenient tool for Rust developers to leverage libFuzzer, providing an easy interface to run fuzzing tests on Rust code. In this task, you will be using `cargo fuzz` tool to invoke libFuzzer on a Rust library.
 
-Libraries in Rust are often referred as crates and can be accessed via official package registry: https://crates.io/
+Libraries in Rust are often referred to as crates and can be accessed via official package registry: https://crates.io/
 
-### A) Make yourself familiar with [cargo fuzz](https://rust-fuzz.github.io/book/cargo-fuzz/tutorial.html). Setup the tool and start fuzzing the [yaml-rust2](https://crates.io/crates/yaml-rust2) parser crate.
+### A) Make yourself familiar with [cargo fuzz](https://rust-fuzz.github.io/book/cargo-fuzz/tutorial.html). Set up the tool and start fuzzing the [yaml-rust2](https://crates.io/crates/yaml-rust2) parser crate.
 
-Fuzzing a library is one of the easiest target to fuzz, so we start the exercise from this. In this task, you will fuzz a parser library known as [yaml-rust2](https://github.com/Ethiraric/yaml-rust2) from [crates.io](https://crates.io/) registry.
+Fuzzing a library is one of the easiest targets to fuzz, so we start the exercise from this. In this task, you will fuzz a parser library known as [yaml-rust2](https://github.com/Ethiraric/yaml-rust2) from [crates.io](https://crates.io/) registry.
 
 In Rust, which emphasizes memory safety and concurrency, parsers are critical components that can benefit from fuzzing to ensure robustness and security.
 
 So, here's what you need to do:
 
-1. **Install** the fuzzer tool from the official github repository [here](https://github.com/rust-fuzz/cargo-fuzz)
+1. **Install** the fuzzer tool from the official GitHub repository [here](https://github.com/rust-fuzz/cargo-fuzz)
 
 Follow installation instructions and install necessary dependencies.
 
@@ -104,10 +102,10 @@ The target in question is a maintained fork from the original library.
 
 **Provide command used to initialize the tool**
 
-Initialization will give you a default template of fuzzing in the fuzz folder. Write the correct target file named _'fuzz_target_1.rs' _so that it uses the YamlLoader. It should be located at
+Initialization will give you a default template of fuzzing in the fuzz folder. Write the correct target file named `fuzz_target_1.rs` so that it uses the YamlLoader. It should be located at
 
 ```shell
-/<path>/<to>/<yaml-rust>/fuzz/fuzz_targets/fuzz_target_1.rs
+/<path>/<to>/<yaml-rust2>/fuzz/fuzz_targets/fuzz_target_1.rs
 ```
 
 Refer to `yaml-rust2` [documentation](https://docs.rs/yaml-rust2/latest/yaml_rust2/) for more help.
@@ -130,9 +128,9 @@ file to the input corpus.
 
 **Provide command used to achieve this**
 
-**Add screensot of your fuzzer results and yaml file.**
+**Add screenshot of your fuzzer results and yaml file.**
 
-**Write a report about your coverage findings. How was coverage imporved. Explain.**
+**Write a report about your coverage findings. How was coverage improved. Explain.**
 
 ---
 
@@ -161,31 +159,34 @@ Hint: Compiling the C program with Clang and appropriate sanitizer flags means u
 
 ---
 
-### B) Fuzzing with AFL
+### B) Fuzzing with AFL++
 
-AFL, short for American Fuzzy Lop, is a highly effective and popular fuzzer used for finding vulnerabilities and bugs in software programs.
-Developed by Michal Zalewski, AFL is designed to automatically generate inputs to test programs and identify potential crashes or unexpected behaviors.
-AFL uses a technique called "coverage-guided fuzzing," which means that it tracks the code coverage achieved during the fuzzing process.
+AFL++ is a superior, actively maintained community-driven fork of the original American Fuzzy Lop (AFL) fuzzer developed by Michal Zalewski. It is designed to automatically generate inputs to test programs and identify potential crashes or unexpected behaviors.
+AFL++ uses a technique called "coverage-guided fuzzing," which means that it tracks the code coverage achieved during the fuzzing process.
 It starts with an initial set of input files and then mutates and manipulates them to generate a large number of test cases.
-AFL uses feedback from the coverage information to prioritize inputs that explore new and previously untested program paths.
+AFL++ uses feedback from the coverage information to prioritize inputs that explore new and previously untested program paths.
 
-In the following task, you will be using [American Fuzzy Lop (AFL)](http://lcamtuf.coredump.cx/afl/) to fuzz test a program called UnRTF. UnRTF is a tool that can be used to convert _.rtf_ files to _HTML_, _LaTeX_ etc.
+In the following task, you will be using [AFL++](https://aflplus.plus/) to fuzz test a program called UnRTF. UnRTF is a tool that can be used to convert _.rtf_ files to _HTML_, _LaTeX_ etc.
 
-AFL is already installed in the provided Arch Linux virtual machine and the target program's source code is included in this repository ([unrtf0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)).
-AFL needs to be installed if your provided virtual machine does not have it.
+AFL++ can be installed using your package manager:
 
-When the source code is available, you should instrument the program by using AFL's own wrappers that work as drop-in replacements for **gcc** and **clang** (NOTE: afl-gcc might not work properly in all systems, but it works with the provided Linux vm).
+- On Kali Linux / Debian / Ubuntu / WSL: `sudo apt install afl++ afl++-doc`
+- On Arch Linux: `sudo pacman -S aflplusplus`
 
-**Note:** AFL provides its own modified versions of the gcc and clang compilers, which are called "afl-gcc" and "afl-clang" respectively.
-These wrappers serve as drop-in replacements for the regular compilers and are specifically tailored to work with AFL's instrumentation and fuzzing techniques.
+The target program's source code is included in this repository ([unrtf-0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)).
+
+When the source code is available, you should instrument the program by using AFL++'s compiler wrappers that work as drop-in replacements for **gcc** and **clang** (such as `afl-clang-fast`, `afl-clang-lto`, `afl-gcc`, or the unified wrapper `afl-cc`).
+
+**Note:** AFL++ provides its own modified versions of the gcc and clang compilers.
+These wrappers serve as drop-in replacements for the regular compilers and are specifically tailored to work with AFL++'s instrumentation and fuzzing techniques.
 
 So, here's what you need to do:
 
-1. **Extract** the source code package ([unrtf0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)) and `cd` your way to the extracted directory.
+1. **Extract** the source code package ([unrtf-0.21.5.tar.xz](misc/unrtf-0.21.5.tar.xz)) and `cd` your way to the extracted directory.
 
 **Note:** Be careful on file paths. Keep in mind that unrtf file is actually unrtf-0.21.5.
 
-2. **Configure** it to use AFL's wrappers:
+2. **Configure** it to use AFL++'s wrappers:
 
    ```shell
    ./configure CC="<Path_to_afl-wrapper>" --prefix=$HOME/unrtf
@@ -200,7 +201,7 @@ So, here's what you need to do:
    make install
    ```
 
-   **Hint**: See AFL [documentation](http://lcamtuf.coredump.cx/afl/README.txt) to learn about instrumenting programs to use AFL compilers.
+   **Hint**: See AFL++ [documentation](https://aflplus.plus/docs/) to learn about instrumenting programs to use AFL++ compilers.
 
    If you have a recent compiler and you are having issues, it is likely that you need to modify file `src/convert.c` to include explicit types, since latest compilers require them:
 
@@ -210,7 +211,7 @@ So, here's what you need to do:
    void attr_find_pop(int);\' src/convert.c
    ```
 
-4. Use AFL's example _.rtf_ file located at `/usr/share/doc/afl++-doc/afl/testcases/others/rtf/small_document.rtf` to test that your UnRTF works by converting it to HTML:
+4. Use AFL++'s example _.rtf_ file (located at `/usr/share/afl++/testcases/others/rtf/small_document.rtf` or `/usr/share/doc/afl++-doc/afl/testcases/others/rtf/small_document.rtf`) to test that your UnRTF works by converting it to HTML:
 
    ```shell
    ~/unrtf/bin/unrtf --html /<path>/<to>/<testfile>
@@ -220,24 +221,24 @@ So, here's what you need to do:
 
    ```
    mkdir <input_folder> <output_folder>
-   cp /<path>/<to>/<testfile> /<path>/<to>/<input_floder>
+   cp /<path>/<to>/<testfile> /<path>/<to>/<input_folder>
    ```
 
-6. Start fuzzing UnRTF with AFL using the example `small_document.rtf` file as input:
+6. Start fuzzing UnRTF with AFL++ using the example `small_document.rtf` file as input:
 
    ```shell
    afl-fuzz -i <input_folder> -o <output_folder> /<path>/<to>/<target_program>
    ```
 
-   **Hint**: See AFL [documentation](http://lcamtuf.coredump.cx/afl/README.txt) on how to start the fuzzer. You are fuzzing the UnRTF binary, which is located at `~/unrtf/bin/unrtf`.
+   **Hint**: See AFL++ [documentation](https://aflplus.plus/docs/fuzzing_in_depth/) on how to start the fuzzer. You are fuzzing the UnRTF binary, which is located at `~/unrtf/bin/unrtf`.
 
-7. Run the fuzzer until you get at least 50 unique (saved) crashes and observe the status window to see what is happening. A good description of the status window can be found [here](http://lcamtuf.coredump.cx/afl/status_screen.txt).
+7. Run the fuzzer until you get at least 50 unique (saved) crashes and observe the status window to see what is happening. A good description of the status window can be found [here](https://aflplus.plus/docs/status_screen/).
 
 **Command line used to configure unrtf**
 
-**Command line used to run AFL**
+**Command line used to run AFL++**
 
-**Screenshot of the AFL status screen after stopping the fuzzer**
+**Screenshot of the AFL++ status screen after stopping the fuzzer**
 
 **What do you think are the most significant pieces of information on the status screen? Why are they important?**
 
@@ -250,7 +251,7 @@ By running the target program in a virtual environment and using dynamic binary 
 The most popular of these tools is called Memcheck.
 It can detect many memory-related errors that are common in C and C++ programs which can lead to crashes and unpredictable behavior.
 
-You should now have found some crashes with the AFL. Next, you need to reproduce one of them to see what exactly went wrong. You can find the crashes from the output folder you created previously. Make your way into the `.../<output_folder>/crashes` and take one of the _.rtf_ files that caused a crash under inspection.
+You should now have found some crashes with AFL++. Next, you need to reproduce one of them to see what exactly went wrong. You can find the crashes in the output folder you created previously. Make your way into `.../<output_folder>/default/crashes` (or `.../<output_folder>/crashes`) and take one of the _.rtf_ files that caused a crash under inspection.
 
 Run UnRTF with this file under Valgrind:
 
@@ -261,21 +262,20 @@ valgrind --leak-check=yes ~/unrtf/bin/unrtf --html /<path>/<to>/<crashfile>
 **Hint**: Make sure that you are actually running the UnRTF with a crash file! If you get "Error: Cannot open input file" before Valgrind's actual memory analysis output, you are trying to run the program without any input. See the Valgrind [documentation](http://valgrind.org/docs/manual/quick-start.html) for help.
 
 > [!NOTE]
-> If Valgrind is not installed on your WSL instance virtual machine, you can install it with: `sudo apt install valgrind` on Kali Linux and `sudo pacman -S valgrind` on Arch Linux
-> You also need to install dependencies for it to work:
-
-> on Kali Linux:
-
-```
-sudo apt update
-sudo apt install valgrind automake autoconf libc6-dbg
-```
-
-> on Arch linux:
-
-```
-sudo pacman -Syu valgrind automake autoconf glibc
-```
+> If Valgrind is not installed on your system or WSL environment, you can install it along with its dependencies:
+>
+> on Kali Linux / Debian / Ubuntu / WSL:
+>
+> ```shell
+> sudo apt update
+> sudo apt install -y valgrind automake autoconf libc6-dbg
+> ```
+>
+> on Arch Linux:
+>
+> ```shell
+> sudo pacman -Syu valgrind automake autoconf glibc
+> ```
 
 **Take a screenshot of the Valgrind result after running the program**
 
@@ -290,7 +290,7 @@ sudo pacman -Syu valgrind automake autoconf glibc
 [OpenSSL](https://www.openssl.org/) is a widely-used open-source cryptographic software library for Transport Layer Security and Secure Socket Layer protocols.
 In 2014, a buffer over-read vulnerability [CVE-2014-0160](https://nvd.nist.gov/vuln/detail/CVE-2014-0160) was found in the Heartbeat Extension of OpenSSL (up to version 1.0.1f) two years after the feature was introduced. The vulnerability allowed attackers to obtain memory contents from process memory remotely, and as a result, it compromised the integrity of secure communications.
 
-Since this vulnerability is caused by a memory handling-related bug, it is possible to find it using fuzzing tools like AddressSanitizer and AFL.
+Since this vulnerability is caused by a memory handling-related bug, it is possible to find it using fuzzing tools like AddressSanitizer and AFL++.
 To fuzz test the OpenSSL library, we have to have a binary file that uses the library as a fuzzing target. For that, we are going to use the provided [target.c](misc/target.c), which uses OpenSSL to simulate a server-client TLS handshake.
 
 > [!NOTE]  
@@ -322,17 +322,17 @@ Your task is to do the following:
   ```
   openssl req -x509 -newkey rsa:512 -keyout server.key -out server.pem -days 365 -nodes -subj /CN=a/
   ```
-- After you have tested that the target program works, **start fuzzing the target program** with AFL:
+- After you have tested that the target program works, **start fuzzing the target program** with AFL++:
 
   ```shell
   afl-fuzz -i in -o out -m none -t 5000 ./target
   ```
 
-  The bug is rather easy to find, so you should be able to find a crash in less than 10 minutes. Use the `clienthello` file as seed for AFL. The file is just a standard SSL hello message that the client sends to the server to initialize a secure session. Create an input folder for AFL and place the file there. Download ([clienthello](misc/clienthello)) from this repository. TLS/SSL handshake takes longer than just reading input from stdin, so raise the memory limit with `-m none` and the timeout limit with `-t 5000` just in case.
+  The bug is rather easy to find, so you should be able to find a crash in less than 10 minutes. Use the `clienthello` file as seed for AFL++. The file is just a standard SSL hello message that the client sends to the server to initialize a secure session. Create an input folder for AFL++ and place the file there. Download ([clienthello](misc/clienthello)) from this repository. TLS/SSL handshake takes longer than just reading input from stdin, so raise the memory limit with `-m none` and the timeout limit with `-t 5000` just in case.
 
-  When working inside container, you must adjust the kernel parameters in the host machine, if afl asks about them.
+  When working inside a container, you must adjust the kernel parameters in the host machine if AFL++ asks about them.
 
-- **Run the target program with the crash file** you got from the AFL:
+- **Run the target program with the crash file** you got from AFL++:
   ```shell
   ./target < <crash_file>
   ```
@@ -346,7 +346,7 @@ Your task is to do the following:
 
 **What can you tell about the crash based on ASAN results and the pcap file? What is causing the vulnerability?**
 
-**Take a screenshot of the AFL/ASAN results**
+**Take a screenshot of the AFL++/ASAN results**
 
 ---
 
@@ -361,13 +361,13 @@ You can access an online notebook following this link: https://notebooks.rahtiap
 Use your university credentials 'Haka' to log in.
 Select the 'Introduction to Python' notebook to work with. Do note that these notebooks only have a lifetime of 4 hours, so make sure to download and save your work!
 
-Attach your notebook file `lab1_fuzzer_your_name.ipynb` as a return to your Github return template.
+Attach your notebook file `lab1_fuzzer_your_name.ipynb` as a return to your GitHub return template.
 
 **You will now create your own fuzzer and fuzz test with it. This task has four sub-parts:**
 
 A) Design your own mutator that takes a valid URL as input and creates its mutations
 
-B) Design a target URL validator program and fuzz test it with mutations generated in task 1.
+B) Design a target URL validator program and fuzz test it with mutations generated in Task A.
 
 C) Create your own fuzzer
 
@@ -407,7 +407,7 @@ where
 
 To keep things simple, you can make it accept http, https and ftp schemes only!
 
-**Test your program by providing it mutations generated in task 1. Did the program run smoothly or did you encounter any errors? Paste screenshots and provide explanation below**
+**Test your program by providing it mutations generated in Task A. Did the program run smoothly or did you encounter any errors? Paste screenshots and provide explanation below**
 
 ---
 
@@ -419,7 +419,7 @@ You will now create your own fuzzer and write a function to measure program exec
 
 **Write a simple fuzzer program that tests the URL validator you created in Task B)**
 
-Your fuzzer should test url validator with mutated inputs generated and report crashes. You can use the mutation generator from Task A) or feel free to implement a new one.
+Your fuzzer should test the URL validator with mutated inputs generated and report crashes. You can use the mutation generator from Task A) or feel free to implement a new one.
 
 Hint: A sample structure of your fuzzer could look like this. Feel free to implement it in any other way!
 
@@ -443,6 +443,6 @@ Test your fuzzer with 100, 1000 and 10,000 malformed inputs and observe how many
 Your final task is to utilize Radamsa to generate 100, 1000 and 10,000 malformed inputs using http://www.google.com/search?q=fuzzing as a seed input.
 Save these inputs (for example in a .txt file) and use these as input to your fuzzer that you created in Task C).
 
-**How did your fuzzer perform now? Compare crash count with Task (C) and provide explanations if you observe differences**
+**How did your fuzzer perform now? Compare crash count with Task C and provide explanations if you observe differences**
 
 ---
