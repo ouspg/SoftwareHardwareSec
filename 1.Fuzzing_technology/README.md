@@ -419,6 +419,9 @@ You will now create your own fuzzer and write a function to measure program exec
 
 **Write a simple fuzzer program that tests the URL validator you created in Task B)**
 
+> [!TIP]
+> In Python, a "crash" is an unhandled exception (e.g. `IndexError`, `TypeError`, `ValueError`) thrown by your validator instead of gracefully returning `False`/invalid. Catch and count these in your fuzz loop.
+
 Your fuzzer should test the URL validator with mutated inputs generated and report crashes. You can use the mutation generator from Task A) or feel free to implement a new one.
 
 Hint: A sample structure of your fuzzer could look like this. Feel free to implement it in any other way!
@@ -442,6 +445,9 @@ Test your fuzzer with 100, 1000 and 10,000 malformed inputs and observe how many
 
 Your final task is to utilize Radamsa to generate 100, 1000 and 10,000 malformed inputs using http://www.google.com/search?q=fuzzing as a seed input.
 Save these inputs (for example in a .txt file) and use these as input to your fuzzer that you created in Task C).
+
+> [!NOTE]
+> If Radamsa is not available in your online notebook environment, you can run `radamsa` in your local Linux/WSL terminal to generate the `.txt` files and upload them to the notebook, or invoke it via Python's `subprocess`.
 
 **How did your fuzzer perform now? Compare crash count with Task C and provide explanations if you observe differences**
 
