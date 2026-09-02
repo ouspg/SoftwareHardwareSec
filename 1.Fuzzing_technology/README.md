@@ -207,13 +207,26 @@ So, here's what you need to do:
 
    If you have a recent compiler and you are having issues, it is likely that you need to modify file `src/convert.c` to include explicit types, since latest compilers require them:
 
-   ```sh
-   sed -i.bak -e 's/static char \*cptoencoding(parm)/static char *cptoencoding(int parm)/' \
-   -e '1i\
-   void attr_find_pop(int);\' src/convert.c
-   ```
+On Kali Linux:
 
-4. Use AFL++'s example _.rtf_ file (located at `/usr/share/afl++/testcases/others/rtf/small_document.rtf` or `/usr/share/doc/afl++-doc/afl/testcases/others/rtf/small_document.rtf`) to test that your UnRTF works by converting it to HTML:
+```sh
+sed -i.bak -e 's/static char \*cptoencoding(parm)/static char *cptoencoding(int parm)/' \
+-e '1i\
+void attr_find_pop(int);\' src/convert.c
+```
+
+On the latest Arch Linux (clang version 22.1.8+):
+
+```sh
+sed -i '1i void attr_find_pop(int);' src/convert.c
+sed -i 's/static char \*cptoencoding(parm)/static char *cptoencoding(int parm)/' src/convert.c
+sed -i 's/void \*malloc ();/void *malloc (size_t n);/' src/malloc.c
+sed -i 's/unsigned char \*icp, \*ocp0, \*ocp;/char *icp, *ocp0, *ocp;/' src/my_iconv.c
+sed -i 's/unsigned char \*utf8 = get_unicode_utf8(f);/char *utf8 = get_unicode_utf8(f);/' src/my_iconv.c
+sed -i 's/const char \*fromcode/char *fromcode/' src/my_iconv.c src/my_iconv.h
+```
+
+4. Use AFL++'s example _.rtf_ file (located at `/usr/share/afl/testcases/others/rtf/small_document.rtf` or `/usr/share/doc/afl++-doc/afl/testcases/others/rtf/small_document.rtf`) to test that your UnRTF works by converting it to HTML:
 
    ```shell
    ~/unrtf/bin/unrtf --html /<path>/<to>/<testfile>
