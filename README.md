@@ -82,7 +82,10 @@ The course requires extensive use of a Linux-based operating system.
 #### Windows
 
 On Windows machines, we recommend using [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install).
-WSL is available in TS135 and TS137 as well.
+WSL is available in TS135 and TS137 as well
+
+> [!NOTE]
+> Don't try to update WSL in the classrooms, just install the desired Linux distribution if you haven't done that yet.
 
 Follow the instructions to complete the WSL installation, and install Kali Linux, as [instructed here.](https://www.kali.org/docs/wsl/wsl-preparations/)
 
