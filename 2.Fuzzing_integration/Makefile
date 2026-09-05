@@ -59,67 +59,67 @@ ubsan:
 # Test with AddressSanitizer (will show potential memory bugs)
 test-asan: asan
 	@echo "Running tests with AddressSanitizer..."
-	@./build-asan/test_protocol || true
+	@./build-asan/test_protocol
 
 # Run demo with AddressSanitizer (will show potential memory bugs)
 demo-asan: asan
 	@echo "Running demo with AddressSanitizer..."
-	@./build-asan/demo || true
+	@./build-asan/demo
 
 # Test with UndefinedBehaviorSanitizer
 test-ubsan: ubsan
 	@echo "Running tests with UndefinedBehaviorSanitizer..."
-	@./build-ubsan/test_protocol || true
+	@UBSAN_OPTIONS=halt_on_error=1 ./build-ubsan/test_protocol
 
 # Run demo with UndefinedBehaviorSanitizer
 demo-ubsan: ubsan
 	@echo "Running demo with UndefinedBehaviorSanitizer..."
-	@./build-ubsan/demo || true
+	@UBSAN_OPTIONS=halt_on_error=1 ./build-ubsan/demo
 #
 # Run demo with MemorySanitizer
 demo-msan: msan
 	@echo "Running demo with MemorySanitizer..."
-	@./build-msan/demo || true
+	@./build-msan/demo
 
 # Run test with MemorySanitizer
 test-msan: msan
-	@echo "Running demo with MemorySanitizer..."
-	@./build-msan/test_protocol || true
+	@echo "Running tests with MemorySanitizer..."
+	@./build-msan/test_protocol
 
 # Run with Valgrind (if available)
 valgrind: all
 	@echo "Running with Valgrind..."
 	@if command -v valgrind >/dev/null 2>&1; then \
-		valgrind --leak-check=full --track-origins=yes ./build/demo; \
+		valgrind --leak-check=full --track-origins=yes --error-exitcode=1 ./build/demo; \
 	else \
-		echo "Valgrind not found."; \
+		echo "Valgrind not found." >&2; exit 1; \
 	fi
 
 # Revert patches
 unpatch:
 	@echo "Reverting all patches..."
-	@git checkout -- lib/protocol.cpp || echo "No changes to revert"
+	@git checkout -- lib/protocol.cpp
 
 
 # TODO missing files
 # Create a simple fuzz target
 # fuzz-build:
 # 	@echo "Building fuzzing targets with Clang..."
-# 	@if command -v clang++ >/dev/null 2>&1; then \
-# 		clang++ -fsanitize=fuzzer,address -g -O1 -I lib \
+# 	@set -e; if command -v clang++ >/dev/null 2>&1; then \
+# 		clang++ -std=c++17 -fsanitize=fuzzer,address,undefined -fno-sanitize-recover=undefined -g -O1 -I lib \
 # 			fuzzing/fuzz_deserialize.cpp lib/protocol.cpp -o fuzz_deserialize; \
-# 		clang++ -fsanitize=fuzzer,address -g -O1 -I lib \
+# 		clang++ -std=c++17 -fsanitize=fuzzer,address,undefined -fno-sanitize-recover=undefined -g -O1 -I lib \
 # 			fuzzing/fuzz_roundtrip.cpp lib/protocol.cpp -o fuzz_roundtrip; \
 # 		echo "Fuzzing targets built: fuzz_deserialize, fuzz_roundtrip"; \
 # 	else \
-# 		echo "Clang not found."; \
+# 		echo "Clang not found." >&2; exit 1; \
 # 	fi
 
 # fuzz-run:
 # 	@echo "Running fuzzing target..."
 # 	@if [ -f ./fuzz_deserialize ]; then \
 # 		echo "Running deserialization fuzzer for 60 seconds..."; \
-# 		timeout 60 ./fuzz_deserialize || true; \
+# 		./fuzz_deserialize -max_total_time=60; \
 # 	else \
-# 		echo "Run 'make fuzz-build' first"; \
+# 		echo "Run 'make fuzz-build' first" >&2; exit 1; \
 # 	fi
