@@ -1,16 +1,19 @@
 ## Commonly Used GDB Commands
 
 ### 1. Starting and Stopping GDB
+
 - **`gdb <program>`**: Start GDB for a given program.
 - **`q` or `quit`**: Exit GDB.
 
 ### 2. Setting Breakpoints
+
 - **`b <function>` or `break <function>`**: Set a breakpoint at the beginning of a function.
 - **`b <filename>:<line_number>`**: Set a breakpoint at a specific line in a file.
 - **`info breakpoints`**: List all breakpoints.
 - **`d <breakpoint_number>` or `delete <breakpoint_number>`**: Delete a specific breakpoint.
 
 ### 3. Running the Program
+
 - **`r <args>` or `run <args>`**: Start the program with specific arguments.
 - **`c` or `continue`**: Continue the program after hitting a breakpoint.
 - **`s` or `step`**: Execute the next line of code (step into functions).
@@ -18,50 +21,50 @@
 - **`kill`**: Terminate the program being debugged.
 
 ### 4. Examining Variables and Memory
+
 - **`p <variable>` or `print <variable>`**: Display the value of a variable.
 - **`x/<format> <address>`**: Examine memory at a specific address. E.g. **`x/20x`** to show 20 memory units in hexadecimal format.
 
 ### 5. Stack Operations
+
 - **`bt` or `backtrace`**: Display the call stack.
 - **`up`**: Move up one level in the stack.
 - **`down`**: Move down one level in the stack.
 
 ### 6. Miscellaneous Commands
+
 - **`set disassembly-flavor <flavor>`**: Set disassembly flavor (e.g., `intel` or `att`).
 - **`disas <function>` or `disassemble <function>`**: Disassemble a function.
-- **`info registers`** or **`i r`**: Display the content of CPU registers.
-
+- **`info registers`** or **`i r`**: Display the contents of the CPU registers.
 
 ## Analysing the sample program
 
-Usually, when an overflow occurs, we are just seeing 'Segmentation Fault' error or strange behavior in program... or maybe nothing at all. That is not too precise information.
-We can use GNU Debugger, for example, to see, what's actually happening, when we are executing the program.
-
+Usually, when an overflow occurs, all we see is a 'Segmentation Fault' error or strange behavior in the program... or maybe nothing at all. That is not very precise information.
+We can use the GNU Debugger, for example, to see what is actually happening when we execute the program.
 
 > **Note**
 > For educational purposes, certain aspects of this tutorial are intentionally left vague or not thoroughly explained. This approach encourages readers to investigate or interpret certain elements themselves.
-Additionally, the buffer size in the program differs from the earlier code example provided.
+> Additionally, the buffer size in the program differs from the earlier code example provided.
 
 Here's a demonstration of a program vulnerable to overflow. Although input is restricted within the program, the 'stackoverflow' function contains a buffer overflow vulnerability, allowing manipulation of its return address.
 
-This 64-bit example is using Python script to generate argument for actual
+This 64-bit example uses a Python script to generate the argument for the actual
 program.
-We will have a look for register contents.
+We will have a look at the register contents.
 
-Here is a short intro to the usage of `gdb`, if it is not familiar beforehand:
+Here is a short intro to the usage of `gdb`, in case you are not familiar with it:
 https://mohit.io/blog/gdb-assembly-language-debugging-101/
 
-**The following examples uses Python 2, which does not encode the strings to UTF-8. If you use Python 3, you must replace the `print` with writing raw bytes.**
+**The examples below use Python 2 syntax, where `print` writes the bytes as they are. With Python 3 you have to write the bytes explicitly, because `print()` encodes its string on the way out:**
 
 ```shell
-python -c 'import sys; sys.stdout.buffer.write(b"data")'
+python3 -c 'import sys; sys.stdout.buffer.write(b"data")'
 ```
-
 
 ```shell
 # gcc -o Overflow -fno-stack-protector Overflow.c
 # gdb -q Overflow
-Reading symbols from test...(no debugging symbols found)...done.
+Reading symbols from Overflow...(no debugging symbols found)...done.
 (gdb) r $(python -c 'print("A" * 9)')
 Starting program: /root/Overflow $(python -c 'print("A" * 9)')
 [Inferior 1 (process 9552) exited normally]
@@ -92,10 +95,10 @@ r15            0x0	0
 rip            0x4000000100	0x4000000100
 
 ```
-ASCII Hex-value for 'A' is 41
- We can see how it is currently filling `rcx` and `rdx` registers, which are usually used for passing 4th and 3rd argument to functions.
-If we go little bit further and overflow some more...
 
+The ASCII hex value for 'A' is 41.
+We can see how it is currently filling the `rcx` and `rdx` registers, which are usually used for passing the 4th and 3rd argument to functions.
+If we go a little bit further and overflow some more...
 
 ```shell
 (gdb) r "$(python -c 'print("A" * 20)')"
@@ -103,18 +106,18 @@ The program being debugged has been started already.
 Start it from the beginning? (y or n) y
 Starting program: /root/Overflow "$(python -c 'print("A" * 20)')"
 
-#Looking rip register with input size of 20x A characters
+#Looking at the rip register with an input size of 20x A characters
 rip            0x555555004141	0x555555004141
-#Looking at rip register with input size of 21x A characters
+#Looking at the rip register with an input size of 21x A characters
 rip            0x555500414141	0x555500414141
 ```
 
-Finally `rip` register is getting filled with 'A's.
+Finally the `rip` register is getting filled with 'A's.
 This register is somehow meaningful to us.
 
 Let's go some steps back and look a bit deeper.
-We suppose now, that our program has function, where this overflow actually occurs. (In this case, instruction +29 uses that function named as *stackoverflow*.)
-We disassemble the main function, and see the addresses of each instruction:
+We assume now that our program has a function where this overflow actually occurs. (In this case, instruction +29 calls the function named _stackoverflow_.)
+We disassemble the main function and see the addresses of each instruction:
 
 ```shell
 Dump of assembler code for function main:
@@ -133,12 +136,13 @@ Dump of assembler code for function main:
    0x0000555555554799 <+40>:	retq
 End of assembler dump.
 ```
-Address right after stackoverflow function is: **0x0000555555554793**
-This is important, as some point we should get into this instruction after completing 'stackoverflow' function.
 
-**This time, execute program without a making buffer overflow**
+The address right after the stackoverflow function is: **0x0000555555554793**
+This is important, as at some point we should get into this instruction after completing the 'stackoverflow' function.
 
-Let's stop execution of program inside this stackoverflow function, just before the 'unsafe' instruction (in this case: standard library function allowing the buffer overflow), right after it and just before returning from this function, *by using breakpoints in gdb:*
+**This time, execute the program without causing a buffer overflow**
+
+Let's stop the execution of the program inside this stackoverflow function, just before the 'unsafe' instruction (in this case: the standard library function allowing the buffer overflow), right after it and just before returning from this function, _by using breakpoints in gdb:_
 
 ```shell
 Dump of assembler code for function stackoverflow:
@@ -168,10 +172,12 @@ Breakpoint 2 at 0x55555555475d
 Breakpoint 3 at 0x555555554770
 Starting program: /root/Overflow $(python -c 'print("A" * 20)')
 ```
-Execute, and after first breakpoint:
 
-Let's have a look for current stack of the program.
-There is an interesting address from our main function: **0x55554793**. This was the address of instruction in main function right after of our stackoverflow function.
+Execute it, and stop after the first breakpoint:
+
+Let's have a look at the current stack of the program.
+There is an interesting address from our main function: **0x55554793**. This was the address of the instruction in main right after our stackoverflow function.
+
 ```shell
 Breakpoint 1, 0x0000555555554758 in stackoverflow ()
 (gdb) x/20x $rsp
@@ -182,8 +188,10 @@ Breakpoint 1, 0x0000555555554758 in stackoverflow ()
 0x7fffffffe1a0:	0x555547a0	0x00005555	0xf7a42f2a	0x00007fff
 (gdb)
 ```
+
 Let's continue the execution to breakpoint 2.
-Now we have passed by the potential unsafe instruction, what we haven't overflowed this time.
+Now we have passed the potentially unsafe instruction, which we have not overflowed this time.
+
 ```shell
 Breakpoint 2, 0x000055555555475d in stackoverflow ()
 (gdb) x/20x $rsp
@@ -194,10 +202,9 @@ Breakpoint 2, 0x000055555555475d in stackoverflow ()
 0x7fffffffe1a0:	0x555547a0	0x00005555	0xf7a42f2a	0x00007fff
 (gdb)
 ```
-We can see, that address of **0x55554793** is still there. Additionally stack contains some 'A' letters, what we have used as input.
-Let's execute to final breakpoint:
 
-
+We can see that the address **0x55554793** is still there. Additionally, the stack contains some 'A' letters, which we used as input.
+Let's execute to the final breakpoint:
 
 ```shell
 Breakpoint 3, 0x0000555555554770 in stackoverflow ()
@@ -209,11 +216,13 @@ Breakpoint 3, 0x0000555555554770 in stackoverflow ()
 0x7fffffffe1c8:	0x55554771	0x00005555	0x00000000	0x00000000
 (gdb)
 ```
-So, the 3rd breakpoint was in last instruction (retq) of stackoverflow function. Looking at the stack above, current rsp is the address in main function, the one right after our stackoverflow function. Program should end normally, if we still continue. We have executed program without making buffer overflow.
 
-What is the content of stack if we the execute program, by causing the buffer overflow to program?
+So, the 3rd breakpoint was at the last instruction (retq) of the stackoverflow function. Looking at the stack above, the current rsp is the address in main, the one right after our stackoverflow function. The program should end normally if we continue. We have executed the program without causing a buffer overflow.
 
-Stack information in first breakpoint should stay same, but let's have a look on second breakpoint again, which is right after when overflow occurs.
+What is the content of the stack if we do execute the program and cause a buffer overflow?
+
+The stack information at the first breakpoint should stay the same, but let's have a look at the second breakpoint again, which is right after the overflow occurs.
+
 ```shell
 (gdb) r $(python -c 'print("A" * 26)')
 Starting program: /root/Overflow $(python -c 'print("A" * 26)')
@@ -238,15 +247,17 @@ Breakpoint 2, 0x000055555555475d in stackoverflow ()
 (gdb)
 
 ```
-With suitable amount of buffer overflow, our 'A' letters starts to fill more addresses than they should, replacing previously seen address **0x55554793**.
+
+With a suitable amount of buffer overflow, our 'A' letters start to fill more addresses than they should, replacing the previously seen address **0x55554793**.
 
 It is essential to understand the mechanics of the stack:
-When a function is invoked, arguments are conventionally pushed onto the stack in reverse order prior to the actual function call. (The specific behavior can vary based on the compiler: For instance, 64-bit systems might employ the fastcall convention, where the first four parameters are sourced from registers.)
+When a function is invoked, arguments are conventionally pushed onto the stack in reverse order prior to the actual function call. (The specific behavior depends on the compiler and the ABI: on 64-bit systems the first four parameters are passed in registers instead.)
 Subsequently, the return address for the function and the previous `rbp` address are pushed onto the stack.
 
 Following these operations, local variables are declared, and the necessary space on the stack is allocated for them.
 
-Continue to last breakpoint:
+Continue to the last breakpoint:
+
 ```shell
 Breakpoint 3, 0x0000555555554770 in stackoverflow ()
 (gdb) x/20x $rsp
@@ -257,7 +268,8 @@ Breakpoint 3, 0x0000555555554770 in stackoverflow ()
 0x7fffffffe1b8:	0x55554771	0x00005555	0x00000000	0x00000000
 (gdb)
 ```
-Current `rsp` address is not the instruction address (0x55554793) in main function anymore.
+
+The current `rsp` address is no longer the instruction address (0x55554793) in main.
 
 If we continue executing the program:
 
@@ -273,4 +285,4 @@ Program received signal SIGSEGV, Segmentation fault.
 $1 = 0x555500414141
 ```
 
-`rip` register contains data, which we passed as input. What in practice this could mean?
+The `rip` register contains data which we passed as input. What could this mean in practice?
