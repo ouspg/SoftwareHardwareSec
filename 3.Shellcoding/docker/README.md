@@ -3,7 +3,7 @@
 This directory contains the infrastructure required to build and deploy reproducible, containerized target environments for Task 1, 2 and 3. The upcoming experimental platform shares the logic in here for automatic grading.
 **Task 4 is excluded from the automatic grading and everyone must make a writeup if they want to complete it!**
 
-To ensure fair grading and consistent debugging across diverse host environments, we use a pinned Nix flake (`flake.nix`) packaged inside a lightweight Docker container. This setup produces byte-identical binaries and dynamic library closures for all students, with variations introduced only through personalized parameters (buffer sizes and flag strings).
+To ensure fair grading and consistent debugging across diverse host environments, we use a pinned Nix flake (`flake.nix`) packaged inside a lightweight Docker container. This setup produces (almost) byte-identical binaries and dynamic library closures for all students, with variations introduced only through personalized parameters (buffer sizes and flag strings).
 
 You should do the local process first, and then as a final step, you automate the flag extraction with `pwntools`.
 
@@ -11,6 +11,11 @@ You should do the local process first, and then as a final step, you automate th
 > Before you begin, note a few practical differences between the introductory local examples in the lab and these containerized targets.
 
 While the standalone local programs generally accept payloads via command-line arguments (`argv`), the remote targets operate as network services over TCP that read from standard input (`stdin`) and print task-specific memory leaks upon connection. Additionally, these challenges are strictly compiled as 32-bit x86 binaries with individualized buffer sizes, running under an unprivileged `player` user where the objective is to capture the protected flag in `/home/player`.
+
+> [!Important]
+> The buffer size is randomized in every task in every remote instances between `48-120` bytes.
+> **You need to note this in your padding size - also the binary is different from this part. You need to download the binary specific to your instance from the experimental system.**
+> Also, every student will have a different flag.
 
 ## Building a target image
 
@@ -41,7 +46,7 @@ If not running on AMD64 Linux directly, platforms must be listed explicitly: add
 
 | Argument   |   Default   | Description                                                                                                                                                                                                                                                                                                                                                             |
 | :--------- | :---------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TASK`     |     `1`     | Selects the task challenge: <br>• `1`: `ret2win` (control-flow hijack to `secret()`)<br>• `2`: Stack-based shellcoding (`-z execstack`)<br>• `3`: Return-to-libc (`-z noexecstack`)                                                                                                                                                                                     |
+| `TASK`     |     `1`     | Selects the task challenge: <br>• `1`: `ret2win` (control-flow hijack to `secret()`)<br>• `2`: Stack-based shellcoding (`-z execstack`)<br>• `3`: Return-to-libc & ROP (`-z noexecstack`)                                                                                                                                                                               |
 | `BUFSIZE`  |    `64`     | Allocated buffer size in bytes (`48`–`120`). Configured per challenge instance.                                                                                                                                                                                                                                                                                         |
 | `FLAG`     | `flag{...}` | Contents of the flag file (up to 128 characters). Also determines the flag's filename.                                                                                                                                                                                                                                                                                  |
 | `FLAGNAME` |   derived   | Basename of the flag file, defaults to `<16 hex of sha256(FLAG)>_flag.txt`.                                                                                                                                                                                                                                                                                             |
@@ -81,7 +86,7 @@ The container is built from a minimal `scratch` image containing only the essent
 - `/bin/overflow` (symlinked into `/nix/store`), compiled in 32-bit mode with task-specific compiler flags.
 - Pinned 32-bit GNU C Library (`glibc`), dynamic linker (`ld-linux.so.2`), `socat`, standard coreutils, and a basic shell.
 
-Upon connection, the service emits an information leak corresponding to the selected task, as we can't use `gdb` anymore to obtain some basic information:
+Upon connection, the service emits an information leak corresponding to the selected task, as we can't use `gdb` anymore to obtain some basic information or control ASLR level:
 
 | Task | Leak                         | Meaning                                          |
 | :--: | :--------------------------- | :----------------------------------------------- |

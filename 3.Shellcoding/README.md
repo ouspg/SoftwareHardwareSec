@@ -216,8 +216,7 @@ In most cases you need to use C or C++ to create a program with a buffer overflo
 The tasks can be done with either 32-bit or 64-bit machine instructions, as long as the machine supports them.
 Use the `-m32` flag with `gcc` to compile for 32-bit.
 
-**You cannot use the course VM on an ARM-based host machine!**
-Instead, you need to emulate an `x86_64` platform.
+**You must use emulation on ARM-based host machine!**
 
 To enable 32-bit support for Arch Linux, uncomment or add the following lines in `/etc/pacman.conf`:
 
@@ -467,7 +466,7 @@ Getting used to `pwntools` now will help with the following tasks.
 > _**Return a screenshot when you manage to execute the "secret" function by using `pwntools` and also return your Python source code.**_
 
 > [!NOTE]
-> The external grading system grades this whole task automatically. It uses the container targets that [docker/README.md](docker/README.md) describes. You can build the same targets and test your exploit locally before you submit it. Each target is a network service, and it prints the flag when your exploit succeeds. You can prepare with those containers before the external system becomes public. The 1C part on the remote target gives one point.
+> The external grading system grades this whole task automatically. It uses the container targets that [docker/README.md](docker/README.md) describes. You can build the same targets and test your exploit locally before you submit it. Each target is a network service, and it prints the flag when your exploit succeeds. You can prepare with those containers before the external system becomes public. The 1C part on the remote target gives one point, and leaks you the binary's base address. The exploit logic should be based on this address leak.
 
 ---
 
@@ -657,7 +656,7 @@ python3 -c 'import sys; sys.stdout.buffer.write(b"payload")'
 A NOP sled can also help significantly with hitting the correct memory address.
 
 > [!NOTE]
-> The external grading system grades this whole task automatically. It uses the container targets that [docker/README.md](docker/README.md) describes. You can build the same targets and test your exploit locally before you submit it. Each target is a network service, and it prints the flag when your exploit succeeds. You can prepare with those containers before the external system becomes public.
+> The external grading system grades this whole task automatically at once. It uses the container targets that [docker/README.md](docker/README.md) describes. You can build the same targets and test your exploit locally before you submit it. Each target is a network service, and it prints the flag when your exploit succeeds. You can prepare with those containers before the external system becomes public. The remote system leaks the stack address, and you need to use that address as base for implementing your exploit.
 
 ---
 
@@ -704,6 +703,9 @@ A simple example implementation can be found in [this paper](https://shellblade.
 
 Extra: The method was first published [here](https://seclists.org/bugtraq/1997/Aug/63) (Solar Designer, Bugtraq, 1997).
 
+> [!NOTE]
+> The external grading system grades this task automatically. It uses the container targets that [docker/README.md](docker/README.md) describes. You can build the same targets and test your exploit locally before you submit it. Each target is a network service, and it prints the flag when your exploit succeeds. You can prepare with those containers before the external system becomes public. This task is relatively simple - just use the leaked address as base for calculating the payload, with the help of the `glibc` you can get from the provided container.
+
 ### B) Return-oriented programming (aka ROP)
 
 The return-to-libc method has some limitations: we depend heavily on the functions and arguments available in the libraries (and in the vulnerable program's text segment).
@@ -748,7 +750,8 @@ Tip: If you are a bit unlucky and face function addresses containing null bytes 
 Extra: What if you use symbols with `pwntools` and load the `libc` binary with it as well? Then you can avoid hardcoded addresses altogether.
 
 > [!NOTE]
-> The external grading system grades this whole task automatically. It uses the container targets that [docker/README.md](docker/README.md) describes. You can build the same targets and test your exploit locally before you submit it. Each target is a network service, and it prints the flag when your exploit succeeds. You can prepare with those containers before the external system becomes public.
+> The external grading system grades this task automatically. It uses the container targets that [docker/README.md](docker/README.md) describes. You can build the same targets and test your exploit locally before you submit it. Each target is a network service, and it prints the flag when your exploit succeeds. You can prepare with those containers before the external system becomes public.
+> In this case, the ROP demonstration must read root-owned flag by using the `setuid` process capabilities. Spawning a shell would drop your privileges, so you must make a proper chain to read and print the contents of the leaked flag address with your ROP chain.
 
 ---
 
