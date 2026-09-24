@@ -107,8 +107,8 @@
               '';
             };
 
+          # A helper so that no absolute paths needed during exploiting...
           shWrapper = pkgs.writeScriptBin "sh" ''
-            # A helper so that no absolute paths needed during exploiting...
             #!${pkgs.bashInteractive}/bin/bash
             export PATH=/bin:/usr/bin
             export HOME=/home/player
